@@ -31,3 +31,23 @@ working option and document it.
 9. **CSP:** `script-src 'self' 'unsafe-inline'` is required by Next.js App
    Router inline runtime; no external script origins are allowed at all.
    Revisit with nonces if the surface grows.
+
+## M1
+
+10. **Org-per-user at signup:** signup creates a personal organization
+    ("<name>'s store", trial plan) immediately — every session always has
+    an org context; multi-member orgs use the same `org_members` table.
+11. **Magic link verifies email:** redeeming a magic link proves inbox
+    ownership, so it also sets `email_verified_at` for unverified users.
+12. **Account deletion semantics:** soft delete blocks sign-in instantly
+    (checked in `authorize` and `requireUser`); full erasure happens in a
+    30-day purge job (M3 worker) per the GDPR erasure requirement.
+13. **Rate limiter:** fixed-window counter in Redis (INCR+EXPIRE), failing
+    open to an in-memory fallback so an unreachable Redis cannot lock every
+    user out of auth.
+14. **Vitest 4 + jsx:preserve:** Next.js needs `jsx: preserve` in
+    tsconfig, which Vite 8/oxc would pass through untransformed; vitest
+    config sets `oxc.jsx.runtime = "automatic"` for test builds.
+15. **Test database:** tests run against `<db>_test` (created and migrated
+    in vitest global setup) so `pnpm test` never touches dev data; CI's
+    DATABASE_URL already ends in `_test` and is used as-is.
