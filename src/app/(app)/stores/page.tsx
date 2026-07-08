@@ -15,6 +15,8 @@ const ERRORS: Record<string, string> = {
   "shopify-not-configured":
     "Shopify API credentials are not configured on this server yet.",
   "oauth-failed": "Shopify connection failed or was cancelled. Please try again.",
+  "plan-limit":
+    "You've reached your plan's store limit — upgrade in Settings → Billing to connect more.",
 };
 
 export default async function StoresPage({

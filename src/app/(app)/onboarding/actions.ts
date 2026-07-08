@@ -7,6 +7,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { products, stores } from "@/db/schema";
 import { requireOrg } from "@/lib/org";
+import { assertCanAddStore, PlanLimitError } from "@/lib/plans";
 import {
   createAutomationRule,
   defaultRecipients,
@@ -16,6 +17,12 @@ import { connectMockStore } from "@/lib/services/store-service";
 
 export async function onboardingConnectMockAction(): Promise<void> {
   const { org, user } = await requireOrg();
+  try {
+    await assertCanAddStore(org);
+  } catch (err) {
+    if (err instanceof PlanLimitError) redirect("/settings/billing");
+    throw err;
+  }
   await connectMockStore(org.id, user.id);
   revalidatePath("/onboarding");
   redirect("/onboarding");
@@ -44,13 +51,18 @@ export async function onboardingCreateAlertAction(
   const { org, user } = await requireOrg();
   const storeId = z.string().uuid().parse(formData.get("storeId"));
   const recipients = await defaultRecipients(org.id);
-  await createAutomationRule({
-    orgId: org.id,
-    actorId: user.id,
-    storeId,
-    type: "low_stock_alert",
-    config: { threshold: DEFAULT_LOW_STOCK_THRESHOLD, recipients },
-  });
+  try {
+    await createAutomationRule({
+      orgId: org.id,
+      actorId: user.id,
+      storeId,
+      type: "low_stock_alert",
+      config: { threshold: DEFAULT_LOW_STOCK_THRESHOLD, recipients },
+    });
+  } catch (err) {
+    if (err instanceof PlanLimitError) redirect("/settings/billing");
+    throw err;
+  }
   revalidatePath("/onboarding");
   redirect("/onboarding");
 }

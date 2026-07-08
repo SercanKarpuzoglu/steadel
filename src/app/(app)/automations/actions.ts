@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireOrg } from "@/lib/org";
+import { PlanLimitError } from "@/lib/plans";
 import {
   createAutomationRule,
   deleteAutomationRule,
@@ -64,13 +65,18 @@ export async function saveRuleAction(
     if (!z.string().uuid().safeParse(storeId).success) {
       return { error: "Pick a store." };
     }
-    await createAutomationRule({
-      orgId: org.id,
-      actorId: user.id,
-      storeId,
-      type: type as "low_stock_alert" | "scheduled_report",
-      config,
-    });
+    try {
+      await createAutomationRule({
+        orgId: org.id,
+        actorId: user.id,
+        storeId,
+        type: type as "low_stock_alert" | "scheduled_report",
+        config,
+      });
+    } catch (err) {
+      if (err instanceof PlanLimitError) return { error: err.message };
+      throw err;
+    }
   }
   revalidatePath("/automations");
   redirect("/automations");

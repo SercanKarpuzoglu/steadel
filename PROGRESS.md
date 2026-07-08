@@ -151,6 +151,34 @@ Completed:
   sell-out→pause→email, restock→resume, human-pause never resumed, flag
   off = no action.
 
+## M5 — Billing ✅
+
+Completed:
+
+- `lib/plans.ts`: published plan limits (Starter €29 / 1 store / 3
+  automations; Growth €59 / 3 stores / unlimited; Agency €119 / 10 stores /
+  white-label), trial expiry (14 days), `canCreateResources` (canceled
+  subscriptions and expired trials lose *write* access, never read),
+  `assertCanAddStore` / `assertCanAddAutomation` enforced in the mock
+  connect action, Shopify install route (reconnects exempt), onboarding,
+  and `createAutomationRule`.
+- Paddle Billing: signature verification (ts/h1 HMAC + replay tolerance),
+  webhook receiver (`subscription.created/updated/canceled`,
+  `transaction.completed`) with idempotency + dead-letter logging, plan
+  mapped from price IDs, org resolved via checkout `custom_data.orgId` →
+  subscription id → customer id.
+- `/settings/billing`: current plan + usage vs limits, plan cards with
+  Paddle.js overlay checkout (new subscribers), API-driven plan switch and
+  cancel-at-period-end (active subscribers), invoices list with hosted PDF
+  links. **Billing-disabled dev mode**: banner + instant plan switching
+  without payment.
+- Trial/cancellation banner across the app; CSP extended for Paddle
+  origins only (still no analytics/trackers).
+- Tests: 63 passing — plan-limit matrix, trial/subscription state, Paddle
+  signature suite, and webhook integration (upgrade, idempotency, invalid
+  signature, cancel → resource creation blocked, automation cap, expired
+  trial block).
+
 ## Owner tasks (blockers surfaced from SPEC §12 — not faked)
 
 - [ ] Hetzner: provision Ubuntu 24 server + Storage Box for backups.

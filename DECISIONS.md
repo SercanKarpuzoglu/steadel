@@ -103,3 +103,21 @@ working option and document it.
 29. **`ads_guard` automation rule = per-store kill switch.** Created
     automatically with the first product↔adset link; pausing the rule stops
     the engine without deleting links.
+
+## M5
+
+30. **Expired trials / canceled subscriptions are read-only, not locked
+    out.** Existing automations keep their data visible; only *creating*
+    stores/automations is blocked. Gentler, and GDPR export/delete stays
+    reachable.
+31. **Org ↔ Paddle mapping via checkout `custom_data.orgId`**, with
+    fallbacks by subscription id then customer id — covers webhooks that
+    arrive before the first `transaction.completed`.
+32. **Plan changes via API, new subscriptions via overlay checkout.**
+    Active subscribers PATCH the subscription (prorated immediately);
+    cancellation is effective at period end.
+33. **Dev mode plan switching:** with `BILLING_ENABLED=false` the billing
+    page switches plans instantly (owner only, audited) so every plan gate
+    is testable without Paddle.
+34. **CSP stays allowlist-only:** Paddle's CDN/checkout origins are the
+    single exception; no other third-party origin is permitted.

@@ -13,13 +13,16 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           {
             key: "Content-Security-Policy",
+            // Paddle (Merchant of Record) checkout is the only allowed
+            // external origin — no analytics, no trackers (SPEC §2/§8).
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-inline' https://cdn.paddle.com",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data:",
+              "img-src 'self' data: https://*.paddle.com",
               "font-src 'self' data:",
-              "connect-src 'self'",
+              "connect-src 'self' https://*.paddle.com",
+              "frame-src https://buy.paddle.com https://sandbox-buy.paddle.com",
               "frame-ancestors 'none'",
             ].join("; "),
           },

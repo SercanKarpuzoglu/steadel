@@ -7,6 +7,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { products, stores } from "@/db/schema";
 import { requireOrg } from "@/lib/org";
+import { assertCanAddStore, PlanLimitError } from "@/lib/plans";
 import {
   connectMockStore,
   disconnectStore,
@@ -39,6 +40,12 @@ async function requireProductInOrg(productId: string) {
 
 export async function connectMockStoreAction(): Promise<void> {
   const { org, user } = await requireOrg();
+  try {
+    await assertCanAddStore(org);
+  } catch (err) {
+    if (err instanceof PlanLimitError) redirect("/stores?error=plan-limit");
+    throw err;
+  }
   const store = await connectMockStore(org.id, user.id);
   redirect(`/stores/${store.id}`);
 }

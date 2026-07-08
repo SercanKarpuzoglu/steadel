@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { alertsLog, automationRules, organizations, stores, users } from "@/db/schema";
 import { recordAudit } from "@/lib/audit";
+import { assertCanAddAutomation } from "@/lib/plans";
 import { lowStockHtml } from "@/emails/alert-emails";
 import { logger } from "@/lib/logger";
 import { sendMail } from "@/lib/mail";
@@ -158,6 +159,10 @@ export async function createAutomationRule(params: {
   config: Record<string, unknown>;
 }): Promise<AutomationRule> {
   await requireStoreInOrgById(params.storeId, params.orgId);
+  const org = await db.query.organizations.findFirst({
+    where: eq(organizations.id, params.orgId),
+  });
+  if (org) await assertCanAddAutomation(org);
   const [rule] = await db
     .insert(automationRules)
     .values({
