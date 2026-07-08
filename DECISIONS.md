@@ -73,3 +73,18 @@ working option and document it.
     becomes noisy.
 21. **ioredis pinned to bullmq's exact version** (pnpm override) so a single
     copy exists and BullMQ's connection types match ours.
+
+## M3
+
+22. **Alerts fire on threshold *crossings*, not states.** A product that
+    stays at qty 3 across ten syncs alerts once (when it crossed), not ten
+    times; restocks reset the trigger. First-seen products never alert to
+    avoid an import stampede.
+23. **Report scheduling is config-matched, not cron rows:** an hourly
+    worker tick matches each rule's UTC hour/weekday and enqueues with a
+    `report:<ruleId>:<date>` jobId — BullMQ dedup makes double-ticks
+    harmless and no extra scheduling state is stored.
+24. **Report times are UTC** in v1 (documented in the UI). Org-level
+    timezones can layer on later without schema changes (config JSONB).
+25. **One BullMQ queue** for all job types (sync, reports, purge) — a solo
+    operator debugs one queue; splitting is premature at this volume.

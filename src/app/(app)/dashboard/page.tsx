@@ -98,6 +98,22 @@ export default async function DashboardPage() {
         </p>
       </div>
 
+      {orgStores.length === 0 && (
+        <Card className="border-amber bg-amber/10">
+          <CardTitle>Finish setting up</CardTitle>
+          <CardDescription>
+            Connect your store and enable your first automation — it takes
+            under three minutes.
+          </CardDescription>
+          <Link
+            href="/onboarding"
+            className="mt-4 inline-flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+          >
+            Start onboarding
+          </Link>
+        </Card>
+      )}
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card) => (
           <Link key={card.label} href={card.href}>

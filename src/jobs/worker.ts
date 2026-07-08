@@ -1,20 +1,32 @@
 import "dotenv/config";
 import { Worker, type Job } from "bullmq";
-import { eq } from "drizzle-orm";
+import { and, eq, lt } from "drizzle-orm";
 import { db } from "@/db";
-import { stores } from "@/db/schema";
+import { automationRules, organizations, stores, users } from "@/db/schema";
 import { logger } from "@/lib/logger";
 import { getRedis } from "@/lib/redis";
+import { processStockChanges, scheduledReportConfigSchema } from "@/lib/services/automation-service";
+import { isReportDue, sendScheduledReport } from "@/lib/services/report-service";
 import { syncStoreProducts } from "@/lib/services/store-service";
 import { getSyncQueue, SYNC_QUEUE } from "./queues";
 
 const POLL_INTERVAL_MS = 15 * 60 * 1000; // SPEC §5.1: fallback polling every 15 min
+const REPORT_TICK_MS = 60 * 60 * 1000; // hourly report due-check
+const PURGE_TICK_MS = 24 * 60 * 60 * 1000; // daily deleted-account purge
+const PURGE_AFTER_DAYS = 30;
+
+/** Sync + downstream automations — the worker's main path for a store. */
+export async function runStoreSync(storeId: string): Promise<number> {
+  const changes = await syncStoreProducts(storeId);
+  await processStockChanges(changes);
+  return changes.length;
+}
 
 async function handleSyncStore(job: Job) {
   const { storeId } = job.data as { storeId: string };
-  const changes = await syncStoreProducts(storeId);
-  logger.info({ storeId, changes: changes.length }, "store synced");
-  return { changes: changes.length };
+  const changes = await runStoreSync(storeId);
+  logger.info({ storeId, changes }, "store synced");
+  return { changes };
 }
 
 async function handlePollAllStores() {
@@ -31,12 +43,72 @@ async function handlePollAllStores() {
   logger.info({ count: connected.length }, "poll cycle enqueued");
 }
 
+/** Hourly: enqueue every due report exactly once per period (dedup by jobId). */
+async function handleReportTick() {
+  const now = new Date();
+  const rules = await db.query.automationRules.findMany({
+    where: and(
+      eq(automationRules.type, "scheduled_report"),
+      eq(automationRules.enabled, true),
+    ),
+  });
+  let due = 0;
+  for (const rule of rules) {
+    const parsed = scheduledReportConfigSchema.safeParse(rule.config);
+    if (!parsed.success) continue;
+    if (!isReportDue(parsed.data, now)) continue;
+    const dateKey = now.toISOString().slice(0, 10);
+    await getSyncQueue().add(
+      "send-report",
+      { ruleId: rule.id },
+      { jobId: `report:${rule.id}:${dateKey}` },
+    );
+    due += 1;
+  }
+  if (due > 0) logger.info({ due }, "reports enqueued");
+}
+
+async function handleSendReport(job: Job) {
+  const { ruleId } = job.data as { ruleId: string };
+  const rule = await db.query.automationRules.findFirst({
+    where: eq(automationRules.id, ruleId),
+  });
+  if (!rule || !rule.enabled) return { skipped: true };
+  const sent = await sendScheduledReport(rule);
+  return { sent };
+}
+
+/** GDPR erasure: hard-delete accounts soft-deleted more than 30 days ago. */
+export async function purgeDeletedAccounts(): Promise<number> {
+  const cutoff = new Date(Date.now() - PURGE_AFTER_DAYS * 24 * 60 * 60 * 1000);
+  const doomed = await db.query.users.findMany({
+    where: and(lt(users.deletedAt, cutoff)),
+  });
+  for (const user of doomed) {
+    // Orgs owned by the user cascade to stores/products/rules/alerts.
+    await db.delete(organizations).where(eq(organizations.ownerUserId, user.id));
+    await db.delete(users).where(eq(users.id, user.id));
+    logger.info({ userId: user.id }, "account purged after 30-day window");
+  }
+  return doomed.length;
+}
+
 export async function startWorker() {
-  // Repeatable poll — BullMQ job scheduler upserts are idempotent.
-  await getSyncQueue().upsertJobScheduler(
+  const queue = getSyncQueue();
+  await queue.upsertJobScheduler(
     "poll-all-stores",
     { every: POLL_INTERVAL_MS },
     { name: "poll-all-stores" },
+  );
+  await queue.upsertJobScheduler(
+    "report-tick",
+    { every: REPORT_TICK_MS },
+    { name: "report-tick" },
+  );
+  await queue.upsertJobScheduler(
+    "purge-accounts",
+    { every: PURGE_TICK_MS },
+    { name: "purge-accounts" },
   );
 
   const worker = new Worker(
@@ -47,6 +119,12 @@ export async function startWorker() {
           return handleSyncStore(job);
         case "poll-all-stores":
           return handlePollAllStores();
+        case "report-tick":
+          return handleReportTick();
+        case "send-report":
+          return handleSendReport(job);
+        case "purge-accounts":
+          return { purged: await purgeDeletedAccounts() };
         default:
           logger.warn({ name: job.name }, "unknown job");
       }

@@ -90,9 +90,36 @@ Completed:
 
 Pending / notes:
 
-- Onboarding wizard ships with M3 (its step 3 creates the first automation).
 - Real-store end-to-end requires the owner's Shopify Partner app keys
   (see Owner tasks).
+
+## M3 — Automations core ✅
+
+Completed:
+
+- Low-stock engine: pure `evaluateLowStock` decision function (downward
+  threshold crossing only — no re-alerts while stock stays low, no alerts
+  on first import; per-product threshold overrides the rule default) +
+  `processStockChanges` applying enabled rules, writing `alerts_log`
+  (`low_stock` / `out_of_stock`) and sending branded emails.
+- Worker now runs sync → automations as one path (`runStoreSync`), used by
+  webhook-triggered jobs and the 15-minute poll alike.
+- Scheduled reports: daily/weekly + UTC hour (+weekday) config, hourly
+  `report-tick` scheduler enqueues due reports deduplicated per rule+day,
+  report email with inventory snapshot (products/tracked/out-of-stock/low
+  stock/alert count) — white-label brand name for agency plan.
+- 30-day account purge job (daily): hard-deletes soft-deleted users and
+  their owned orgs (cascades) after the GDPR window.
+- `/automations`: rules list with enable/pause/delete, `/automations/new`
+  and `/automations/[id]` sharing one form (low-stock alert & scheduled
+  report; ads guard arrives in M4).
+- `/onboarding`: 3-step wizard (connect store → track products → enable
+  default alert) with progress states; dashboard banner links to it while
+  no store is connected.
+- Tests: 37 passing — engine unit tests (crossing/threshold-override/
+  first-seen), report due-check, and the SPEC §10 happy path: signup →
+  verify → connect mock store → alert rule → stock drop → rendered alert
+  email + log entry, plus scheduled report and purge coverage.
 
 ## Owner tasks (blockers surfaced from SPEC §12 — not faked)
 
