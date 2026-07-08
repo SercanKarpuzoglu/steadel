@@ -7,6 +7,7 @@ import { assertCanAddAutomation } from "@/lib/plans";
 import { lowStockHtml } from "@/emails/alert-emails";
 import { logger } from "@/lib/logger";
 import { sendMail } from "@/lib/mail";
+import { sendSlack } from "@/lib/slack";
 import type { StockChange } from "./store-service";
 
 export const DEFAULT_LOW_STOCK_THRESHOLD = 5;
@@ -85,6 +86,11 @@ export async function processStockChanges(
           ? `${change.title} is out of stock`
           : `${change.title} is low on stock (${change.newQty} left, threshold ${threshold})`;
 
+      const slacked = await sendSlack(
+        change.orgId,
+        `:package: ${summary} — ${store.name}`,
+      );
+
       await db.insert(alertsLog).values({
         orgId: change.orgId,
         storeId: change.storeId,
@@ -98,7 +104,7 @@ export async function processStockChanges(
           threshold,
           summary,
         },
-        deliveredVia: "email",
+        deliveredVia: slacked ? "email,slack" : "email",
       });
 
       const html = await lowStockHtml({

@@ -20,6 +20,7 @@ RUN addgroup -S steadel && adduser -S steadel -G steadel
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
 COPY --from=build /app/public ./public
+COPY --from=build /app/docs ./docs
 USER steadel
 EXPOSE 3000
 CMD ["node", "server.js"]

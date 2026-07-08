@@ -10,9 +10,14 @@ import { requireOrg } from "@/lib/org";
 import { assertCanAddStore, PlanLimitError } from "@/lib/plans";
 import {
   connectMockStore,
+  connectWooStore,
   disconnectStore,
   syncStoreProducts,
 } from "@/lib/services/store-service";
+import {
+  normalizeSiteUrl,
+  validateWooCredentials,
+} from "@/providers/stores/woocommerce";
 
 export type FormState = { error?: string; message?: string } | undefined;
 
@@ -47,6 +52,42 @@ export async function connectMockStoreAction(): Promise<void> {
     throw err;
   }
   const store = await connectMockStore(org.id, user.id);
+  redirect(`/stores/${store.id}`);
+}
+
+export async function connectWooStoreAction(
+  _prev: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  const { org, user } = await requireOrg();
+  try {
+    await assertCanAddStore(org);
+  } catch (err) {
+    if (err instanceof PlanLimitError) return { error: err.message };
+    throw err;
+  }
+
+  const siteUrl = normalizeSiteUrl(String(formData.get("siteUrl") ?? ""));
+  const consumerKey = String(formData.get("consumerKey") ?? "").trim();
+  const consumerSecret = String(formData.get("consumerSecret") ?? "").trim();
+  if (!siteUrl) return { error: "Enter a valid https:// site URL." };
+  if (!consumerKey.startsWith("ck_") || !consumerSecret.startsWith("cs_")) {
+    return {
+      error:
+        "Keys look wrong — the consumer key starts with ck_, the secret with cs_.",
+    };
+  }
+
+  const check = await validateWooCredentials({ siteUrl, consumerKey, consumerSecret });
+  if (!check.ok) return { error: check.error };
+
+  const store = await connectWooStore({
+    orgId: org.id,
+    actorId: user.id,
+    siteUrl,
+    consumerKey,
+    consumerSecret,
+  });
   redirect(`/stores/${store.id}`);
 }
 

@@ -121,3 +121,25 @@ working option and document it.
     is testable without Paddle.
 34. **CSP stays allowlist-only:** Paddle's CDN/checkout origins are the
     single exception; no other third-party origin is permitted.
+
+## M6
+
+35. **WooCommerce stock is product-level** in v1 (variations deferred);
+    sites without numeric stock management map instock→1 / outofstock→0 so
+    threshold-zero automations still work.
+36. **Woo webhooks verify against the consumer secret.** We don't
+    auto-register webhooks (users' keys may be read-only); the guide tells
+    users to set the webhook secret to their consumer secret, which we
+    already hold encrypted.
+37. **Polling is a 5-minute due-check tick** rather than per-platform
+    schedulers: each tick enqueues only stores whose `last_sync_at` is
+    older than their platform interval (Shopify 15 min, Woo 10 min).
+38. **API keys are hashed (sha256) with a display prefix** — the raw key
+    is shown exactly once; possession of the database does not yield keys.
+39. **Help search is plain substring matching** over the markdown sources
+    — four documents don't need an index.
+40. **/reports charts what we store:** alert history and current inventory.
+    Sales charts wait for order-history sync rather than shipping a fake.
+41. **Dead-letter retry = full store re-sync** (idempotent) instead of
+    replaying raw webhook payloads — replay needs no payload versioning
+    and cannot double-apply effects.

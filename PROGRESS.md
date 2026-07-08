@@ -179,6 +179,48 @@ Completed:
   signature, cancel → resource creation blocked, automation cap, expired
   trial block).
 
+## M6 — Polish & docs ✅
+
+Completed:
+
+- **WooCommerce connector** (SPEC §5.2): `WooProvider` (REST v3, paginated,
+  managed & unmanaged stock), credential validation on connect, connect
+  form on /stores with a key-generation guide link, optional webhook
+  receiver (`/api/webhooks/woocommerce`, HMAC-verified against the
+  consumer secret, idempotent). Polling: Woo every 10 min, Shopify every
+  15 min via a 5-minute due-check tick.
+- **Slack alerts** (SPEC §5.5): incoming webhook URL per org (Settings →
+  Organization), all low-stock/ads-guard alerts also posted to Slack;
+  `delivered_via` records `email,slack`.
+- **Public API v1** (SPEC §7): Bearer API keys (sha256-hashed, shown once,
+  revocable, Growth+ only, 60 req/min): `GET /api/v1/products`,
+  `GET /api/v1/alerts`, `POST /api/v1/automations/:id/toggle`. Key
+  management UI on the organization settings page.
+- **/reports**: Recharts — 30-day alert history, lowest-stock tracked
+  products, stat tiles, one-click "Email me this weekly". Sales charts
+  deferred until order history sync exists (noted on the page).
+- **/help**: all four docs rendered from `/docs` with full-text search;
+  owner docs (setup, runbook) visible to admins only. `/privacy` and
+  `/terms` pages with `TODO-LEGAL` placeholders.
+- **Admin**: live BullMQ job counts, dead-letter list with *Retry sync* /
+  *Discard*, read-only organization inspection (`/admin/orgs/[id]`).
+- **Playwright smoke suite** (SPEC §10): landing/signup/login render, bad
+  credentials rejected, demo login reaches the dashboard — running in CI
+  against a seeded database.
+- **Docs pass**: `user-guide.md` (Shopify/Woo connection incl. key
+  screenshots placeholders, automations, billing FAQ), `setup-guide.md`
+  (Hetzner provisioning, DNS, env table, backups via cron→Storage Box,
+  update procedure), `runbook.md` (logs, retries, key rotation, restore,
+  incident checklist), `api.md` (curl examples).
+- Tests: **76 vitest + 4 Playwright** passing.
+
+Remaining (needs owner credentials, cannot be built further without them):
+
+- Real Shopify/Meta/Paddle end-to-end runs (mock providers cover the
+  logic; see Owner tasks below).
+- `setup-guide.md` verified against a clean Docker run on the actual
+  Hetzner box once provisioned.
+
 ## Owner tasks (blockers surfaced from SPEC §12 — not faked)
 
 - [ ] Hetzner: provision Ubuntu 24 server + Storage Box for backups.

@@ -6,6 +6,7 @@ import { products, stores } from "@/db/schema";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { requireOrg } from "@/lib/org";
 import { connectMockStoreAction } from "./actions";
+import { WooConnectForm } from "./_components/woo-connect-form";
 
 export const metadata: Metadata = { title: "Stores" };
 
@@ -75,18 +76,18 @@ export default async function StoresPage({
         </Card>
 
         <Card>
-          <CardTitle>WooCommerce</CardTitle>
+          <CardTitle>Connect a WooCommerce store</CardTitle>
           <CardDescription>
-            WooCommerce connections arrive with milestone M6 — REST API keys,
-            guided setup.
+            Enter your site URL and REST API keys (read access is enough).
           </CardDescription>
+          <WooConnectForm />
           {mockEnabled && (
-            <form action={connectMockStoreAction} className="mt-4">
+            <form action={connectMockStoreAction} className="mt-3">
               <button
                 type="submit"
-                className="h-10 cursor-pointer rounded-md border border-line bg-white/60 px-4 text-sm font-medium hover:bg-white"
+                className="cursor-pointer text-sm text-amber-dark hover:underline"
               >
-                Connect demo store (mock data)
+                …or connect a demo store (mock data)
               </button>
             </form>
           )}

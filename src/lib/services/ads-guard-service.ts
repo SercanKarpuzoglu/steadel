@@ -4,6 +4,7 @@ import { adLinks, alertsLog, automationRules, stores } from "@/db/schema";
 import { adsGuardHtml } from "@/emails/alert-emails";
 import { logger } from "@/lib/logger";
 import { sendMail } from "@/lib/mail";
+import { sendSlack } from "@/lib/slack";
 import type { AdSetStatus } from "@/providers/ads/types";
 import { adsGuardEnabled } from "@/providers/ads/types";
 import { defaultRecipients } from "./automation-service";
@@ -130,6 +131,7 @@ export async function processAdsGuardChanges(
             .set({ state: "paused_by_steadel", lastActionAt: new Date() })
             .where(eq(adLinks.id, link.id));
           const summary = `Steadel paused "${adsetName}" because ${change.title} sold out`;
+          const slacked = await sendSlack(change.orgId, `:no_entry: ${summary}`);
           await db.insert(alertsLog).values({
             orgId: change.orgId,
             storeId: change.storeId,
@@ -143,7 +145,7 @@ export async function processAdsGuardChanges(
               qty: change.newQty,
               summary,
             },
-            deliveredVia: "email",
+            deliveredVia: slacked ? "email,slack" : "email",
           });
           const html = await adsGuardHtml({
             action: "paused",
@@ -166,6 +168,7 @@ export async function processAdsGuardChanges(
             .set({ state: "active", lastActionAt: new Date() })
             .where(eq(adLinks.id, link.id));
           const summary = `Steadel resumed "${adsetName}" — ${change.title} is back in stock (${change.newQty})`;
+          const slacked = await sendSlack(change.orgId, `:white_check_mark: ${summary}`);
           await db.insert(alertsLog).values({
             orgId: change.orgId,
             storeId: change.storeId,
@@ -179,7 +182,7 @@ export async function processAdsGuardChanges(
               qty: change.newQty,
               summary,
             },
-            deliveredVia: "email",
+            deliveredVia: slacked ? "email,slack" : "email",
           });
           const html = await adsGuardHtml({
             action: "resumed",

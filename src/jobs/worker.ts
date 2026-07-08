@@ -11,7 +11,14 @@ import { isReportDue, sendScheduledReport } from "@/lib/services/report-service"
 import { syncStoreProducts } from "@/lib/services/store-service";
 import { getSyncQueue, SYNC_QUEUE } from "./queues";
 
-const POLL_INTERVAL_MS = 15 * 60 * 1000; // SPEC §5.1: fallback polling every 15 min
+// SPEC §5.1/§5.2: fallback polling — Shopify every 15 min, WooCommerce every
+// 10 min. A 5-minute tick enqueues stores whose last sync is older than
+// their platform interval.
+const POLL_TICK_MS = 5 * 60 * 1000;
+const SYNC_INTERVAL_MS: Record<string, number> = {
+  shopify: 15 * 60 * 1000,
+  woocommerce: 10 * 60 * 1000,
+};
 const REPORT_TICK_MS = 60 * 60 * 1000; // hourly report due-check
 const PURGE_TICK_MS = 24 * 60 * 60 * 1000; // daily deleted-account purge
 const PURGE_AFTER_DAYS = 30;
@@ -35,14 +42,21 @@ async function handlePollAllStores() {
   const connected = await db.query.stores.findMany({
     where: eq(stores.status, "connected"),
   });
+  const now = Date.now();
+  let enqueued = 0;
   for (const store of connected) {
+    const interval = SYNC_INTERVAL_MS[store.platform] ?? SYNC_INTERVAL_MS.shopify;
+    if (store.lastSyncAt && now - store.lastSyncAt.getTime() < interval) {
+      continue;
+    }
     await getSyncQueue().add(
       "sync-store",
       { storeId: store.id },
       { jobId: `sync-store:${store.id}` },
     );
+    enqueued += 1;
   }
-  logger.info({ count: connected.length }, "poll cycle enqueued");
+  if (enqueued > 0) logger.info({ enqueued }, "poll cycle enqueued");
 }
 
 /** Hourly: enqueue every due report exactly once per period (dedup by jobId). */
@@ -99,7 +113,7 @@ export async function startWorker() {
   const queue = getSyncQueue();
   await queue.upsertJobScheduler(
     "poll-all-stores",
-    { every: POLL_INTERVAL_MS },
+    { every: POLL_TICK_MS },
     { name: "poll-all-stores" },
   );
   await queue.upsertJobScheduler(

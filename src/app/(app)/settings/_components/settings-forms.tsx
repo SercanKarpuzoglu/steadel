@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   changePasswordAction,
+  createApiKeyAction,
   deleteAccountAction,
   updateOrgAction,
   updateProfileAction,
@@ -99,14 +100,36 @@ export function DeleteAccountForm() {
   );
 }
 
+export function CreateApiKeyForm() {
+  const [state, action, pending] = useActionState(createApiKeyAction, undefined);
+  return (
+    <form action={action} className="space-y-3">
+      <div className="flex gap-2">
+        <Input name="name" placeholder="Key name (e.g. Zapier)" required />
+        <Button type="submit" disabled={pending} className="shrink-0">
+          {pending ? "Creating…" : "Create key"}
+        </Button>
+      </div>
+      {state?.message && (
+        <p className="rounded-md border border-amber/50 bg-amber/10 px-3 py-2 font-mono text-xs break-all">
+          {state.message}
+        </p>
+      )}
+      {state?.error && <p className="text-sm text-red-700">{state.error}</p>}
+    </form>
+  );
+}
+
 export function OrgForm({
   defaultName,
   whiteLabelName,
+  slackWebhookUrl,
   isAgency,
   isOwner,
 }: {
   defaultName: string;
   whiteLabelName: string;
+  slackWebhookUrl: string;
   isAgency: boolean;
   isOwner: boolean;
 }) {
@@ -135,6 +158,20 @@ export function OrgForm({
           />
         </div>
       )}
+      <div className="space-y-1.5">
+        <Label htmlFor="slackWebhookUrl">Slack alerts (incoming webhook)</Label>
+        <Input
+          id="slackWebhookUrl"
+          name="slackWebhookUrl"
+          defaultValue={slackWebhookUrl}
+          placeholder="https://hooks.slack.com/services/…"
+          disabled={!isOwner}
+        />
+        <p className="text-xs text-ink-soft">
+          Optional — alerts are also posted to this Slack channel. Leave
+          empty to disable.
+        </p>
+      </div>
       <Feedback state={state} />
       <Button type="submit" disabled={pending || !isOwner}>
         {pending ? "Saving…" : "Save"}

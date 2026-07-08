@@ -26,6 +26,7 @@ Quality gates (CI enforces):
 
 ```bash
 pnpm lint && pnpm typecheck && pnpm test
+pnpm test:e2e   # Playwright smoke (needs postgres/redis + pnpm seed)
 ```
 
 ## Deployment

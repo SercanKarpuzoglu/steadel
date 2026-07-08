@@ -2,10 +2,11 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { products, stores } from "@/db/schema";
 import { recordAudit } from "@/lib/audit";
-import { decryptJson, type EncryptedPayload } from "@/lib/crypto";
+import { decryptJson, encryptJson, type EncryptedPayload } from "@/lib/crypto";
 import { logger } from "@/lib/logger";
 import { MockStoreProvider } from "@/providers/stores/mock";
 import { ShopifyProvider } from "@/providers/stores/shopify";
+import { WooProvider, type WooCredentials } from "@/providers/stores/woocommerce";
 import {
   isMockDomain,
   type ShopifyCredentials,
@@ -31,14 +32,20 @@ export function getProviderForStore(store: Store): StoreProvider {
   if (isMockDomain(store.domain)) {
     return new MockStoreProvider(store.domain);
   }
+  if (!store.credentialsEncrypted) {
+    throw new Error(`Store ${store.id} has no credentials`);
+  }
   if (store.platform === "shopify") {
-    if (!store.credentialsEncrypted) {
-      throw new Error(`Store ${store.id} has no credentials`);
-    }
     const credentials = decryptJson<ShopifyCredentials>(
       store.credentialsEncrypted as EncryptedPayload,
     );
     return new ShopifyProvider(store.domain, credentials);
+  }
+  if (store.platform === "woocommerce") {
+    const credentials = decryptJson<WooCredentials>(
+      store.credentialsEncrypted as EncryptedPayload,
+    );
+    return new WooProvider(credentials);
   }
   throw new Error(`No provider for platform ${store.platform}`);
 }
@@ -156,6 +163,41 @@ export async function connectMockStore(
     actor: actorId,
     action: "store.connected",
     payload: { storeId: store.id, domain: store.domain, mock: true },
+  });
+  return store;
+}
+
+/** Connects a WooCommerce store after validating the REST API keys. */
+export async function connectWooStore(params: {
+  orgId: string;
+  actorId: string;
+  siteUrl: string; // normalized https origin
+  consumerKey: string;
+  consumerSecret: string;
+}): Promise<Store> {
+  const domain = new URL(params.siteUrl).host;
+  const credentials = {
+    siteUrl: params.siteUrl,
+    consumerKey: params.consumerKey,
+    consumerSecret: params.consumerSecret,
+  };
+  const [store] = await db
+    .insert(stores)
+    .values({
+      orgId: params.orgId,
+      platform: "woocommerce",
+      name: domain,
+      domain,
+      status: "connected",
+      credentialsEncrypted: encryptJson(credentials),
+    })
+    .returning();
+  await syncStoreProducts(store.id);
+  await recordAudit({
+    orgId: params.orgId,
+    actor: params.actorId,
+    action: "store.connected",
+    payload: { storeId: store.id, domain, platform: "woocommerce" },
   });
   return store;
 }
