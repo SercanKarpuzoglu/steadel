@@ -1,3 +1,7 @@
+# bullmq pins ioredis exactly; force a single copy so types line up.
+overrides:
+  ioredis: 5.10.1
+
 allowBuilds:
   "@tailwindcss/oxide": true
   esbuild: true

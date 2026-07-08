@@ -51,3 +51,25 @@ working option and document it.
 15. **Test database:** tests run against `<db>_test` (created and migrated
     in vitest global setup) so `pnpm test` never touches dev data; CI's
     DATABASE_URL already ends in `_test` and is used as-is.
+
+## M2
+
+16. **Webhooks trigger a full re-sync, not incremental updates.** Shopify's
+    inventory payloads reference `inventory_item_id`s that would require an
+    extra mapping table; enqueueing a (jobId-deduplicated) full catalog sync
+    is simpler, self-healing, and identical to the polling path.
+17. **Product granularity = variant.** `products.external_id` stores the
+    variant GID; titles are "Product — Variant" unless the variant is the
+    Shopify default.
+18. **Mock stores are flagged by domain** (`*.steadel-mock.test`) rather
+    than a column — providers resolve per domain and mock stores survive
+    schema unchanged.
+19. **Idempotency rows are written after successful processing** so a
+    failed webhook returns 500 and the sender's retry is not swallowed as a
+    duplicate; concurrent duplicates only collapse into an extra queued
+    sync (harmless).
+20. **Products removed on the platform are kept** in our table (stale rows
+    keep alert history meaningful); revisit with a `removed_at` marker if it
+    becomes noisy.
+21. **ioredis pinned to bullmq's exact version** (pnpm override) so a single
+    copy exists and BullMQ's connection types match ours.

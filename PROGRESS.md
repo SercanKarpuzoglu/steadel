@@ -55,8 +55,44 @@ Completed:
 Pending / notes:
 
 - 30-day account purge job ships with the M3 worker infrastructure.
-- Placeholder pages for /stores, /automations, /reports, /help,
-  /settings/billing until their milestones land.
+- Placeholder pages for /automations, /reports, /help, /settings/billing
+  until their milestones land.
+
+## M2 — Stores & products ✅
+
+Completed:
+
+- `StoreProvider` interface with two implementations: `ShopifyProvider`
+  (GraphQL Admin API 2025-01, variant-level products, cursor pagination)
+  and `MockStoreProvider` (in-memory catalogs for dev/tests; enabled when
+  `MOCK_STORE_PROVIDER=1` or Shopify keys are absent).
+- Shopify OAuth: `/api/shopify/install` (domain validation, state cookie) →
+  `/api/shopify/callback` (state + HMAC verification, token exchange,
+  AES-256-GCM credential storage, webhook registration, initial sync).
+- Webhook receiver `/api/webhooks/shopify`: raw-body HMAC verification,
+  idempotency via `processed_webhooks` (marked after success so retries
+  work), GDPR topics acknowledged & logged, `app/uninstalled` disconnects,
+  inventory/product updates enqueue a debounced store sync; failures go to
+  `dead_letters`.
+- Sync engine `syncStoreProducts`: full-catalog upsert returning a
+  `StockChange[]` diff (old/new qty, tracked, threshold) — the M3/M4
+  automation engines consume this.
+- BullMQ infrastructure: `sync` queue, worker (`pnpm worker`) with
+  jobId-deduplicated store syncs and a 15-minute `poll-all-stores`
+  scheduler (SPEC §5.1 fallback polling).
+- UI: `/stores` (connect Shopify by domain, demo store button, store list
+  with status badges) and `/stores/[id]` (product table with search, sort,
+  tracked toggles, per-product thresholds, track/untrack all, sync now,
+  reconnect, disconnect). All queries org-scoped from the session.
+- Tests: 25 passing — adds Shopify OAuth/webhook HMAC unit tests and
+  integration tests for mock connect, stock-change diffing, first-seen
+  products, disconnected-store skip, and webhook idempotency.
+
+Pending / notes:
+
+- Onboarding wizard ships with M3 (its step 3 creates the first automation).
+- Real-store end-to-end requires the owner's Shopify Partner app keys
+  (see Owner tasks).
 
 ## Owner tasks (blockers surfaced from SPEC §12 — not faked)
 
