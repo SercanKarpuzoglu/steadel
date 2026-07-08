@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Steadel design tokens (SPEC §3) */
+@theme {
+  --color-ink: #0f1b2d;
+  --color-panel: #16263d;
+  --color-paper: #f5f1e8;
+  --color-mist: #b9c2cf;
+  --color-amber: #f0a830;
+  --color-amber-dark: #d18f1c;
+
+  /* Light theme surfaces derived from tokens */
+  --color-paper-soft: #efe9dc;
+  --color-line: #ddd5c4;
+  --color-ink-soft: #47576e;
+
+  --font-heading: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+}
+
+/* Dark (marketing/auth) surface */
+.theme-dark {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+}

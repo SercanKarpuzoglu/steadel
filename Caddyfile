@@ -1,0 +1,16 @@
+# Production Caddyfile — TLS is automatic via Let's Encrypt.
+# Replace the domain if you deploy elsewhere.
+
+app.steadel.com {
+	reverse_proxy app:3000
+	encode gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+	}
+}
+
+# Internal status page (protect before exposing publicly, see docs/setup-guide.md)
+status.steadel.com {
+	reverse_proxy uptime-kuma:3001
+}
