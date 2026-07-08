@@ -51,12 +51,20 @@ export default async function AutomationsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold">Automations</h1>
-        <Link
-          href="/automations/new"
-          className="flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
-        >
-          New automation
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/automations/ads"
+            className="flex h-10 items-center rounded-md border border-line bg-white/60 px-4 text-sm font-medium hover:bg-white"
+          >
+            Ads guard
+          </Link>
+          <Link
+            href="/automations/new"
+            className="flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+          >
+            New automation
+          </Link>
+        </div>
       </div>
 
       <Card>

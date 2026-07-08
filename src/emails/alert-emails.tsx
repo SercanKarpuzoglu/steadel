@@ -38,6 +38,39 @@ export async function lowStockHtml(params: {
   );
 }
 
+export async function adsGuardHtml(params: {
+  action: "paused" | "resumed";
+  adsetName: string;
+  productTitle: string;
+  qty: number;
+  storeName: string;
+  brandName?: string;
+}) {
+  const { action, adsetName, productTitle, qty, storeName, brandName } = params;
+  return render(
+    <EmailShell brandName={brandName ?? "Steadel"}>
+      {action === "paused" ? (
+        <p>
+          Steadel paused the ad set <strong>{adsetName}</strong> because{" "}
+          <strong>{productTitle}</strong> sold out in {storeName}. It will
+          resume automatically when the product is back in stock.
+        </p>
+      ) : (
+        <p>
+          Steadel resumed the ad set <strong>{adsetName}</strong> —{" "}
+          <strong>{productTitle}</strong> is back in stock in {storeName}{" "}
+          ({qty} available).
+        </p>
+      )}
+      <EmailButton href={appUrl("/automations/ads")} label="View ads guard" />
+      <p>
+        Steadel only resumes ad sets it paused itself — anything you pause
+        manually stays paused.
+      </p>
+    </EmailShell>,
+  );
+}
+
 export interface ReportData {
   storeName: string;
   periodLabel: string;

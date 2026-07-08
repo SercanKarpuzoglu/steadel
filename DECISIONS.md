@@ -88,3 +88,18 @@ working option and document it.
     timezones can layer on later without schema changes (config JSONB).
 25. **One BullMQ queue** for all job types (sync, reports, purge) — a solo
     operator debugs one queue; splitting is premature at this volume.
+
+## M4
+
+26. **The guard reads provider status before acting.** One `listCampaigns`
+    snapshot per connection per sync run lets us distinguish "we paused it"
+    from "a human paused it": already-PAUSED ad sets are marked `unknown`
+    and never resumed. Slightly more API traffic, categorically safer.
+27. **Meta connect stores the first ad account** returned by
+    `/me/adaccounts`. Multi-account pickers are deferred; the accountRef
+    column already supports several connections per org.
+28. **Mock ad accounts are flagged by accountRef prefix** (`mock-`),
+    mirroring the mock-store-by-domain decision (#18).
+29. **`ads_guard` automation rule = per-store kill switch.** Created
+    automatically with the first product↔adset link; pausing the rule stops
+    the engine without deleting links.

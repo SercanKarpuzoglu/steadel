@@ -1,6 +1,6 @@
-import { and, count, eq, gte, lte } from "drizzle-orm";
+import { and, count, eq, gte, inArray, lte } from "drizzle-orm";
 import { db } from "@/db";
-import { alertsLog, organizations, products, stores } from "@/db/schema";
+import { adLinks, alertsLog, organizations, products, stores } from "@/db/schema";
 import { reportHtml, type ReportData } from "@/emails/alert-emails";
 import { sendMail } from "@/lib/mail";
 import {
@@ -40,6 +40,19 @@ export async function collectReportData(
       ),
     );
 
+  const productIds = allProducts.map((p) => p.id);
+  const [pausedRow] = productIds.length
+    ? await db
+        .select({ value: count() })
+        .from(adLinks)
+        .where(
+          and(
+            inArray(adLinks.productId, productIds),
+            eq(adLinks.state, "paused_by_steadel"),
+          ),
+        )
+    : [{ value: 0 }];
+
   return {
     storeName: store.name,
     periodLabel: periodDays === 1 ? "daily" : "weekly",
@@ -52,7 +65,7 @@ export async function collectReportData(
       qty: p.inventoryQty,
     })),
     alertCount: alertRow.value,
-    adsPaused: 0, // populated once the ads guard (M4) is live
+    adsPaused: pausedRow.value,
   };
 }
 

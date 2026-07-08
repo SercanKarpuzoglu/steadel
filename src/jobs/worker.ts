@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { automationRules, organizations, stores, users } from "@/db/schema";
 import { logger } from "@/lib/logger";
 import { getRedis } from "@/lib/redis";
+import { processAdsGuardChanges } from "@/lib/services/ads-guard-service";
 import { processStockChanges, scheduledReportConfigSchema } from "@/lib/services/automation-service";
 import { isReportDue, sendScheduledReport } from "@/lib/services/report-service";
 import { syncStoreProducts } from "@/lib/services/store-service";
@@ -19,6 +20,7 @@ const PURGE_AFTER_DAYS = 30;
 export async function runStoreSync(storeId: string): Promise<number> {
   const changes = await syncStoreProducts(storeId);
   await processStockChanges(changes);
+  await processAdsGuardChanges(changes); // no-op unless ADS_GUARD_ENABLED
   return changes.length;
 }
 

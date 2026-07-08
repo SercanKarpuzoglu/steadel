@@ -121,6 +121,36 @@ Completed:
   verify → connect mock store → alert rule → stock drop → rendered alert
   email + log entry, plus scheduled report and purge coverage.
 
+## M4 — Ads guard ✅
+
+Completed:
+
+- `AdsProvider` interface (`listCampaigns / pauseAdSet / resumeAdSet`) kept
+  minimal so Google Ads (v2) slots in unchanged. Implementations:
+  `MetaProvider` (Marketing API v21, campaigns+adsets, status updates) and
+  `MockMetaProvider` (in-memory accounts for dev/tests while the Meta app
+  is in review — SPEC §5.3 reality note).
+- Meta OAuth connect (`/api/meta/install` → `/api/meta/callback` with state
+  cookie, token exchange, encrypted storage, first ad account autoselect) —
+  active only when `ADS_GUARD_ENABLED` and META keys are set.
+- Engine: pure `decideAdsAction` state machine + `processAdsGuardChanges`
+  wired into the worker sync path. Safety rules implemented exactly:
+  pause only observed-ACTIVE ad sets; an ad set found already paused by a
+  human is marked `unknown` and never touched; **resume only when
+  `state = paused_by_steadel`**. One provider status snapshot per
+  connection per run; provider errors skip the connection (never guess).
+- Pause/resume actions log to `alerts_log` (`ads_paused`/`ads_resumed`)
+  and email the owner ("Steadel paused X because Y sold out").
+- `/automations/ads` (marked **Beta**): connect Meta or demo ad account,
+  link tracked products ↔ ad sets (mode: on sell-out / below threshold),
+  linked table with live state badges, unlink. First link auto-creates the
+  store's `ads_guard` rule (the per-store on/off switch).
+- Dashboard "Ads paused by Steadel" card and report `adsPaused` count now
+  reflect reality.
+- Tests: 47 passing — full `decideAdsAction` matrix plus integration:
+  sell-out→pause→email, restock→resume, human-pause never resumed, flag
+  off = no action.
+
 ## Owner tasks (blockers surfaced from SPEC §12 — not faked)
 
 - [ ] Hetzner: provision Ubuntu 24 server + Storage Box for backups.
