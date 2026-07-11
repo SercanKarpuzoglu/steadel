@@ -143,3 +143,13 @@ working option and document it.
 41. **Dead-letter retry = full store re-sync** (idempotent) instead of
     replaying raw webhook payloads — replay needs no payload versioning
     and cannot double-apply effects.
+
+## Production operations (post-M6)
+
+42. **Transactional email provider = Brevo (EU).** Chosen for free tier,
+    EU processing, and proven deliverability. Limitation discovered in
+    production: Brevo cannot fully disable open/click tracking on
+    transactional mail — only anonymize it (Transactional → Settings →
+    Tracking → "Anonymous email tracking: Yes"). Anonymization is enabled;
+    if strict no-tracking ever becomes a requirement, switch to Scaleway
+    TEM (env-only change thanks to the sendMail() wrapper).
