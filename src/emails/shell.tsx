@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { CSSProperties, ReactNode } from "react";
 
 const styles: Record<string, CSSProperties> = {
