@@ -66,8 +66,21 @@ The `migrate` service applies database migrations before `app` and
 External webhook URLs to configure:
 
 - Shopify: registered automatically on install.
-- Paddle: notification destination → `https://app.steadel.com/api/webhooks/paddle`.
+- Paddle: notification destination → `https://app.steadel.com/api/webhooks/paddle`
+  with events `subscription.created/updated/canceled` + `transaction.completed`.
 - WooCommerce: users configure manually (see user guide).
+
+Paddle checkout requirements (learned the hard way in sandbox — both apply
+to the live account too):
+
+1. **Default payment link** must be set (Paddle → Checkout → Checkout
+   settings → `https://app.steadel.com`), otherwise the overlay fails with a
+   generic "Something went wrong".
+2. **Lock quantity to 1** on every price (`quantity: {minimum: 1, maximum: 1}`
+   via API or dashboard) — otherwise the overlay shows a quantity selector
+   and customers can buy N seats of a per-organization plan.
+3. The webhook "secret key" is the `pdl_ntfset_…` value from the destination
+   details (not the `ntfset_…` destination id).
 
 ## 5. Backups (nightly pg_dump → Storage Box)
 
