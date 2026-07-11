@@ -223,10 +223,10 @@ Remaining (needs owner credentials, cannot be built further without them):
 
 ## Owner tasks (blockers surfaced from SPEC §12 — not faked)
 
-- [ ] Hetzner: provision Ubuntu 24 server + Storage Box for backups.
-- [ ] DNS: point app.steadel.com to the server (Cloudflare).
-- [ ] SMTP: EU-region transactional email account → fill `SMTP_*` env.
-- [ ] Shopify Partner app → `SHOPIFY_API_KEY/SECRET`.
+- [x] Hetzner server provisioned + hardened; app.steadel.com deployed (2026-07-11). Storage Box for backups still pending.
+- [x] DNS: app.steadel.com → 178.104.121.134 (DNS-only, 2026-07-11).
+- [x] SMTP: Brevo (EU) configured + e2e verified in prod (2026-07-11).
+- [x] Shopify Partner app live; dev store connected, webhook→alert chain verified in prod (2026-07-12). Scopes: read_products,read_inventory (read_orders needs protected-data approval).
 - [ ] Meta developer app + Marketing API review → `META_*` env (Beta until approved).
 - [ ] Paddle account + products/prices → `PADDLE_*` env.
 - [ ] Legal: replace `TODO-LEGAL` privacy/terms placeholders.
