@@ -153,3 +153,9 @@ working option and document it.
     Tracking → "Anonymous email tracking: Yes"). Anonymization is enabled;
     if strict no-tracking ever becomes a requirement, switch to Scaleway
     TEM (env-only change thanks to the sendMail() wrapper).
+
+43. **Shopify scopes reduced to `read_products,read_inventory`.** The
+    `read_orders` scope is "protected customer data" and cannot ship in an
+    app version without a Shopify approval request. Core features never
+    needed it; /reports sales charts stay dormant until it is granted and
+    re-added to `SHOPIFY_SCOPES`.

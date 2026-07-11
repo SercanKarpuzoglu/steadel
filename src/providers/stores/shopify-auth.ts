@@ -1,6 +1,11 @@
 import { createHmac, timingSafeEqual } from "crypto";
 
-export const SHOPIFY_SCOPES = "read_products,read_inventory,read_orders";
+// read_orders is intentionally excluded: it is Shopify "protected customer
+// data" and needs an approval request before it can ship in an app version.
+// Core features (stock tracking, alerts, ads guard) only need products +
+// inventory; /reports sales charts light up if the scope is ever granted
+// and re-added here.
+export const SHOPIFY_SCOPES = "read_products,read_inventory";
 
 /** Valid *.myshopify.com domains only — used before redirecting to OAuth. */
 export function isValidShopDomain(shop: string): boolean {
