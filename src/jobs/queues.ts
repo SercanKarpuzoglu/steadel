@@ -28,6 +28,6 @@ export async function enqueueStoreSync(storeId: string): Promise<void> {
   await getSyncQueue().add(
     "sync-store",
     { storeId },
-    { jobId: `sync-store:${storeId}` },
+    { jobId: `sync-store-${storeId}` },
   );
 }

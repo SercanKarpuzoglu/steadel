@@ -52,7 +52,7 @@ async function handlePollAllStores() {
     await getSyncQueue().add(
       "sync-store",
       { storeId: store.id },
-      { jobId: `sync-store:${store.id}` },
+      { jobId: `sync-store-${store.id}` },
     );
     enqueued += 1;
   }
@@ -77,7 +77,7 @@ async function handleReportTick() {
     await getSyncQueue().add(
       "send-report",
       { ruleId: rule.id },
-      { jobId: `report:${rule.id}:${dateKey}` },
+      { jobId: `report-${rule.id}-${dateKey}` },
     );
     due += 1;
   }
