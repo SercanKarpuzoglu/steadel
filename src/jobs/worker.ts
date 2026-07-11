@@ -9,7 +9,7 @@ import { processAdsGuardChanges } from "@/lib/services/ads-guard-service";
 import { processStockChanges, scheduledReportConfigSchema } from "@/lib/services/automation-service";
 import { isReportDue, sendScheduledReport } from "@/lib/services/report-service";
 import { syncStoreProducts } from "@/lib/services/store-service";
-import { getSyncQueue, SYNC_QUEUE } from "./queues";
+import { enqueueStoreSync, getSyncQueue, SYNC_QUEUE } from "./queues";
 
 // SPEC §5.1/§5.2: fallback polling — Shopify every 15 min, WooCommerce every
 // 10 min. A 5-minute tick enqueues stores whose last sync is older than
@@ -49,11 +49,7 @@ async function handlePollAllStores() {
     if (store.lastSyncAt && now - store.lastSyncAt.getTime() < interval) {
       continue;
     }
-    await getSyncQueue().add(
-      "sync-store",
-      { storeId: store.id },
-      { jobId: `sync-store-${store.id}` },
-    );
+    await enqueueStoreSync(store.id);
     enqueued += 1;
   }
   if (enqueued > 0) logger.info({ enqueued }, "poll cycle enqueued");
