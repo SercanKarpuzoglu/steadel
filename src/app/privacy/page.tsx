@@ -3,6 +3,9 @@ import Link from "next/link";
 
 export const metadata: Metadata = { title: "Privacy policy" };
 
+// TODO-LEGAL: draft pending lawyer sign-off. Bracketed [...] fields — legal
+// entity, address, EU representative (GDPR art. 27) — must be completed.
+
 export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
@@ -11,35 +14,135 @@ export default function PrivacyPage() {
       </Link>
       <article className="doc-content mt-6">
         <h1>Privacy policy</h1>
+        <p>Last updated: 12 July 2026</p>
+
+        <h2>1. Who we are</h2>
         <p>
-          <strong>TODO-LEGAL:</strong> placeholder copy — replace with
-          lawyer-reviewed text before launch.
+          Steadel (&quot;we&quot;, &quot;us&quot;) is operated by{" "}
+          <strong>[LEGAL ENTITY NAME]</strong>, [REGISTERED ADDRESS]. We are
+          the data controller for the personal data described in this policy.
+          Contact: <a href="mailto:privacy@steadel.com">privacy@steadel.com</a>.
+          [EU REPRESENTATIVE PER GDPR ART. 27, IF APPOINTED]
         </p>
-        <h2>What we store</h2>
+
+        <h2>2. What we collect and why</h2>
+        <ul>
+          <li>
+            <strong>Account data</strong> — name, email address, password
+            (stored only as an Argon2id hash). Legal basis: performance of
+            contract.
+          </li>
+          <li>
+            <strong>Organization &amp; store connections</strong> — your
+            organization name, connected store domains and the API
+            credentials you authorize (encrypted at rest with AES-256-GCM).
+            Legal basis: performance of contract.
+          </li>
+          <li>
+            <strong>Catalog &amp; inventory data</strong> — product titles,
+            SKUs and stock quantities synced from your store, used to run
+            your automations. Legal basis: performance of contract.
+          </li>
+          <li>
+            <strong>Alert &amp; audit logs</strong> — a history of alerts we
+            sent and of sensitive account actions (store connect/disconnect,
+            plan changes, exports, deletion). Legal basis: legitimate
+            interest in security and troubleshooting.
+          </li>
+          <li>
+            <strong>Billing data</strong> — subscription status and Paddle
+            customer/subscription references. Payment details (card numbers,
+            billing address) are collected and stored by Paddle, our
+            Merchant of Record — never by us. Legal basis: performance of
+            contract and legal obligation.
+          </li>
+          <li>
+            <strong>Support correspondence</strong> — emails you send to our
+            support addresses. Legal basis: legitimate interest.
+          </li>
+        </ul>
+
+        <h2>3. What we deliberately do not collect</h2>
+        <ul>
+          <li>
+            <strong>No end-customer personal data from your shop.</strong>{" "}
+            We request read access to products and inventory only — not to
+            your customers. Shopify GDPR webhooks (data request / redact) are
+            acknowledged automatically; there is nothing for us to return or
+            erase.
+          </li>
+          <li>
+            <strong>No analytics or tracking.</strong> The app sets only the
+            essential session cookie required to sign you in. No third-party
+            trackers, no advertising pixels — which is also why there is no
+            cookie banner.
+          </li>
+          <li>
+            <strong>No card data.</strong> Payments run entirely on Paddle.
+          </li>
+        </ul>
+
+        <h2>4. Where your data lives</h2>
         <p>
-          Steadel practices data minimization. We store your account
-          (name, email, Argon2id-hashed password), your organization and
-          store connections (API credentials encrypted with AES-256-GCM),
-          product and inventory data needed for automations, alert history,
-          and an audit log of sensitive actions. We store <strong>no end-customer
-          personal data</strong> from your shop.
+          All application data is stored on servers operated for us by
+          Hetzner Online GmbH in Germany. Encrypted database backups are kept
+          for 14 days. Transactional email is delivered through Brevo (EU
+          processing); open/click tracking on our emails is anonymized.
         </p>
-        <h2>Where it lives</h2>
+
+        <h2>5. Sub-processors</h2>
+        <ul>
+          <li>Hetzner Online GmbH (Germany) — hosting and backups</li>
+          <li>Brevo SAS (France) — transactional email delivery</li>
+          <li>Paddle.com Market Ltd (UK) — payments, tax and invoicing as Merchant of Record</li>
+          <li>Cloudflare, Inc. — DNS and inbound email routing for steadel.com</li>
+        </ul>
         <p>
-          All data is hosted on servers in Germany (Hetzner). We use no
-          third-party analytics or tracking. Payments are processed by
-          Paddle as Merchant of Record; transactional email is delivered by
-          an EU-region SMTP provider.
+          When you connect an integration (Shopify, WooCommerce, Meta), data
+          flows between Steadel and that platform under your instruction;
+          the platform&apos;s own terms and privacy policy apply to it.
         </p>
-        <h2>Your rights</h2>
+
+        <h2>6. Retention</h2>
+        <ul>
+          <li>Account and organization data — for the life of the account.</li>
+          <li>
+            After account deletion — deactivated immediately, permanently
+            erased within 30 days (backups roll off within a further 14
+            days).
+          </li>
+          <li>Alert and audit logs — for the life of the account.</li>
+          <li>
+            Invoices and tax records — retained by Paddle for statutory
+            periods.
+          </li>
+        </ul>
+
+        <h2>7. Your rights</h2>
         <p>
-          Export all your data as JSON or delete your account (30-day full
-          erasure) anytime under Settings → Account. Questions:
-          privacy@steadel.com.
+          Under the GDPR you may access, rectify, export, erase, restrict or
+          object to the processing of your personal data. The two most
+          common requests are self-serve: <strong>Settings → Account →
+          Export my data</strong> (JSON) and <strong>Delete account</strong>{" "}
+          (immediate deactivation, full erasure within 30 days). For
+          anything else email{" "}
+          <a href="mailto:privacy@steadel.com">privacy@steadel.com</a> — we
+          answer within 30 days. You may also lodge a complaint with your
+          local supervisory authority.
         </p>
+
+        <h2>8. Security</h2>
         <p>
-          <strong>TODO-LEGAL:</strong> controller identity, DPO contact,
-          legal bases, retention table, sub-processor list.
+          Third-party credentials are encrypted at rest (AES-256-GCM),
+          passwords are hashed with Argon2id, all traffic uses TLS,
+          authentication endpoints are rate-limited, and sensitive actions
+          are recorded in an audit log.
+        </p>
+
+        <h2>9. Changes</h2>
+        <p>
+          If we make material changes to this policy we will notify you by
+          email at least 14 days before they take effect.
         </p>
       </article>
     </main>
