@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = { title: "Privacy policy" };
 
-// TODO-LEGAL: draft pending lawyer sign-off. Bracketed [...] fields — legal
-// entity, address, EU representative (GDPR art. 27) — must be completed.
+// TODO-LEGAL: lawyer sign-off pending. If a GDPR art. 27 EU representative
+// is appointed, add their identity + contact to section 1.
 
 export default function PrivacyPage() {
   return (
@@ -18,11 +18,13 @@ export default function PrivacyPage() {
 
         <h2>1. Who we are</h2>
         <p>
-          Steadel (&quot;we&quot;, &quot;us&quot;) is operated by{" "}
-          <strong>[LEGAL ENTITY NAME]</strong>, [REGISTERED ADDRESS]. We are
-          the data controller for the personal data described in this policy.
-          Contact: <a href="mailto:privacy@steadel.com">privacy@steadel.com</a>.
-          [EU REPRESENTATIVE PER GDPR ART. 27, IF APPOINTED]
+          Steadel is a product of{" "}
+          <strong>Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti.</strong>, a
+          limited liability company incorporated in Türkiye, registered at
+          İvedik OSB Mah. 1371 Sk. No: 4, Yenimahalle, Ankara, Türkiye
+          (&quot;we&quot;, &quot;us&quot;). We are the data controller for
+          the personal data described in this policy. Contact:{" "}
+          <a href="mailto:privacy@steadel.com">privacy@steadel.com</a>.
         </p>
 
         <h2>2. What we collect and why</h2>

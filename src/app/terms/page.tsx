@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = { title: "Terms of service" };
 
-// TODO-LEGAL: draft pending lawyer sign-off. Bracketed [...] fields — legal
-// entity, address, governing law/jurisdiction — must be completed.
+// TODO-LEGAL: lawyer sign-off pending (entity, governing law and address
+// are filled; review of liability wording still open).
 
 export default function TermsPage() {
   return (
@@ -19,10 +19,13 @@ export default function TermsPage() {
         <h2>1. Agreement</h2>
         <p>
           These terms are a contract between you and{" "}
-          <strong>[LEGAL ENTITY NAME]</strong>, [REGISTERED ADDRESS]
-          (&quot;Steadel&quot;, &quot;we&quot;). By creating an account you
-          accept them. Steadel is a business tool; you confirm you are
-          acting in the course of a trade or business, not as a consumer.
+          <strong>Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti.</strong>,
+          a limited liability company incorporated in Türkiye, registered at
+          İvedik OSB Mah. 1371 Sk. No: 4, Yenimahalle, Ankara, Türkiye
+          (&quot;Steadel&quot;, &quot;we&quot;). Steadel is a product and
+          brand of Parsius. By creating an account you accept these terms.
+          Steadel is a business tool; you confirm you are acting in the
+          course of a trade or business, not as a consumer.
         </p>
 
         <h2>2. The service</h2>
@@ -135,14 +138,16 @@ export default function TermsPage() {
 
         <h2>13. Governing law</h2>
         <p>
-          These terms are governed by the laws of [GOVERNING LAW], and
-          disputes are subject to the exclusive jurisdiction of the courts
-          of [JURISDICTION], without prejudice to mandatory local law.
+          These terms are governed by the laws of the Republic of Türkiye,
+          and disputes are subject to the exclusive jurisdiction of the
+          courts and enforcement offices of Ankara, Türkiye, without
+          prejudice to mandatory local law.
         </p>
 
         <h2>14. Contact</h2>
         <p>
-          [LEGAL ENTITY NAME] · [REGISTERED ADDRESS] ·{" "}
+          Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti. · İvedik OSB
+          Mah. 1371 Sk. No: 4, Yenimahalle, Ankara, Türkiye ·{" "}
           <a href="mailto:support@steadel.com">support@steadel.com</a>
         </p>
       </article>
