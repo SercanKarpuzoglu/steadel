@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steadel — Steady operations for your store</title>
+<meta name="description" content="Stock-aware automation for Shopify and WooCommerce: pause ads when products sell out, get low-stock alerts, receive scheduled reports. EU-hosted, GDPR-first. 14-day free trial.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Steadel — Steady operations for your store">
+<meta property="og:description" content="Stock-aware ads guard, low-stock alerts and scheduled reports for Shopify & WooCommerce. EU-hosted, GDPR-first.">
+<meta property="og:url" content="https://steadel.com">
+<meta property="og:type" content="website">
+<style>
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/fraunces-600.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url('/fonts/inter-var.woff2') format('woff2')}
+:root{
+  --ink:#0f1b2d;--panel:#16263d;--paper:#f5f1e8;--mist:#b9c2cf;
+  --amber:#f0a830;--amber-dark:#d18f1c;--line:#2a3b55;--ink-soft:#47576e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--ink);color:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.6}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;font-size:12px}
+
+header{position:sticky;top:0;background:rgba(15,27,45,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav .brand{color:var(--amber);text-decoration:none}
+.nav nav{display:flex;gap:28px;align-items:center}
+.nav nav a{color:var(--mist);text-decoration:none;font-size:14.5px}
+.nav nav a:hover{color:var(--paper)}
+.btn{display:inline-block;background:var(--amber);color:var(--ink);font-weight:600;text-decoration:none;border-radius:8px;padding:11px 22px;font-size:15px;transition:background .15s}
+.btn:hover{background:var(--amber-dark)}
+.btn-ghost{background:transparent;border:1px solid rgba(185,194,207,.35);color:var(--paper)}
+.btn-ghost:hover{background:transparent;border-color:rgba(185,194,207,.7)}
+
+.hero{padding:96px 0 80px;text-align:center}
+.hero h1{font-size:clamp(34px,5.5vw,58px);max-width:760px;margin:18px auto 0}
+.hero p.sub{color:var(--mist);font-size:clamp(16px,2vw,19px);max-width:600px;margin:22px auto 0}
+.hero .cta{margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero .note{margin-top:14px;color:var(--ink-soft);font-size:13.5px;color:#8a97a8}
+
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.strip .wrap{display:flex;gap:12px 40px;justify-content:center;flex-wrap:wrap;padding:16px 24px;color:var(--mist);font-size:13.5px}
+.strip span::before{content:"✓ ";color:var(--amber)}
+
+section{padding:88px 0}
+.kicker{color:var(--amber)}
+h2.title{font-size:clamp(26px,3.6vw,38px);margin-top:14px;max-width:640px}
+.lead{color:var(--mist);margin-top:16px;max-width:640px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:44px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px}
+.card .ico{font-size:22px}
+.card h3{font-size:20px;margin-top:14px}
+.card p{color:var(--mist);font-size:15px;margin-top:10px}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:44px;counter-reset:step}
+.step{border-left:2px solid var(--amber);padding-left:20px}
+.step::before{counter-increment:step;content:"0" counter(step);font-family:ui-monospace,Menlo,monospace;color:var(--amber);font-size:13px;letter-spacing:.15em}
+.step h3{font-size:18px;margin-top:8px}
+.step p{color:var(--mist);font-size:14.5px;margin-top:8px}
+
+.pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:44px}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:30px;display:flex;flex-direction:column}
+.plan.featured{border-color:var(--amber)}
+.plan .name{font-size:17px;font-weight:600}
+.plan .price{font-family:'Fraunces',Georgia,serif;font-size:40px;margin-top:12px}
+.plan .price small{font-family:'Inter',sans-serif;font-size:14px;color:var(--mist)}
+.plan ul{list-style:none;margin:20px 0 26px;flex:1}
+.plan li{color:var(--mist);font-size:14.5px;padding:5px 0}
+.plan li::before{content:"— ";color:var(--amber)}
+.plan .btn{text-align:center}
+
+.trust .cards p{font-size:14.5px}
+.faq{max-width:720px}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;font-weight:500;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--amber);font-size:20px}
+.faq details[open] summary::after{content:"–"}
+.faq details p{color:var(--mist);margin-top:12px;font-size:15px}
+
+.final{text-align:center;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.final h2{font-size:clamp(26px,3.6vw,38px);max-width:620px;margin:0 auto}
+.final .cta{margin-top:30px}
+
+footer{padding:42px 0;color:#8a97a8;font-size:13.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--mist);text-decoration:none}
+footer a:hover{color:var(--paper)}
+@media (max-width:640px){.nav nav a.hide-sm{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand mono" href="/">Steadel</a>
+    <nav>
+      <a class="hide-sm" href="#features">Features</a>
+      <a class="hide-sm" href="#pricing">Pricing</a>
+      <a class="hide-sm" href="#faq">FAQ</a>
+      <a href="https://app.steadel.com/login">Sign in</a>
+      <a class="btn" href="https://app.steadel.com/signup">Start free trial</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <span class="mono kicker">Stock-aware store automation</span>
+    <h1>Stop paying for ads on products you can't sell.</h1>
+    <p class="sub">Steadel watches your Shopify or WooCommerce inventory and acts before you lose money: it pauses ads when products sell out, warns you before stock runs dry, and reports so you don't have to check.</p>
+    <div class="cta">
+      <a class="btn" href="https://app.steadel.com/signup">Start your 14-day free trial</a>
+      <a class="btn btn-ghost" href="#features">See how it works</a>
+    </div>
+    <p class="note">No credit card required · Set up in under 3 minutes</p>
+  </div>
+
+  <div class="strip">
+    <div class="wrap">
+      <span>EU-hosted in Germany</span>
+      <span>GDPR-first, no tracking</span>
+      <span>Flat pricing</span>
+      <span>Written support, answered by humans</span>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <span class="mono kicker">What Steadel does</span>
+      <h2 class="title">Three quiet automations that guard your margins.</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="ico">⏸️</div>
+          <h3>Stock-aware ads guard</h3>
+          <p>When a tracked product sells out, its linked Meta ad sets are paused automatically — and resumed when it's back in stock. Steadel never touches campaigns a human paused.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🔔</div>
+          <h3>Low-stock alerts</h3>
+          <p>Set a threshold per product or store-wide. The moment inventory crosses it, you get an email (or Slack message) — before the product page goes dark.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📬</div>
+          <h3>Scheduled reports</h3>
+          <p>A calm daily or weekly digest of inventory movement and alerts, delivered to your inbox. Know the state of your store without logging in.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <span class="mono kicker">How it works</span>
+      <h2 class="title">Live in three steps.</h2>
+      <div class="steps">
+        <div class="step">
+          <h3>Connect your store</h3>
+          <p>One-click OAuth for Shopify, API keys for WooCommerce. Read-only access to products and inventory — never your customers.</p>
+        </div>
+        <div class="step">
+          <h3>Pick what to track</h3>
+          <p>Track everything or just your bestsellers, with per-product thresholds.</p>
+        </div>
+        <div class="step">
+          <h3>Let it run</h3>
+          <p>Alerts, ad pauses and reports happen on their own. You'll hear from Steadel exactly when it matters.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust" style="padding-top:0">
+    <div class="wrap">
+      <span class="mono kicker">Built for European stores</span>
+      <h2 class="title">Your data stays in Europe. All of it.</h2>
+      <div class="cards">
+        <div class="card"><h3>EU-hosted</h3><p>Every byte lives on servers in Germany. No US analytics, no tracking pixels, no cookie banner — because there's nothing to consent to.</p></div>
+        <div class="card"><h3>Data minimization</h3><p>We read products and stock levels — never your customers' personal data. Export everything as JSON or delete your account, self-serve, any time.</p></div>
+        <div class="card"><h3>Boring, in a good way</h3><p>Encrypted credentials, audit logs, nightly backups and a written-support-only policy. Steady is the whole point.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" style="padding-top:0">
+    <div class="wrap">
+      <span class="mono kicker">Pricing</span>
+      <h2 class="title">Flat plans. No surprises at the end of the month.</h2>
+      <p class="lead">Every plan starts with a 14-day free trial — no credit card required. VAT handled at checkout by Paddle.</p>
+      <div class="pricing">
+        <div class="plan">
+          <div class="name">Starter</div>
+          <div class="price">€29<small>/month</small></div>
+          <ul>
+            <li>1 store</li>
+            <li>3 automations</li>
+            <li>Email alerts &amp; reports</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://app.steadel.com/signup">Start free trial</a>
+        </div>
+        <div class="plan featured">
+          <div class="name">Growth</div>
+          <div class="price">€59<small>/month</small></div>
+          <ul>
+            <li>3 stores</li>
+            <li>Unlimited automations</li>
+            <li>Slack alerts</li>
+            <li>Public API access</li>
+          </ul>
+          <a class="btn" href="https://app.steadel.com/signup">Start free trial</a>
+        </div>
+        <div class="plan">
+          <div class="name">Agency</div>
+          <div class="price">€119<small>/month</small></div>
+          <ul>
+            <li>10 stores</li>
+            <li>Unlimited automations</li>
+            <li>White-label reports</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://app.steadel.com/signup">Start free trial</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" style="padding-top:0">
+    <div class="wrap">
+      <span class="mono kicker">FAQ</span>
+      <h2 class="title">Fair questions.</h2>
+      <div class="faq">
+        <details>
+          <summary>Which platforms does Steadel support?</summary>
+          <p>Shopify and WooCommerce today. The ads guard connects to Meta (Facebook/Instagram) ads; Google Ads is on the roadmap.</p>
+        </details>
+        <details>
+          <summary>Does Steadel need access to my customers' data?</summary>
+          <p>No. We request read access to products and inventory only. Customer data never reaches our servers — and that's verifiable in the OAuth consent screen when you connect.</p>
+        </details>
+        <details>
+          <summary>What happens when a product is restocked?</summary>
+          <p>Ad sets that Steadel paused are resumed automatically once stock crosses your threshold again. Campaigns paused by a person stay paused — we never override human decisions.</p>
+        </details>
+        <details>
+          <summary>Can I cancel anytime?</summary>
+          <p>Yes, self-serve from the billing page. Access continues until the end of the paid period. You can export all your data as JSON before you go.</p>
+        </details>
+        <details>
+          <summary>How is support handled?</summary>
+          <p>In writing, by e-mail — answered by the people who build Steadel, within one business day. No call centers, no chatbots.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <h2>Give your store a steady hand.</h2>
+      <div class="cta">
+        <a class="btn" href="https://app.steadel.com/signup">Start your 14-day free trial</a>
+      </div>
+      <p class="note" style="margin-top:14px;color:#8a97a8;font-size:13.5px">Set up in minutes. Cancel anytime.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Steadel — a product of Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti.</div>
+    <div style="display:flex;gap:20px">
+      <a href="https://app.steadel.com/privacy">Privacy</a>
+      <a href="https://app.steadel.com/terms">Terms</a>
+      <a href="mailto:support@steadel.com">support@steadel.com</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

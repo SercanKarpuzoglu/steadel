@@ -1,6 +1,22 @@
 # Production Caddyfile — TLS is automatic via Let's Encrypt.
-# Replace the domain if you deploy elsewhere.
 
+# Marketing site (static, served from ./marketing)
+steadel.com {
+	root * /srv/marketing
+	file_server
+	encode gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+	}
+}
+
+www.steadel.com {
+	redir https://steadel.com{uri} permanent
+}
+
+# Application
 app.steadel.com {
 	reverse_proxy app:3000
 	encode gzip
@@ -10,7 +26,7 @@ app.steadel.com {
 	}
 }
 
-# Internal status page (protect before exposing publicly, see docs/setup-guide.md)
-status.steadel.com {
-	reverse_proxy uptime-kuma:3001
-}
+# status.steadel.com (Uptime Kuma) — re-enable once the DNS record exists:
+# status.steadel.com {
+# 	reverse_proxy uptime-kuma:3001
+# }
