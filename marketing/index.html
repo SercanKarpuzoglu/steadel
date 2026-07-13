@@ -10,6 +10,8 @@
 <meta property="og:description" content="Stock-aware ads guard, low-stock alerts and scheduled reports for Shopify & WooCommerce. EU-hosted, GDPR-first.">
 <meta property="og:url" content="https://steadel.com">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://steadel.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 @font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/fraunces-600.woff2') format('woff2')}
 @font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url('/fonts/inter-var.woff2') format('woff2')}
@@ -27,10 +29,13 @@ a{color:inherit}
 
 header{position:sticky;top:0;background:rgba(15,27,45,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
 .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.nav .brand{color:var(--amber);text-decoration:none}
-.nav nav{display:flex;gap:28px;align-items:center}
+.nav .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:20px;color:var(--paper)}
+.nav .brand .dot{color:var(--amber)}
+.nav .brand svg{width:30px;height:30px}
+.nav nav{display:flex;gap:24px;align-items:center}
 .nav nav a{color:var(--mist);text-decoration:none;font-size:14.5px}
 .nav nav a:hover{color:var(--paper)}
+select#lang{background:var(--panel);color:var(--mist);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:13px;font-family:inherit;cursor:pointer}
 .btn{display:inline-block;background:var(--amber);color:var(--ink);font-weight:600;text-decoration:none;border-radius:8px;padding:11px 22px;font-size:15px;transition:background .15s}
 .btn:hover{background:var(--amber-dark)}
 .btn-ghost{background:transparent;border:1px solid rgba(185,194,207,.35);color:var(--paper)}
@@ -40,7 +45,7 @@ header{position:sticky;top:0;background:rgba(15,27,45,.88);backdrop-filter:blur(
 .hero h1{font-size:clamp(34px,5.5vw,58px);max-width:760px;margin:18px auto 0}
 .hero p.sub{color:var(--mist);font-size:clamp(16px,2vw,19px);max-width:600px;margin:22px auto 0}
 .hero .cta{margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.hero .note{margin-top:14px;color:var(--ink-soft);font-size:13.5px;color:#8a97a8}
+.hero .note{margin-top:14px;font-size:13.5px;color:#8a97a8}
 
 .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
 .strip .wrap{display:flex;gap:12px 40px;justify-content:center;flex-wrap:wrap;padding:16px 24px;color:var(--mist);font-size:13.5px}
@@ -85,69 +90,77 @@ h2.title{font-size:clamp(26px,3.6vw,38px);margin-top:14px;max-width:640px}
 .final{text-align:center;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .final h2{font-size:clamp(26px,3.6vw,38px);max-width:620px;margin:0 auto}
 .final .cta{margin-top:30px}
+.final .note{margin-top:14px;color:#8a97a8;font-size:13.5px}
 
 footer{padding:42px 0;color:#8a97a8;font-size:13.5px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 footer a{color:var(--mist);text-decoration:none}
 footer a:hover{color:var(--paper)}
-@media (max-width:640px){.nav nav a.hide-sm{display:none}}
+@media (max-width:720px){.nav nav a.hide-sm{display:none}}
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
-    <a class="brand mono" href="/">Steadel</a>
+    <a class="brand" href="/">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#16263d" stroke="#2a3b55"/><path d="M42.5 22.5c-1.8-3.4-5.6-5.5-10.2-5.5-6.2 0-10.8 3.6-10.8 8.7 0 4.4 3 6.9 8.6 8.2l4.4 1c3.4.8 4.9 2 4.9 4.3 0 2.8-2.8 4.8-6.8 4.8-4 0-6.9-1.8-7.7-4.8" fill="none" stroke="#f0a830" stroke-width="5" stroke-linecap="round"/></svg>
+      steadel<span class="dot">.</span>
+    </a>
     <nav>
-      <a class="hide-sm" href="#features">Features</a>
-      <a class="hide-sm" href="#pricing">Pricing</a>
-      <a class="hide-sm" href="#faq">FAQ</a>
-      <a href="https://app.steadel.com/login">Sign in</a>
-      <a class="btn" href="https://app.steadel.com/signup">Start free trial</a>
+      <a class="hide-sm" href="#features" data-i18n="nav.features">Features</a>
+      <a class="hide-sm" href="#pricing" data-i18n="nav.pricing">Pricing</a>
+      <a class="hide-sm" href="#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="https://app.steadel.com/login" data-i18n="nav.signin">Sign in</a>
+      <a class="btn" href="https://app.steadel.com/signup" data-i18n="nav.cta">Start free trial</a>
+      <select id="lang" aria-label="Language" onchange="setLang(this.value)">
+        <option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option>
+        <option value="es">ES</option><option value="it">IT</option><option value="nl">NL</option>
+      </select>
     </nav>
   </div>
 </header>
 
 <main>
   <div class="wrap hero">
-    <span class="mono kicker">Stock-aware store automation</span>
-    <h1>Stop paying for ads on products you can't sell.</h1>
-    <p class="sub">Steadel watches your Shopify or WooCommerce inventory and acts before you lose money: it pauses ads when products sell out, warns you before stock runs dry, and reports so you don't have to check.</p>
+    <span class="mono kicker" data-i18n="hero.kicker">Stock-aware store automation</span>
+    <h1 data-i18n="hero.h1">Stop paying for ads on products you can't sell.</h1>
+    <p class="sub" data-i18n="hero.sub">Steadel watches your Shopify or WooCommerce inventory and acts before you lose money: it pauses ads when products sell out, warns you before stock runs dry, and reports so you don't have to check.</p>
     <div class="cta">
-      <a class="btn" href="https://app.steadel.com/signup">Start your 14-day free trial</a>
-      <a class="btn btn-ghost" href="#features">See how it works</a>
+      <a class="btn" href="https://app.steadel.com/signup" data-i18n="hero.cta1">Start your 14-day free trial</a>
+      <a class="btn btn-ghost" href="#features" data-i18n="hero.cta2">See how it works</a>
     </div>
-    <p class="note">No credit card required · Set up in under 3 minutes</p>
+    <p class="note" data-i18n="hero.note">No credit card required · Set up in under 3 minutes</p>
   </div>
 
   <div class="strip">
     <div class="wrap">
-      <span>EU-hosted in Germany</span>
-      <span>GDPR-first, no tracking</span>
-      <span>Flat pricing</span>
-      <span>Written support, answered by humans</span>
+      <span data-i18n="strip.1">EU-hosted in Germany</span>
+      <span data-i18n="strip.2">GDPR-first, no tracking</span>
+      <span data-i18n="strip.3">Flat pricing</span>
+      <span data-i18n="strip.4">Written support, answered by humans</span>
     </div>
   </div>
 
   <section id="features">
     <div class="wrap">
-      <span class="mono kicker">What Steadel does</span>
-      <h2 class="title">Three quiet automations that guard your margins.</h2>
+      <span class="mono kicker" data-i18n="feat.kicker">What Steadel does</span>
+      <h2 class="title" data-i18n="feat.title">Three quiet automations that guard your margins.</h2>
       <div class="cards">
         <div class="card">
           <div class="ico">⏸️</div>
-          <h3>Stock-aware ads guard</h3>
-          <p>When a tracked product sells out, its linked Meta ad sets are paused automatically — and resumed when it's back in stock. Steadel never touches campaigns a human paused.</p>
+          <h3 data-i18n="feat.1.h">Stock-aware ads guard</h3>
+          <p data-i18n="feat.1.p">When a tracked product sells out, its linked Meta ad sets are paused automatically — and resumed when it's back in stock. Steadel never touches campaigns a human paused.</p>
         </div>
         <div class="card">
           <div class="ico">🔔</div>
-          <h3>Low-stock alerts</h3>
-          <p>Set a threshold per product or store-wide. The moment inventory crosses it, you get an email (or Slack message) — before the product page goes dark.</p>
+          <h3 data-i18n="feat.2.h">Low-stock alerts</h3>
+          <p data-i18n="feat.2.p">Set a threshold per product or store-wide. The moment inventory crosses it, you get an email (or Slack message) — before the product page goes dark.</p>
         </div>
         <div class="card">
           <div class="ico">📬</div>
-          <h3>Scheduled reports</h3>
-          <p>A calm daily or weekly digest of inventory movement and alerts, delivered to your inbox. Know the state of your store without logging in.</p>
+          <h3 data-i18n="feat.3.h">Scheduled reports</h3>
+          <p data-i18n="feat.3.p">A calm daily or weekly digest of inventory movement and alerts, delivered to your inbox. Know the state of your store without logging in.</p>
         </div>
       </div>
     </div>
@@ -155,20 +168,20 @@ footer a:hover{color:var(--paper)}
 
   <section style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker">How it works</span>
-      <h2 class="title">Live in three steps.</h2>
+      <span class="mono kicker" data-i18n="how.kicker">How it works</span>
+      <h2 class="title" data-i18n="how.title">Live in three steps.</h2>
       <div class="steps">
         <div class="step">
-          <h3>Connect your store</h3>
-          <p>One-click OAuth for Shopify, API keys for WooCommerce. Read-only access to products and inventory — never your customers.</p>
+          <h3 data-i18n="how.1.h">Connect your store</h3>
+          <p data-i18n="how.1.p">One-click OAuth for Shopify, API keys for WooCommerce. Read-only access to products and inventory — never your customers.</p>
         </div>
         <div class="step">
-          <h3>Pick what to track</h3>
-          <p>Track everything or just your bestsellers, with per-product thresholds.</p>
+          <h3 data-i18n="how.2.h">Pick what to track</h3>
+          <p data-i18n="how.2.p">Track everything or just your bestsellers, with per-product thresholds.</p>
         </div>
         <div class="step">
-          <h3>Let it run</h3>
-          <p>Alerts, ad pauses and reports happen on their own. You'll hear from Steadel exactly when it matters.</p>
+          <h3 data-i18n="how.3.h">Let it run</h3>
+          <p data-i18n="how.3.p">Alerts, ad pauses and reports happen on their own. You'll hear from Steadel exactly when it matters.</p>
         </div>
       </div>
     </div>
@@ -176,52 +189,52 @@ footer a:hover{color:var(--paper)}
 
   <section class="trust" style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker">Built for European stores</span>
-      <h2 class="title">Your data stays in Europe. All of it.</h2>
+      <span class="mono kicker" data-i18n="trust.kicker">Built for European stores</span>
+      <h2 class="title" data-i18n="trust.title">Your data stays in Europe. All of it.</h2>
       <div class="cards">
-        <div class="card"><h3>EU-hosted</h3><p>Every byte lives on servers in Germany. No US analytics, no tracking pixels, no cookie banner — because there's nothing to consent to.</p></div>
-        <div class="card"><h3>Data minimization</h3><p>We read products and stock levels — never your customers' personal data. Export everything as JSON or delete your account, self-serve, any time.</p></div>
-        <div class="card"><h3>Boring, in a good way</h3><p>Encrypted credentials, audit logs, nightly backups and a written-support-only policy. Steady is the whole point.</p></div>
+        <div class="card"><h3 data-i18n="trust.1.h">EU-hosted</h3><p data-i18n="trust.1.p">Every byte lives on servers in Germany. No US analytics, no tracking pixels, no cookie banner — because there's nothing to consent to.</p></div>
+        <div class="card"><h3 data-i18n="trust.2.h">Data minimization</h3><p data-i18n="trust.2.p">We read products and stock levels — never your customers' personal data. Export everything as JSON or delete your account, self-serve, any time.</p></div>
+        <div class="card"><h3 data-i18n="trust.3.h">Boring, in a good way</h3><p data-i18n="trust.3.p">Encrypted credentials, audit logs, nightly backups and a written-support-only policy. Steady is the whole point.</p></div>
       </div>
     </div>
   </section>
 
   <section id="pricing" style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker">Pricing</span>
-      <h2 class="title">Flat plans. No surprises at the end of the month.</h2>
-      <p class="lead">Every plan starts with a 14-day free trial — no credit card required. VAT handled at checkout by Paddle.</p>
+      <span class="mono kicker" data-i18n="price.kicker">Pricing</span>
+      <h2 class="title" data-i18n="price.title">Flat plans. No surprises at the end of the month.</h2>
+      <p class="lead" data-i18n="price.lead">Every plan starts with a 14-day free trial — no credit card required. VAT handled at checkout by Paddle.</p>
       <div class="pricing">
         <div class="plan">
           <div class="name">Starter</div>
-          <div class="price">€29<small>/month</small></div>
+          <div class="price">€29<small data-i18n="price.month">/month</small></div>
           <ul>
-            <li>1 store</li>
-            <li>3 automations</li>
-            <li>Email alerts &amp; reports</li>
+            <li data-i18n="price.starter.1">1 store</li>
+            <li data-i18n="price.starter.2">3 automations</li>
+            <li data-i18n="price.starter.3">Email alerts &amp; reports</li>
           </ul>
-          <a class="btn btn-ghost" href="https://app.steadel.com/signup">Start free trial</a>
+          <a class="btn btn-ghost" href="https://app.steadel.com/signup" data-i18n="price.btn">Start free trial</a>
         </div>
         <div class="plan featured">
           <div class="name">Growth</div>
-          <div class="price">€59<small>/month</small></div>
+          <div class="price">€59<small data-i18n="price.month">/month</small></div>
           <ul>
-            <li>3 stores</li>
-            <li>Unlimited automations</li>
-            <li>Slack alerts</li>
-            <li>Public API access</li>
+            <li data-i18n="price.growth.1">3 stores</li>
+            <li data-i18n="price.growth.2">Unlimited automations</li>
+            <li data-i18n="price.growth.3">Slack alerts</li>
+            <li data-i18n="price.growth.4">Public API access</li>
           </ul>
-          <a class="btn" href="https://app.steadel.com/signup">Start free trial</a>
+          <a class="btn" href="https://app.steadel.com/signup" data-i18n="price.btn">Start free trial</a>
         </div>
         <div class="plan">
           <div class="name">Agency</div>
-          <div class="price">€119<small>/month</small></div>
+          <div class="price">€119<small data-i18n="price.month">/month</small></div>
           <ul>
-            <li>10 stores</li>
-            <li>Unlimited automations</li>
-            <li>White-label reports</li>
+            <li data-i18n="price.agency.1">10 stores</li>
+            <li data-i18n="price.agency.2">Unlimited automations</li>
+            <li data-i18n="price.agency.3">White-label reports</li>
           </ul>
-          <a class="btn btn-ghost" href="https://app.steadel.com/signup">Start free trial</a>
+          <a class="btn btn-ghost" href="https://app.steadel.com/signup" data-i18n="price.btn">Start free trial</a>
         </div>
       </div>
     </div>
@@ -229,28 +242,28 @@ footer a:hover{color:var(--paper)}
 
   <section id="faq" style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker">FAQ</span>
-      <h2 class="title">Fair questions.</h2>
+      <span class="mono kicker" data-i18n="faq.kicker">FAQ</span>
+      <h2 class="title" data-i18n="faq.title">Fair questions.</h2>
       <div class="faq">
         <details>
-          <summary>Which platforms does Steadel support?</summary>
-          <p>Shopify and WooCommerce today. The ads guard connects to Meta (Facebook/Instagram) ads; Google Ads is on the roadmap.</p>
+          <summary data-i18n="faq.1.q">Which platforms does Steadel support?</summary>
+          <p data-i18n="faq.1.a">Shopify and WooCommerce today. The ads guard connects to Meta (Facebook/Instagram) ads; Google Ads is on the roadmap.</p>
         </details>
         <details>
-          <summary>Does Steadel need access to my customers' data?</summary>
-          <p>No. We request read access to products and inventory only. Customer data never reaches our servers — and that's verifiable in the OAuth consent screen when you connect.</p>
+          <summary data-i18n="faq.2.q">Does Steadel need access to my customers' data?</summary>
+          <p data-i18n="faq.2.a">No. We request read access to products and inventory only. Customer data never reaches our servers — and that's verifiable in the OAuth consent screen when you connect.</p>
         </details>
         <details>
-          <summary>What happens when a product is restocked?</summary>
-          <p>Ad sets that Steadel paused are resumed automatically once stock crosses your threshold again. Campaigns paused by a person stay paused — we never override human decisions.</p>
+          <summary data-i18n="faq.3.q">What happens when a product is restocked?</summary>
+          <p data-i18n="faq.3.a">Ad sets that Steadel paused are resumed automatically once stock crosses your threshold again. Campaigns paused by a person stay paused — we never override human decisions.</p>
         </details>
         <details>
-          <summary>Can I cancel anytime?</summary>
-          <p>Yes, self-serve from the billing page. Access continues until the end of the paid period. You can export all your data as JSON before you go.</p>
+          <summary data-i18n="faq.4.q">Can I cancel anytime?</summary>
+          <p data-i18n="faq.4.a">Yes, self-serve from the billing page. Access continues until the end of the paid period. You can export all your data as JSON before you go.</p>
         </details>
         <details>
-          <summary>How is support handled?</summary>
-          <p>In writing, by e-mail — answered by the people who build Steadel, within one business day. No call centers, no chatbots.</p>
+          <summary data-i18n="faq.5.q">How is support handled?</summary>
+          <p data-i18n="faq.5.a">In writing, by e-mail — answered by the people who build Steadel, within one business day. No call centers, no chatbots.</p>
         </details>
       </div>
     </div>
@@ -258,11 +271,11 @@ footer a:hover{color:var(--paper)}
 
   <section class="final">
     <div class="wrap">
-      <h2>Give your store a steady hand.</h2>
+      <h2 data-i18n="final.h2">Give your store a steady hand.</h2>
       <div class="cta">
-        <a class="btn" href="https://app.steadel.com/signup">Start your 14-day free trial</a>
+        <a class="btn" href="https://app.steadel.com/signup" data-i18n="final.cta">Start your 14-day free trial</a>
       </div>
-      <p class="note" style="margin-top:14px;color:#8a97a8;font-size:13.5px">Set up in minutes. Cancel anytime.</p>
+      <p class="note" data-i18n="final.note">Set up in minutes. Cancel anytime.</p>
     </div>
   </section>
 </main>
@@ -271,12 +284,13 @@ footer a:hover{color:var(--paper)}
   <div class="wrap">
     <div>© 2026 Steadel — a product of Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti.</div>
     <div style="display:flex;gap:20px">
-      <a href="https://app.steadel.com/privacy">Privacy</a>
-      <a href="https://app.steadel.com/terms">Terms</a>
+      <a href="https://app.steadel.com/privacy" data-i18n="footer.privacy">Privacy</a>
+      <a href="https://app.steadel.com/terms" data-i18n="footer.terms">Terms</a>
       <a href="mailto:support@steadel.com">support@steadel.com</a>
     </div>
   </div>
 </footer>
 
+<script src="/i18n.js"></script>
 </body>
 </html>
