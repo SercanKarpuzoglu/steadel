@@ -22,6 +22,16 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--ink);color:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.6}
+/* print-grain texture (brandkit: halftone/grain detail, kept whisper-quiet) */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* motion system — principle 6 (slow in/out): one easing for everything */
+:root{--ease-steady:cubic-bezier(.22,1,.36,1)}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease-steady),transform .7s var(--ease-steady)}
+.reveal.in{opacity:1;transform:none}
+.cards .reveal:nth-child(2),.steps .reveal:nth-child(2),.pricing .reveal:nth-child(2){transition-delay:.09s}
+.cards .reveal:nth-child(3),.steps .reveal:nth-child(3),.pricing .reveal:nth-child(3){transition-delay:.18s}
+@media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
 h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15}
 a{color:inherit}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
@@ -36,8 +46,9 @@ header{position:sticky;top:0;background:rgba(15,27,45,.88);backdrop-filter:blur(
 .nav nav a{color:var(--mist);text-decoration:none;font-size:14.5px}
 .nav nav a:hover{color:var(--paper)}
 select#lang{background:var(--panel);color:var(--mist);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:13px;font-family:inherit;cursor:pointer}
-.btn{display:inline-block;background:var(--amber);color:var(--ink);font-weight:600;text-decoration:none;border-radius:8px;padding:11px 22px;font-size:15px;transition:background .15s}
-.btn:hover{background:var(--amber-dark)}
+.btn{display:inline-block;background:var(--amber);color:var(--ink);font-weight:600;text-decoration:none;border-radius:8px;padding:11px 22px;font-size:15px;transition:background .2s var(--ease-steady),transform .2s var(--ease-steady),box-shadow .2s var(--ease-steady)}
+.btn:hover{background:var(--amber-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(240,168,48,.18)}
+.btn:active{transform:translateY(0) scale(.98)}
 .btn-ghost{background:transparent;border:1px solid rgba(185,194,207,.35);color:var(--paper)}
 .btn-ghost:hover{background:transparent;border-color:rgba(185,194,207,.7)}
 
@@ -53,11 +64,14 @@ select#lang{background:var(--panel);color:var(--mist);border:1px solid var(--lin
 
 section{padding:88px 0}
 .kicker{color:var(--amber)}
+.knum{font-family:ui-monospace,'SF Mono',Menlo,monospace;color:#8a97a8;font-size:12px;letter-spacing:.18em;margin-right:14px}
+.knum::after{content:" /";color:var(--line)}
 h2.title{font-size:clamp(26px,3.6vw,38px);margin-top:14px;max-width:640px}
 .lead{color:var(--mist);margin-top:16px;max-width:640px}
 
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:44px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px;transition:transform .3s var(--ease-steady),border-color .3s var(--ease-steady)}
+.card:hover{transform:translateY(-3px);border-color:rgba(240,168,48,.45)}
 .card .ico{font-size:22px}
 .card h3{font-size:20px;margin-top:14px}
 .card p{color:var(--mist);font-size:15px;margin-top:10px}
@@ -104,7 +118,7 @@ footer a:hover{color:var(--paper)}
 <header>
   <div class="wrap nav">
     <a class="brand" href="/">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#16263d" stroke="#2a3b55"/><path d="M42.5 22.5c-1.8-3.4-5.6-5.5-10.2-5.5-6.2 0-10.8 3.6-10.8 8.7 0 4.4 3 6.9 8.6 8.2l4.4 1c3.4.8 4.9 2 4.9 4.3 0 2.8-2.8 4.8-6.8 4.8-4 0-6.9-1.8-7.7-4.8" fill="none" stroke="#f0a830" stroke-width="5" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#16263d" stroke="#2a3b55"/><path d="M46 18 H28 Q20 18 20 25 Q20 32 28 32 H36 Q44 32 44 39 Q44 46 36 46 H18" fill="none" stroke="#f0a830" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       steadel<span class="dot">.</span>
     </a>
     <nav>
@@ -144,20 +158,20 @@ footer a:hover{color:var(--paper)}
 
   <section id="features">
     <div class="wrap">
-      <span class="mono kicker" data-i18n="feat.kicker">What Steadel does</span>
-      <h2 class="title" data-i18n="feat.title">Three quiet automations that guard your margins.</h2>
+      <span class="mono kicker"><span class="knum">01</span><span data-i18n="feat.kicker">What Steadel does</span></span>
+      <h2 class="title reveal" data-i18n="feat.title">Three quiet automations that guard your margins.</h2>
       <div class="cards">
-        <div class="card">
+        <div class="card reveal">
           <div class="ico">⏸️</div>
           <h3 data-i18n="feat.1.h">Stock-aware ads guard</h3>
           <p data-i18n="feat.1.p">When a tracked product sells out, its linked Meta ad sets are paused automatically — and resumed when it's back in stock. Steadel never touches campaigns a human paused.</p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <div class="ico">🔔</div>
           <h3 data-i18n="feat.2.h">Low-stock alerts</h3>
           <p data-i18n="feat.2.p">Set a threshold per product or store-wide. The moment inventory crosses it, you get an email (or Slack message) — before the product page goes dark.</p>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <div class="ico">📬</div>
           <h3 data-i18n="feat.3.h">Scheduled reports</h3>
           <p data-i18n="feat.3.p">A calm daily or weekly digest of inventory movement and alerts, delivered to your inbox. Know the state of your store without logging in.</p>
@@ -168,18 +182,18 @@ footer a:hover{color:var(--paper)}
 
   <section style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker" data-i18n="how.kicker">How it works</span>
-      <h2 class="title" data-i18n="how.title">Live in three steps.</h2>
+      <span class="mono kicker"><span class="knum">02</span><span data-i18n="how.kicker">How it works</span></span>
+      <h2 class="title reveal" data-i18n="how.title">Live in three steps.</h2>
       <div class="steps">
-        <div class="step">
+        <div class="step reveal">
           <h3 data-i18n="how.1.h">Connect your store</h3>
           <p data-i18n="how.1.p">One-click OAuth for Shopify, API keys for WooCommerce. Read-only access to products and inventory — never your customers.</p>
         </div>
-        <div class="step">
+        <div class="step reveal">
           <h3 data-i18n="how.2.h">Pick what to track</h3>
           <p data-i18n="how.2.p">Track everything or just your bestsellers, with per-product thresholds.</p>
         </div>
-        <div class="step">
+        <div class="step reveal">
           <h3 data-i18n="how.3.h">Let it run</h3>
           <p data-i18n="how.3.p">Alerts, ad pauses and reports happen on their own. You'll hear from Steadel exactly when it matters.</p>
         </div>
@@ -189,23 +203,23 @@ footer a:hover{color:var(--paper)}
 
   <section class="trust" style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker" data-i18n="trust.kicker">Built for European stores</span>
-      <h2 class="title" data-i18n="trust.title">Your data stays in Europe. All of it.</h2>
+      <span class="mono kicker"><span class="knum">03</span><span data-i18n="trust.kicker">Built for European stores</span></span>
+      <h2 class="title reveal" data-i18n="trust.title">Your data stays in Europe. All of it.</h2>
       <div class="cards">
-        <div class="card"><h3 data-i18n="trust.1.h">EU-hosted</h3><p data-i18n="trust.1.p">Every byte lives on servers in Germany. No US analytics, no tracking pixels, no cookie banner — because there's nothing to consent to.</p></div>
-        <div class="card"><h3 data-i18n="trust.2.h">Data minimization</h3><p data-i18n="trust.2.p">We read products and stock levels — never your customers' personal data. Export everything as JSON or delete your account, self-serve, any time.</p></div>
-        <div class="card"><h3 data-i18n="trust.3.h">Boring, in a good way</h3><p data-i18n="trust.3.p">Encrypted credentials, audit logs, nightly backups and a written-support-only policy. Steady is the whole point.</p></div>
+        <div class="card reveal"><h3 data-i18n="trust.1.h">EU-hosted</h3><p data-i18n="trust.1.p">Every byte lives on servers in Germany. No US analytics, no tracking pixels, no cookie banner — because there's nothing to consent to.</p></div>
+        <div class="card reveal"><h3 data-i18n="trust.2.h">Data minimization</h3><p data-i18n="trust.2.p">We read products and stock levels — never your customers' personal data. Export everything as JSON or delete your account, self-serve, any time.</p></div>
+        <div class="card reveal"><h3 data-i18n="trust.3.h">Boring, in a good way</h3><p data-i18n="trust.3.p">Encrypted credentials, audit logs, nightly backups and a written-support-only policy. Steady is the whole point.</p></div>
       </div>
     </div>
   </section>
 
   <section id="pricing" style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker" data-i18n="price.kicker">Pricing</span>
-      <h2 class="title" data-i18n="price.title">Flat plans. No surprises at the end of the month.</h2>
+      <span class="mono kicker"><span class="knum">04</span><span data-i18n="price.kicker">Pricing</span></span>
+      <h2 class="title reveal" data-i18n="price.title">Flat plans. No surprises at the end of the month.</h2>
       <p class="lead" data-i18n="price.lead">Every plan starts with a 14-day free trial — no credit card required. VAT handled at checkout by Paddle.</p>
       <div class="pricing">
-        <div class="plan">
+        <div class="plan reveal">
           <div class="name">Starter</div>
           <div class="price">€29<small data-i18n="price.month">/month</small></div>
           <ul>
@@ -215,7 +229,7 @@ footer a:hover{color:var(--paper)}
           </ul>
           <a class="btn btn-ghost" href="https://app.steadel.com/signup" data-i18n="price.btn">Start free trial</a>
         </div>
-        <div class="plan featured">
+        <div class="plan featured reveal">
           <div class="name">Growth</div>
           <div class="price">€59<small data-i18n="price.month">/month</small></div>
           <ul>
@@ -226,7 +240,7 @@ footer a:hover{color:var(--paper)}
           </ul>
           <a class="btn" href="https://app.steadel.com/signup" data-i18n="price.btn">Start free trial</a>
         </div>
-        <div class="plan">
+        <div class="plan reveal">
           <div class="name">Agency</div>
           <div class="price">€119<small data-i18n="price.month">/month</small></div>
           <ul>
@@ -242,8 +256,8 @@ footer a:hover{color:var(--paper)}
 
   <section id="faq" style="padding-top:0">
     <div class="wrap">
-      <span class="mono kicker" data-i18n="faq.kicker">FAQ</span>
-      <h2 class="title" data-i18n="faq.title">Fair questions.</h2>
+      <span class="mono kicker"><span class="knum">05</span><span data-i18n="faq.kicker">FAQ</span></span>
+      <h2 class="title reveal" data-i18n="faq.title">Fair questions.</h2>
       <div class="faq">
         <details>
           <summary data-i18n="faq.1.q">Which platforms does Steadel support?</summary>
@@ -292,5 +306,19 @@ footer a:hover{color:var(--paper)}
 </footer>
 
 <script src="/i18n.js"></script>
+<script>
+(function(){
+  var els = document.querySelectorAll(".reveal");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    els.forEach(function(e){ e.classList.add("in"); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
 </body>
 </html>
