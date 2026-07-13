@@ -16,13 +16,14 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 
 | # | Task | Owner | Status |
 |---|---|---|---|
-| 6 | **Brand identity** — logo mark + wordmark SVGs (dark/light), brand guide, OG image, favicon | Claude | ✅ 2026-07-13 (brand/) |
-| 7 | **Shopify app icon** — generated at brand/dist/shopify-app-icon.png | Sercan | 🔶 upload: dev.shopify.com → Steadel → Ayarlar → Simge yükle |
+| 6 | **Brand identity** — brandkit-skill redesign: level-line S mark, strategy+motion guide, all assets | Claude | ✅ v2 2026-07-13 |
+| 7 | **Shopify app icon** — regenerated with NEW mark at brand/dist/shopify-app-icon.png | Sercan | 🔶 upload: dev.shopify.com → Steadel → Ayarlar → Simge yükle |
 | 8 | **UI/UX polish pass** — empty states, mobile responsiveness sweep, onboarding flow review, error message tone | Claude | ⬜ |
 | 9 | **Color/theme consistency audit** — contrast (a11y), light app theme + dark auth theme coherence | Claude | ⬜ |
 | 10 | Real screenshots for user-guide.md placeholders + /help | Claude | ⬜ after #8 |
 
 | 10b | **Landing i18n** — EN/DE/FR/ES/IT/NL, browser-language auto-detect + switcher | Claude | ✅ live 2026-07-13 |
+| 10c | **Landing motion & editorial pass** — scroll reveals, micro-interactions, numbered labels, grain | Claude | ✅ live 2026-07-13 |
 
 ## P2 — Operations & growth
 
