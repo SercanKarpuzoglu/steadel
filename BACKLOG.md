@@ -17,7 +17,7 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 | # | Task | Owner | Status |
 |---|---|---|---|
 | 6 | **Brand identity** — brandkit-skill redesign: level-line S mark, strategy+motion guide, all assets | Claude | ✅ v2 2026-07-13 |
-| 7 | **Shopify app icon** — regenerated with NEW mark at brand/dist/shopify-app-icon.png | Sercan | 🔶 upload: dev.shopify.com → Steadel → Ayarlar → Simge yükle |
+| 7 | **Shopify app icon** — new level-line mark uploaded to dev dashboard | Sercan | ✅ 2026-07-13 |
 | 8 | **UI/UX polish pass** — empty states, mobile responsiveness sweep, onboarding flow review, error message tone | Claude | ⬜ |
 | 9 | **Color/theme consistency audit** — contrast (a11y), light app theme + dark auth theme coherence | Claude | ⬜ |
 | 10 | Real screenshots for user-guide.md placeholders + /help | Claude | ⬜ after #8 |
