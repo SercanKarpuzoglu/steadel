@@ -1,6 +1,6 @@
 # Steadel — Go-to-Market Backlog
 
-Priority-ordered. Updated 2026-07-13.
+Priority-ordered. Updated 2026-07-13 (landing page live).
 
 ## P0 — Critical path to first sale
 
@@ -8,7 +8,7 @@ Priority-ordered. Updated 2026-07-13.
 |---|---|---|---|
 | 1 | **Paddle live activation** — business verification + payout bank details | Sercan | 🔶 in progress ("Verify your account") |
 | 2 | **Paddle live catalog** — products/prices (qty-locked), webhook, payment link via API | Claude | ⬜ waiting on live API key + client token |
-| 3 | **Landing page at steadel.com** — product story, pricing, CTA → app.steadel.com/signup. Root domain currently has NO site; Paddle reviewers and customers will look | Claude | ⬜ |
+| 3 | **Landing page at steadel.com** — hero, features, EU trust, pricing, FAQ; self-hosted fonts (no Google CDN); www→root redirect | Claude | ✅ live 2026-07-13 |
 | 4 | **Production switch + real payment test** — PADDLE_ENV=production after approval, one live card test + refund | Both | ⬜ blocked by #1 |
 | 5 | Lawyer sign-off (GDPR art. 27 EU rep, liability wording) + accountant confirmation (Paddle e-fatura, KDV exemption, %80 export deduction) | Sercan | ⬜ external |
 
