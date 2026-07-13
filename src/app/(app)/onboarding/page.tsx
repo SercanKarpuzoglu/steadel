@@ -91,7 +91,7 @@ export default async function OnboardingPage() {
               <form action={onboardingConnectMockAction} className="mt-3">
                 <button
                   type="submit"
-                  className="cursor-pointer text-sm text-amber-dark hover:underline"
+                  className="cursor-pointer text-sm text-amber-text hover:underline"
                 >
                   …or connect a demo store to explore
                 </button>

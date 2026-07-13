@@ -25,7 +25,7 @@ export default async function HelpPage({
         answer? Email{" "}
         <a
           href="mailto:support@steadel.com"
-          className="text-amber-dark hover:underline"
+          className="text-amber-text hover:underline"
         >
           support@steadel.com
         </a>
@@ -58,7 +58,7 @@ export default async function HelpPage({
                 <li key={hit.slug}>
                   <Link
                     href={`/help/${hit.slug}`}
-                    className="font-medium text-amber-dark hover:underline"
+                    className="font-medium text-amber-text hover:underline"
                   >
                     {hit.title}
                   </Link>

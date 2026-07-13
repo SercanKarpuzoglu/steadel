@@ -85,7 +85,7 @@ export default async function StoresPage({
             <form action={connectMockStoreAction} className="mt-3">
               <button
                 type="submit"
-                className="cursor-pointer text-sm text-amber-dark hover:underline"
+                className="cursor-pointer text-sm text-amber-text hover:underline"
               >
                 …or connect a demo store (mock data)
               </button>
@@ -97,9 +97,12 @@ export default async function StoresPage({
       <Card>
         <CardTitle>Your stores</CardTitle>
         {orgStores.length === 0 ? (
-          <p className="mt-3 text-sm text-ink-soft">
-            No stores connected yet.
-          </p>
+          <div className="mt-6 flex flex-col items-center gap-3 py-8 text-center">
+            <p className="text-sm text-ink-soft">
+              No stores connected yet — connect your first store above and
+              your products will appear here within a minute.
+            </p>
+          </div>
         ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full text-sm">

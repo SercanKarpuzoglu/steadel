@@ -78,7 +78,7 @@ export default async function AutomationsPage() {
             No automations yet.{" "}
             {orgStores.length === 0 ? (
               <>
-                <Link href="/stores" className="text-amber-dark hover:underline">
+                <Link href="/stores" className="text-amber-text hover:underline">
                   Connect a store
                 </Link>{" "}
                 first, then create your first rule.
@@ -86,7 +86,7 @@ export default async function AutomationsPage() {
             ) : (
               <Link
                 href="/automations/new"
-                className="text-amber-dark hover:underline"
+                className="text-amber-text hover:underline"
               >
                 Create your first rule.
               </Link>

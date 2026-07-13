@@ -60,7 +60,7 @@ export default async function OrgSettingsPage() {
             <>
               Bearer-token access to <span className="font-mono">/api/v1</span>{" "}
               (60 req/min). See the{" "}
-              <Link href="/help/api" className="text-amber-dark hover:underline">
+              <Link href="/help/api" className="text-amber-text hover:underline">
                 API reference
               </Link>
               .

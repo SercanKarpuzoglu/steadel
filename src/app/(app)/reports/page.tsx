@@ -94,7 +94,7 @@ export default async function ReportsPage() {
         <Card>
           <CardTitle>No data yet</CardTitle>
           <CardDescription>
-            <Link href="/stores" className="text-amber-dark hover:underline">
+            <Link href="/stores" className="text-amber-text hover:underline">
               Connect a store
             </Link>{" "}
             to see inventory and alert reports here.

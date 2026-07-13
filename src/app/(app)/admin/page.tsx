@@ -105,7 +105,7 @@ export default async function AdminPage() {
                           <input type="hidden" name="id" value={entry.id} />
                           <button
                             type="submit"
-                            className="cursor-pointer text-xs text-amber-dark hover:underline"
+                            className="cursor-pointer text-xs text-amber-text hover:underline"
                           >
                             Retry sync
                           </button>

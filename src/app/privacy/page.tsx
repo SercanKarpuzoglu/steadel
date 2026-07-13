@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Privacy policy" };
 export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
-      <Link href="/" className="font-mono text-xs tracking-widest text-amber-dark uppercase">
+      <Link href="/" className="font-mono text-xs tracking-widest text-amber-text uppercase">
         Steadel
       </Link>
       <article className="doc-content mt-6">

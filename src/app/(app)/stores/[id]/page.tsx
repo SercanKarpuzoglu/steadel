@@ -120,7 +120,7 @@ export default async function StoreDetailPage({
               <input type="hidden" name="tracked" value="true" />
               <button
                 type="submit"
-                className="cursor-pointer text-sm text-amber-dark hover:underline"
+                className="cursor-pointer text-sm text-amber-text hover:underline"
               >
                 Track all
               </button>
@@ -193,7 +193,7 @@ export default async function StoreDetailPage({
                           ? "font-semibold text-red-700"
                           : product.thresholdQty != null &&
                               product.inventoryQty <= product.thresholdQty
-                            ? "font-semibold text-amber-dark"
+                            ? "font-semibold text-amber-text"
                             : ""
                       }
                     >

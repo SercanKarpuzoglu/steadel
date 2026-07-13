@@ -114,7 +114,7 @@ export default async function DashboardPage() {
         </Card>
       )}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 [&>*:nth-child(1)]:rise [&>*:nth-child(2)]:rise [&>*:nth-child(2)]:rise-1 [&>*:nth-child(3)]:rise [&>*:nth-child(3)]:rise-2 [&>*:nth-child(4)]:rise [&>*:nth-child(4)]:rise-3">
         {cards.map((card) => (
           <Link key={card.label} href={card.href}>
             <Card className="transition hover:border-amber/60">
@@ -134,9 +134,22 @@ export default async function DashboardPage() {
           Low-stock warnings, ads-guard actions and report deliveries.
         </CardDescription>
         {recentAlerts.length === 0 ? (
-          <p className="mt-4 text-sm text-ink-soft">
-            No alerts yet. Connect a store and set up your first automation.
-          </p>
+          <div className="mt-6 flex flex-col items-center gap-3 py-8 text-center">
+            <svg viewBox="0 0 64 64" className="h-10 w-10 opacity-40" aria-hidden="true">
+              <rect width="64" height="64" rx="14" fill="#16263d" />
+              <path d="M46 18 H28 Q20 18 20 25 Q20 32 28 32 H36 Q44 32 44 39 Q44 46 36 46 H18" fill="none" stroke="#f0a830" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="text-sm text-ink-soft">
+              All quiet — no alerts yet. They&apos;ll appear here the moment
+              something needs your attention.
+            </p>
+            <Link
+              href="/automations"
+              className="rounded-md bg-amber px-4 py-2 text-sm font-medium text-ink transition hover:bg-amber-dark"
+            >
+              Set up an automation
+            </Link>
+          </div>
         ) : (
           <ul className="mt-4 divide-y divide-line">
             {recentAlerts.map((alert) => (

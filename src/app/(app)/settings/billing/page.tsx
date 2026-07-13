@@ -141,7 +141,7 @@ export default async function BillingPage() {
               </ul>
               <div className="mt-4">
                 {isCurrent ? (
-                  <p className="text-center font-mono text-xs tracking-wide text-amber-dark uppercase">
+                  <p className="text-center font-mono text-xs tracking-wide text-amber-text uppercase">
                     Current plan
                   </p>
                 ) : !enabled ? (
@@ -214,7 +214,7 @@ export default async function BillingPage() {
                           href={t.invoiceUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-amber-dark hover:underline"
+                          className="text-amber-text hover:underline"
                         >
                           PDF
                         </a>

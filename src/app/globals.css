@@ -8,6 +8,8 @@
   --color-mist: #b9c2cf;
   --color-amber: #f0a830;
   --color-amber-dark: #d18f1c;
+  /* text-safe accent on light surfaces (WCAG AA 5.3:1 on paper) */
+  --color-amber-text: #8a5a00;
 
   /* Light theme surfaces derived from tokens */
   --color-paper-soft: #efe9dc;
@@ -66,3 +68,18 @@ h1, h2, h3, h4 {
 .doc-content th, .doc-content td { border: 1px solid var(--color-line); padding: 0.45rem 0.7rem; text-align: left; }
 .doc-content th { background: var(--color-paper-soft); font-weight: 600; }
 .doc-content blockquote { border-left: 3px solid var(--color-amber); padding-left: 1rem; margin: 0.75rem 0; }
+
+/* Motion (animation principles 6+9): one slow-out curve, short stagger.
+   Entire block gated on no-preference so reduced-motion users see static UI. */
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .rise-1 { animation-delay: 0.05s }
+  .rise-2 { animation-delay: 0.11s }
+  .rise-3 { animation-delay: 0.17s }
+  .rise-4 { animation-delay: 0.23s }
+  @keyframes rise { to { opacity: 1; transform: none } }
+}

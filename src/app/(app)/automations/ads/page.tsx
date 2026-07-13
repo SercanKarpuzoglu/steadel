@@ -79,7 +79,7 @@ export default async function AdsGuardPage({
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <h1 className="text-3xl font-semibold">Ads guard</h1>
-        <span className="rounded bg-amber/20 px-2 py-0.5 font-mono text-xs tracking-wide text-amber-dark uppercase">
+        <span className="rounded bg-amber/20 px-2 py-0.5 font-mono text-xs tracking-wide text-amber-text uppercase">
           Beta
         </span>
       </div>
@@ -128,7 +128,7 @@ export default async function AdsGuardPage({
             <CardTitle>Link a product to an ad set</CardTitle>
             <CardDescription>
               Only tracked products can guard ads.{" "}
-              <Link href="/stores" className="text-amber-dark hover:underline">
+              <Link href="/stores" className="text-amber-text hover:underline">
                 Manage tracking
               </Link>
             </CardDescription>

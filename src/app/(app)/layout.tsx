@@ -2,6 +2,9 @@ import Link from "next/link";
 import { requireOrg, isAdminEmail } from "@/lib/org";
 import { isTrialExpired } from "@/lib/plans";
 import { signOut } from "@/lib/auth";
+import { Logo, LogoMark } from "@/components/logo";
+import { MobileNav, type NavItem } from "@/components/mobile-nav";
+import { NavLink } from "@/components/nav-link";
 
 function TrialBanner({
   plan,
@@ -20,7 +23,7 @@ function TrialBanner({
     );
     return (
       <div
-        className={`mb-6 flex items-center justify-between rounded-md border px-4 py-2.5 text-sm ${
+        className={`mb-6 flex items-center justify-between gap-3 rounded-md border px-4 py-2.5 text-sm ${
           expired
             ? "border-red-300 bg-red-50 text-red-800"
             : "border-amber/50 bg-amber/10 text-ink"
@@ -33,7 +36,7 @@ function TrialBanner({
         </span>
         <Link
           href="/settings/billing"
-          className="shrink-0 font-medium text-amber-dark hover:underline"
+          className="shrink-0 font-medium text-amber-text hover:underline"
         >
           Choose a plan →
         </Link>
@@ -42,7 +45,7 @@ function TrialBanner({
   }
   if (subscriptionStatus === "canceled") {
     return (
-      <div className="mb-6 flex items-center justify-between rounded-md border border-red-300 bg-red-50 px-4 py-2.5 text-sm text-red-800">
+      <div className="mb-6 flex items-center justify-between gap-3 rounded-md border border-red-300 bg-red-50 px-4 py-2.5 text-sm text-red-800">
         <span>Your subscription is canceled — reactivate to keep automating.</span>
         <Link
           href="/settings/billing"
@@ -56,12 +59,12 @@ function TrialBanner({
   return null;
 }
 
-const NAV = [
+const NAV: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/stores", label: "Stores" },
   { href: "/automations", label: "Automations" },
   { href: "/reports", label: "Reports" },
-  { href: "/settings/organization", label: "Settings" },
+  { href: "/settings/organization", label: "Settings", match: "/settings" },
   { href: "/help", label: "Help" },
 ];
 
@@ -69,46 +72,53 @@ export default async function AppLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { user, org } = await requireOrg();
+  const admin = isAdminEmail(user.email);
+
+  async function signOutAction() {
+    "use server";
+    await signOut({ redirectTo: "/login" });
+  }
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="flex w-60 shrink-0 flex-col border-r border-line bg-paper-soft">
+    <div className="flex min-h-screen flex-col md:flex-row">
+      {/* Mobile top bar */}
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-line bg-paper-soft/95 px-4 py-3 backdrop-blur md:hidden">
+        <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5">
+          <LogoMark className="h-8 w-8 shrink-0" />
+          <span className="truncate text-sm font-medium text-ink">{org.name}</span>
+        </Link>
+        <MobileNav
+          items={NAV}
+          isAdmin={admin}
+          orgName={org.name}
+          userEmail={user.email}
+          signOutAction={signOutAction}
+        />
+      </header>
+
+      {/* Desktop sidebar */}
+      <aside className="hidden w-60 shrink-0 flex-col border-r border-line bg-paper-soft md:flex">
         <div className="px-5 py-6">
-          <Link
-            href="/dashboard"
-            className="font-mono text-sm tracking-widest text-ink uppercase"
-          >
-            Steadel
+          <Link href="/dashboard">
+            <Logo />
           </Link>
-          <p className="mt-1 truncate text-xs text-ink-soft">{org.name}</p>
+          <p className="mt-2 truncate text-xs text-ink-soft">{org.name}</p>
         </div>
         <nav className="flex-1 space-y-1 px-3">
           {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block rounded-md px-3 py-2 text-sm text-ink-soft transition hover:bg-white/70 hover:text-ink"
-            >
+            <NavLink key={item.href} href={item.href} match={item.match}>
               {item.label}
-            </Link>
+            </NavLink>
           ))}
-          {isAdminEmail(user.email) && (
-            <Link
-              href="/admin"
-              className="block rounded-md px-3 py-2 font-mono text-xs tracking-wide text-amber-dark uppercase transition hover:bg-white/70"
-            >
+          {admin && (
+            <NavLink href="/admin" className="font-mono text-xs tracking-wide uppercase">
               Admin
-            </Link>
+            </NavLink>
           )}
         </nav>
         <div className="border-t border-line px-5 py-4">
           <p className="truncate text-xs text-ink-soft">{user.email}</p>
-          <form
-            action={async () => {
-              "use server";
-              await signOut({ redirectTo: "/login" });
-            }}
-          >
+          <form action={signOutAction}>
             <button
               type="submit"
               className="mt-2 cursor-pointer text-xs text-ink-soft underline-offset-2 hover:underline"
@@ -118,7 +128,8 @@ export default async function AppLayout({
           </form>
         </div>
       </aside>
-      <main className="min-w-0 flex-1 px-8 py-8">
+
+      <main className="min-w-0 flex-1 px-4 py-6 md:px-8 md:py-8">
         <TrialBanner
           plan={org.plan}
           trialEndsAt={org.trialEndsAt}
