@@ -16,11 +16,13 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 
 | # | Task | Owner | Status |
 |---|---|---|---|
-| 6 | **Brand identity** — logo, favicon, email header logo, OG image (currently text-only wordmark) | Claude (+Sercan approval) | ⬜ |
-| 7 | **Shopify app icon** (1200×1200 PNG) — shown on OAuth/consent screen; empty today | Claude | ⬜ needs #6 |
+| 6 | **Brand identity** — logo mark + wordmark SVGs (dark/light), brand guide, OG image, favicon | Claude | ✅ 2026-07-13 (brand/) |
+| 7 | **Shopify app icon** — generated at brand/dist/shopify-app-icon.png | Sercan | 🔶 upload: dev.shopify.com → Steadel → Ayarlar → Simge yükle |
 | 8 | **UI/UX polish pass** — empty states, mobile responsiveness sweep, onboarding flow review, error message tone | Claude | ⬜ |
 | 9 | **Color/theme consistency audit** — contrast (a11y), light app theme + dark auth theme coherence | Claude | ⬜ |
 | 10 | Real screenshots for user-guide.md placeholders + /help | Claude | ⬜ after #8 |
+
+| 10b | **Landing i18n** — EN/DE/FR/ES/IT/NL, browser-language auto-detect + switcher | Claude | ✅ live 2026-07-13 |
 
 ## P2 — Operations & growth
 
