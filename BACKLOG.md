@@ -18,9 +18,9 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 |---|---|---|---|
 | 6 | **Brand identity** — brandkit-skill redesign: level-line S mark, strategy+motion guide, all assets | Claude | ✅ v2 2026-07-13 |
 | 7 | **Shopify app icon** — new level-line mark uploaded to dev dashboard | Sercan | ✅ 2026-07-13 |
-| 8 | **UI/UX polish pass** — empty states, mobile sweep, onboarding review, error tone; tools ready: ui-ux-pro-max + framer-motion + brandkit skills | Claude | ⬜ |
-| 9 | **Color/theme consistency audit** — contrast (a11y), light app theme + dark auth theme coherence | Claude | ⬜ |
-| 10 | Real screenshots for user-guide.md placeholders + /help | Claude | ⬜ after #8 |
+| 8 | **UI/UX polish pass** — responsive shell + drawer nav, active nav state, brand mark + favicon, empty states, onboarding progress bar, motion, focus rings; error tone audited (already good) | Claude | ✅ 2026-07-13 |
+| 9 | **Contrast audit** — all token pairs computed; amber-dark links failed AA (2.4:1) → new amber-text token (5.3:1) | Claude | ✅ 2026-07-13 |
+| 10 | Screenshots for user-guide placeholders — both are WooCommerce admin screens → depends on #13 (Woo e2e test) | Both | ⬜ blocked by #13 |
 
 | 10b | **Landing i18n** — EN/DE/FR/ES/IT/NL, browser-language auto-detect + switcher | Claude | ✅ live 2026-07-13 |
 | 10c | **Landing motion & editorial pass** — scroll reveals, micro-interactions, numbered labels, grain | Claude | ✅ live 2026-07-13 |

@@ -42,6 +42,7 @@ export default async function OnboardingPage() {
   const step1Done = orgStores.length > 0;
   const step2Done = trackedCount.value > 0;
   const step3Done = alertRules.length > 0;
+  const doneCount = [step1Done, step2Done, step3Done].filter(Boolean).length;
   const firstStore = orgStores[0];
   const mockEnabled =
     process.env.MOCK_STORE_PROVIDER === "1" || !process.env.SHOPIFY_API_KEY;
@@ -53,9 +54,18 @@ export default async function OnboardingPage() {
         <p className="mt-1 text-sm text-ink-soft">
           Three steps and your stock is watched around the clock.
         </p>
+        <div className="mt-4 flex items-center gap-2" aria-label={`${doneCount} of 3 steps complete`}>
+          {[step1Done, step2Done, step3Done].map((done, i) => (
+            <span
+              key={i}
+              className={`h-1.5 flex-1 rounded-full transition-colors ${done ? "bg-amber" : "bg-line"}`}
+            />
+          ))}
+          <span className="ml-2 font-mono text-xs text-ink-soft">{doneCount}/3</span>
+        </div>
       </div>
 
-      <Card className={step1Done ? "opacity-70" : ""}>
+      <Card className={`rise ${step1Done ? "opacity-70" : ""}`}>
         <CardTitle>
           {step1Done ? "✓ " : "1. "}Connect your store
         </CardTitle>
@@ -101,7 +111,7 @@ export default async function OnboardingPage() {
         )}
       </Card>
 
-      <Card className={!step1Done ? "opacity-50" : step2Done ? "opacity-70" : ""}>
+      <Card className={`rise rise-1 ${!step1Done ? "opacity-50" : step2Done ? "opacity-70" : ""}`}>
         <CardTitle>
           {step2Done ? "✓ " : "2. "}Pick tracked products
         </CardTitle>
@@ -138,7 +148,7 @@ export default async function OnboardingPage() {
         )}
       </Card>
 
-      <Card className={!step2Done ? "opacity-50" : step3Done ? "opacity-70" : ""}>
+      <Card className={`rise rise-2 ${!step2Done ? "opacity-50" : step3Done ? "opacity-70" : ""}`}>
         <CardTitle>
           {step3Done ? "✓ " : "3. "}Set your first automation
         </CardTitle>
