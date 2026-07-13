@@ -18,7 +18,7 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 |---|---|---|---|
 | 6 | **Brand identity** — brandkit-skill redesign: level-line S mark, strategy+motion guide, all assets | Claude | ✅ v2 2026-07-13 |
 | 7 | **Shopify app icon** — new level-line mark uploaded to dev dashboard | Sercan | ✅ 2026-07-13 |
-| 8 | **UI/UX polish pass** — empty states, mobile responsiveness sweep, onboarding flow review, error message tone | Claude | ⬜ |
+| 8 | **UI/UX polish pass** — empty states, mobile sweep, onboarding review, error tone; tools ready: ui-ux-pro-max + framer-motion + brandkit skills | Claude | ⬜ |
 | 9 | **Color/theme consistency audit** — contrast (a11y), light app theme + dark auth theme coherence | Claude | ⬜ |
 | 10 | Real screenshots for user-guide.md placeholders + /help | Claude | ⬜ after #8 |
 
