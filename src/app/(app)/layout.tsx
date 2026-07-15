@@ -5,6 +5,7 @@ import { signOut } from "@/lib/auth";
 import { Logo, LogoMark } from "@/components/logo";
 import { MobileNav, type NavItem } from "@/components/mobile-nav";
 import { NavLink } from "@/components/nav-link";
+import { NavIcon } from "@/components/nav-icon";
 
 function TrialBanner({
   plan,
@@ -60,12 +61,12 @@ function TrialBanner({
 }
 
 const NAV: NavItem[] = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/stores", label: "Stores" },
-  { href: "/automations", label: "Automations" },
-  { href: "/reports", label: "Reports" },
-  { href: "/settings/organization", label: "Settings", match: "/settings" },
-  { href: "/help", label: "Help" },
+  { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
+  { href: "/stores", label: "Stores", icon: "stores" },
+  { href: "/automations", label: "Automations", icon: "automations" },
+  { href: "/reports", label: "Reports", icon: "reports" },
+  { href: "/settings/organization", label: "Settings", match: "/settings", icon: "settings" },
+  { href: "/help", label: "Help", icon: "help" },
 ];
 
 export default async function AppLayout({
@@ -107,12 +108,18 @@ export default async function AppLayout({
         <nav className="flex-1 space-y-1 px-3">
           {NAV.map((item) => (
             <NavLink key={item.href} href={item.href} match={item.match}>
-              {item.label}
+              <span className="flex items-center gap-2.5">
+                <NavIcon name={item.icon} />
+                {item.label}
+              </span>
             </NavLink>
           ))}
           {admin && (
             <NavLink href="/admin" className="font-mono text-xs tracking-wide uppercase">
-              Admin
+              <span className="flex items-center gap-2.5">
+                <NavIcon name="admin" />
+                Admin
+              </span>
             </NavLink>
           )}
         </nav>

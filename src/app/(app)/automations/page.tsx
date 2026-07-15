@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { stores } from "@/db/schema";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { requireOrg } from "@/lib/org";
+import { Megaphone, Plus } from "lucide-react";
 import {
   listAutomationRules,
   lowStockConfigSchema,
@@ -54,14 +55,16 @@ export default async function AutomationsPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/automations/ads"
-            className="flex h-10 items-center rounded-md border border-line bg-white/60 px-4 text-sm font-medium hover:bg-white"
+            className="flex h-10 items-center gap-2 rounded-md border border-line bg-white/60 px-4 text-sm font-medium hover:bg-white"
           >
+            <Megaphone className="h-4 w-4" aria-hidden="true" />
             Ads guard
           </Link>
           <Link
             href="/automations/new"
-            className="flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+            className="flex h-10 items-center gap-2 rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
           >
+            <Plus className="h-4 w-4" aria-hidden="true" />
             New automation
           </Link>
         </div>

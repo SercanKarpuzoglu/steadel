@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { NavLink } from "./nav-link";
+import { NavIcon, type NavIconName } from "./nav-icon";
 
 export interface NavItem {
   href: string;
   label: string;
   match?: string;
+  icon: NavIconName;
 }
 
 export function MobileNav({
@@ -67,12 +69,18 @@ export function MobileNav({
             <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
               {items.map((item) => (
                 <NavLink key={item.href} href={item.href} match={item.match}>
-                  {item.label}
+                  <span className="flex items-center gap-2.5">
+                    <NavIcon name={item.icon} />
+                    {item.label}
+                  </span>
                 </NavLink>
               ))}
               {isAdmin && (
                 <NavLink href="/admin" className="font-mono text-xs tracking-wide uppercase">
-                  Admin
+                  <span className="flex items-center gap-2.5">
+                    <NavIcon name="admin" />
+                    Admin
+                  </span>
                 </NavLink>
               )}
             </nav>

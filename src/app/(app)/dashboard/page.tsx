@@ -5,6 +5,8 @@ import { db } from "@/db";
 import { adLinks, alertsLog, products, stores } from "@/db/schema";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { requireOrg } from "@/lib/org";
+import { CirclePause, PackageSearch, PackageX, Store } from "lucide-react";
+import { AlertTypeIcon } from "@/components/nav-icon";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
@@ -64,24 +66,28 @@ export default async function DashboardPage() {
 
   const cards = [
     {
+      icon: Store,
       label: "Stores",
       value: orgStores.length,
       detail: `${orgStores.filter((s) => s.status === "connected").length} connected`,
       href: "/stores",
     },
     {
+      icon: PackageSearch,
       label: "Tracked products",
       value: trackedCount.value,
       detail: "inventory watched",
       href: "/stores",
     },
     {
+      icon: PackageX,
       label: "Out of stock",
       value: outOfStock.value,
       detail: "tracked products at zero",
       href: "/stores",
     },
     {
+      icon: CirclePause,
       label: "Ads paused by Steadel",
       value: pausedAds.value,
       detail: "will resume on restock",
@@ -118,7 +124,8 @@ export default async function DashboardPage() {
         {cards.map((card) => (
           <Link key={card.label} href={card.href}>
             <Card className="transition hover:border-amber/60">
-              <p className="font-mono text-xs tracking-wide text-ink-soft uppercase">
+              <p className="flex items-center gap-2 font-mono text-xs tracking-wide text-ink-soft uppercase">
+                <card.icon className="h-4 w-4 text-amber-text" aria-hidden="true" />
                 {card.label}
               </p>
               <p className="mt-2 text-3xl font-semibold">{card.value}</p>
@@ -154,6 +161,7 @@ export default async function DashboardPage() {
           <ul className="mt-4 divide-y divide-line">
             {recentAlerts.map((alert) => (
               <li key={alert.id} className="flex items-center gap-3 py-2.5">
+                <AlertTypeIcon type={alert.type} />
                 <span className="rounded bg-paper-soft px-2 py-0.5 font-mono text-xs">
                   {alert.type}
                 </span>
