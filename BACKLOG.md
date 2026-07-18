@@ -30,7 +30,7 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 | # | Task | Owner | Status |
 |---|---|---|---|
 | 11 | **Meta app application** — Marketing API access review (weeks-long; file early, ads guard stays Beta/mock meanwhile) | Both | ⬜ |
-| 12 | Uptime Kuma monitors + status.steadel.com DNS record | Both | ⬜ |
+| 12 | Uptime Kuma: 4 monitors (app/landing/pg/redis), Brevo email alerts, public status page at status.steadel.com | Both | ✅ 2026-07-19 |
 | 13 | WooCommerce end-to-end test with a real store (Shopify-grade verification) | Both | ⬜ |
 | 14 | Storage Box offsite backup (script already supports BACKUP_SCP_TARGET) | Sercan decision | ⏸ deferred |
 
