@@ -19,7 +19,7 @@ export default function TermsPage() {
         <h2>1. Agreement</h2>
         <p>
           These terms are a contract between you and{" "}
-          <strong>Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti.</strong>,
+          <strong>Parsius Bilisim Dan. Arge Tic. ve San. Ltd. Sti.</strong>,
           a limited liability company incorporated in Türkiye, registered at
           İvedik OSB Mah. 1371 Sk. No: 4, Yenimahalle, Ankara, Türkiye
           (&quot;Steadel&quot;, &quot;we&quot;). Steadel is a product and
@@ -146,7 +146,7 @@ export default function TermsPage() {
 
         <h2>14. Contact</h2>
         <p>
-          Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti. · İvedik OSB
+          Parsius Bilisim Dan. Arge Tic. ve San. Ltd. Sti. · İvedik OSB
           Mah. 1371 Sk. No: 4, Yenimahalle, Ankara, Türkiye ·{" "}
           <a href="mailto:support@steadel.com">support@steadel.com</a>
         </p>

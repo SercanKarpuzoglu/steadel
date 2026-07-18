@@ -13,48 +13,38 @@ export default function RefundsPage() {
         <h1>Refund policy</h1>
         <p>Last updated: 18 July 2026</p>
 
-        <h2>The short version</h2>
+        <h2>How refunds work</h2>
         <p>
-          Try Steadel free for 14 days first — no card required — so you
-          never have to pay to find out whether it fits. After that,
-          subscriptions are monthly and can be cancelled anytime; and if we
-          charged you when we shouldn&apos;t have, we refund it.
+          All Steadel purchases are processed by{" "}
+          <strong>Paddle.com Market Ltd</strong>, our Merchant of Record.
+          Refunds are handled in line with{" "}
+          <a href="https://www.paddle.com/legal/invoiced-consumer-terms">
+            Paddle&apos;s refund policy
+          </a>
+          .
+        </p>
+        <p>
+          You can request a full refund within <strong>14 days of
+          purchase</strong> — email{" "}
+          <a href="mailto:support@steadel.com">support@steadel.com</a> from
+          your account email, or use the link on your Paddle receipt.
+          Refunds are returned to the original payment method, typically
+          within 5–10 business days.
         </p>
 
         <h2>Cancellations</h2>
         <p>
-          Cancel self-serve in Settings → Billing. Access continues to the
-          end of the paid period; no further charges are made. We do not
-          issue pro-rata refunds for the unused remainder of a billing
-          month.
-        </p>
-
-        <h2>When we refund</h2>
-        <ul>
-          <li>Duplicate or accidental charges — refunded in full.</li>
-          <li>
-            Billing after you cancelled (our or our payment provider&apos;s
-            error) — refunded in full.
-          </li>
-          <li>
-            A technical fault on our side made the service unusable for a
-            substantial part of the billing period — contact us and
-            we&apos;ll make it right, up to a full refund of that period.
-          </li>
-        </ul>
-        <p>
-          Request a refund within 14 days of the charge by emailing{" "}
-          <a href="mailto:support@steadel.com">support@steadel.com</a> from
-          your account email. Refunds are processed by Paddle, our Merchant
-          of Record, back to the original payment method (typically 5–10
-          business days).
+          You can cancel your subscription at any time, self-serve, in
+          Settings → Billing. Access continues to the end of the paid
+          period and no further charges are made. And before any of this
+          matters: every plan starts with a 14-day free trial, no card
+          required.
         </p>
 
         <h2>Statutory rights</h2>
         <p>
-          Steadel is a business tool sold B2B. Nothing in this policy limits
-          rights you cannot waive under mandatory law, or Paddle&apos;s own
-          buyer terms shown at checkout.
+          Nothing in this policy limits rights you hold under mandatory
+          law, or the terms Paddle presents at checkout.
         </p>
 
         <p>

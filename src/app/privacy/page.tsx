@@ -19,7 +19,7 @@ export default function PrivacyPage() {
         <h2>1. Who we are</h2>
         <p>
           Steadel is a product of{" "}
-          <strong>Parsius Bilişim Dan. Arge Tic. ve San. Ltd. Şti.</strong>, a
+          <strong>Parsius Bilisim Dan. Arge Tic. ve San. Ltd. Sti.</strong>, a
           limited liability company incorporated in Türkiye, registered at
           İvedik OSB Mah. 1371 Sk. No: 4, Yenimahalle, Ankara, Türkiye
           (&quot;we&quot;, &quot;us&quot;). We are the data controller for
