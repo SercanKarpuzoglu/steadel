@@ -83,7 +83,8 @@ export default async function HelpPage({
 
       <p className="text-xs text-ink-soft">
         Legal: <Link href="/privacy" className="hover:underline">Privacy policy</Link>{" "}
-        · <Link href="/terms" className="hover:underline">Terms of service</Link>
+        · <Link href="/terms" className="hover:underline">Terms of service</Link>{" "}
+        · <Link href="/refunds" className="hover:underline">Refund policy</Link>
       </p>
     </div>
   );
