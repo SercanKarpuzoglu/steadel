@@ -26,7 +26,6 @@ app.steadel.com {
 	}
 }
 
-# status.steadel.com (Uptime Kuma) — re-enable once the DNS record exists:
-# status.steadel.com {
-# 	reverse_proxy uptime-kuma:3001
-# }
+status.steadel.com {
+	reverse_proxy uptime-kuma:3001
+}
