@@ -24,11 +24,13 @@ keys once:
 
 1. In your WordPress admin, go to **WooCommerce → Settings → Advanced →
    REST API** and click **Add key**.
-   *(screenshot placeholder: woo-rest-api-settings.png)*
+
+   ![WooCommerce REST API keys settings](/docs-images/woo-rest-api-settings.png)
 2. Description: `Steadel`. Permissions: **Read** is sufficient.
 3. Click **Generate API key** and copy the **Consumer key** (`ck_…`) and
    **Consumer secret** (`cs_…`). The secret is shown only once.
-   *(screenshot placeholder: woo-key-generated.png)*
+
+   ![Creating a WooCommerce API key for Steadel](/docs-images/woo-key-generated.png)
 4. In Steadel, open **Stores**, fill in your site URL (https required) and
    both keys, then click **Connect WooCommerce**.
 

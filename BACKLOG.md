@@ -20,7 +20,7 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 | 7 | **Shopify app icon** — new level-line mark uploaded to dev dashboard | Sercan | ✅ 2026-07-13 |
 | 8 | **UI/UX polish pass** — responsive shell + drawer nav, active nav state, brand mark + favicon, empty states, onboarding progress bar, motion, focus rings; error tone audited (already good) | Claude | ✅ 2026-07-13 |
 | 9 | **Contrast audit** — all token pairs computed; amber-dark links failed AA (2.4:1) → new amber-text token (5.3:1) | Claude | ✅ 2026-07-13 |
-| 10 | Screenshots for user-guide placeholders — both are WooCommerce admin screens → depends on #13 (Woo e2e test) | Both | ⬜ blocked by #13 |
+| 10 | user-guide screenshots — real WooCommerce REST-API + key-create screens captured, embedded via /docs-images | Claude | ✅ 2026-07-20 |
 
 | 10b | **Landing i18n** — EN/DE/FR/ES/IT/NL, browser-language auto-detect + switcher | Claude | ✅ live 2026-07-13 |
 | 10c | **Landing motion & editorial pass** — scroll reveals, micro-interactions, numbered labels, grain | Claude | ✅ live 2026-07-13 |
@@ -31,7 +31,7 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 |---|---|---|---|
 | 11 | **Meta app application** — Marketing API access review | Sercan | ⏸ deferred 2026-07-20 (blocked: Facebook developer-account access issue). NOT on critical path — ads guard runs on MockMetaProvider/Beta; alerts + reports work without it. Revisit post-launch. |
 | 12 | Uptime Kuma: 4 monitors (app/landing/pg/redis), Brevo email alerts, public status page at status.steadel.com | Both | ✅ 2026-07-19 |
-| 13 | WooCommerce end-to-end test with a real store (Shopify-grade verification) | Both | ⬜ |
+| 13 | WooCommerce e2e — real store (WP+Woo on server), REST sync of 5 products, tracked→rule→stock change→low_stock+out_of_stock emails verified in inbox | Claude | ✅ 2026-07-20 |
 | 14 | Storage Box offsite backup (script already supports BACKUP_SCP_TARGET) | Sercan decision | ⏸ deferred |
 
 ## P3 — Later
