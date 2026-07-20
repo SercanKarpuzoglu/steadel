@@ -8,6 +8,13 @@ import { requireOrg } from "@/lib/org";
 import { CirclePause, PackageSearch, PackageX, Store } from "lucide-react";
 import { AlertTypeIcon } from "@/components/nav-icon";
 
+const ALERT_LABELS: Record<string, string> = {
+  out_of_stock: "Out of stock",
+  low_stock: "Low stock",
+  ads_guard: "Ads guard",
+  scheduled_report: "Report",
+};
+
 export const metadata: Metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
@@ -162,8 +169,8 @@ export default async function DashboardPage() {
             {recentAlerts.map((alert) => (
               <li key={alert.id} className="flex items-center gap-3 py-2.5">
                 <AlertTypeIcon type={alert.type} />
-                <span className="rounded bg-paper-soft px-2 py-0.5 font-mono text-xs">
-                  {alert.type}
+                <span className="shrink-0 rounded bg-paper-soft px-2 py-0.5 text-xs text-ink-soft">
+                  {ALERT_LABELS[alert.type] ?? alert.type}
                 </span>
                 <span className="min-w-0 flex-1 truncate text-sm text-ink-soft">
                   {String(

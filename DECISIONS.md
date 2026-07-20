@@ -159,3 +159,11 @@ working option and document it.
     app version without a Shopify approval request. Core features never
     needed it; /reports sales charts stay dormant until it is granted and
     re-added to `SHOPIFY_SCOPES`.
+
+44. **Reports charts are hand-rolled inline SVG, not Recharts.** Recharts 3
+    calls `eval`/`new Function` at render time, which the app's strict CSP
+    (no `'unsafe-eval'`, SPEC §8) blocks — charts rendered blank in
+    production. Rather than weaken the CSP for every script on the page, the
+    two simple charts (daily alert bars, lowest-stock horizontal bars) are
+    dependency-free SVG: CSP-clean, theme-token-styled, no client JS, and one
+    fewer heavy dependency. Found during the pre-launch UI review.
