@@ -33,6 +33,7 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 | 12 | Uptime Kuma: 4 monitors (app/landing/pg/redis), Brevo email alerts, public status page at status.steadel.com | Both | ✅ 2026-07-19 |
 | 13 | WooCommerce e2e — real store (WP+Woo on server), REST sync of 5 products, tracked→rule→stock change→low_stock+out_of_stock emails verified in inbox | Claude | ✅ 2026-07-20 |
 | 14 | Storage Box offsite backup (script already supports BACKUP_SCP_TARGET) | Sercan decision | ⏸ deferred |
+| 13b | **TEARDOWN woo-test env** — WP stack `/opt/woo-test` (docker compose down -v), Caddy woo-test route, Steadel test store (woo-test.steadel.com on owner org), Cloudflare `woo-test` A record. Kept intentionally for now (Sercan wants to keep it a bit); REMIND to remove before launch. | Both | ⏸ pending removal |
 
 ## P3 — Later
 
