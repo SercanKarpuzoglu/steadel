@@ -169,7 +169,7 @@ export default async function DashboardPage() {
             {recentAlerts.map((alert) => (
               <li key={alert.id} className="flex items-center gap-3 py-2.5">
                 <AlertTypeIcon type={alert.type} />
-                <span className="shrink-0 rounded bg-paper-soft px-2 py-0.5 text-xs text-ink-soft">
+                <span className="hidden shrink-0 rounded bg-paper-soft px-2 py-0.5 text-xs text-ink-soft sm:inline-block">
                   {ALERT_LABELS[alert.type] ?? alert.type}
                 </span>
                 <span className="min-w-0 flex-1 truncate text-sm text-ink-soft">
