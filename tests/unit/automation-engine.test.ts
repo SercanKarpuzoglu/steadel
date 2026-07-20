@@ -10,14 +10,22 @@ describe("evaluateLowStock", () => {
       evaluateLowStock({ ...base, oldQty: 10, newQty: 5 }, 5),
     ).toEqual({ alert: true, threshold: 5 });
     expect(
-      evaluateLowStock({ ...base, oldQty: 1, newQty: 0 }, 5),
-    ).toMatchObject({ alert: false }); // 1 was already ≤ 5 — no re-alert
-    expect(
       evaluateLowStock({ ...base, oldQty: 6, newQty: 0 }, 5),
     ).toMatchObject({ alert: true });
   });
 
-  it("does not alert while stock stays below the threshold", () => {
+  it("alerts when an already-low product goes out of stock", () => {
+    // Regression: 3 → 0 was silently missed while the ads guard still paused
+    // the ad set. Going to zero from any positive level must alert.
+    expect(
+      evaluateLowStock({ ...base, oldQty: 3, newQty: 0 }, 5),
+    ).toMatchObject({ alert: true });
+    expect(
+      evaluateLowStock({ ...base, oldQty: 1, newQty: 0 }, 5),
+    ).toMatchObject({ alert: true });
+  });
+
+  it("does not alert while stock stays below the threshold (no re-spam)", () => {
     expect(
       evaluateLowStock({ ...base, oldQty: 4, newQty: 3 }, 5),
     ).toMatchObject({ alert: false });

@@ -8,7 +8,7 @@ import {
   disconnectStore,
   syncStoreProducts,
 } from "@/lib/services/store-service";
-import { alreadyProcessed, markProcessed } from "@/lib/webhooks";
+import { claimWebhook, releaseProcessed } from "@/lib/webhooks";
 import { getMockCatalog, setMockCatalog } from "@/providers/stores/mock";
 
 async function createOrg() {
@@ -97,11 +97,16 @@ describe("store sync (integration, mock provider)", () => {
 });
 
 describe("webhook idempotency", () => {
-  it("marks a delivery processed exactly once", async () => {
+  it("claims a delivery exactly once; duplicates lose", async () => {
     const id = `wh-${randomUUID()}`;
-    expect(await alreadyProcessed("shopify", id)).toBe(false);
-    expect(await markProcessed("shopify", id)).toBe(true);
-    expect(await alreadyProcessed("shopify", id)).toBe(true);
-    expect(await markProcessed("shopify", id)).toBe(false);
+    expect(await claimWebhook("shopify", id)).toBe(true); // first wins
+    expect(await claimWebhook("shopify", id)).toBe(false); // duplicate loses
+  });
+
+  it("release lets a failed delivery be re-claimed on retry", async () => {
+    const id = `wh-${randomUUID()}`;
+    expect(await claimWebhook("shopify", id)).toBe(true);
+    await releaseProcessed("shopify", id);
+    expect(await claimWebhook("shopify", id)).toBe(true); // retry re-claims
   });
 });

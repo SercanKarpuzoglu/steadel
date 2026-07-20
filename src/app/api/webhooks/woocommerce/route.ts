@@ -5,9 +5,9 @@ import { decryptJson, type EncryptedPayload } from "@/lib/crypto";
 import { logger } from "@/lib/logger";
 import { enqueueStoreSync } from "@/jobs/queues";
 import {
-  alreadyProcessed,
-  markProcessed,
+  claimWebhook,
   recordDeadLetter,
+  releaseProcessed,
 } from "@/lib/webhooks";
 import { verifyWebhookHmac } from "@/providers/stores/shopify-auth";
 import type { WooCredentials } from "@/providers/stores/woocommerce";
@@ -58,16 +58,16 @@ export async function POST(request: Request) {
   }
 
   const idempotencyKey = deliveryId || `${domain}:${signature}`;
-  if (await alreadyProcessed("woocommerce", idempotencyKey)) {
+  if (!(await claimWebhook("woocommerce", idempotencyKey))) {
     return Response.json({ ok: true, duplicate: true });
   }
 
   try {
     await enqueueStoreSync(store.id);
-    await markProcessed("woocommerce", idempotencyKey);
     logger.info({ domain }, "woocommerce webhook → sync enqueued");
     return Response.json({ ok: true });
   } catch (err) {
+    await releaseProcessed("woocommerce", idempotencyKey);
     await recordDeadLetter("woocommerce", String(err), {
       domain,
       deliveryId,

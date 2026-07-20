@@ -1,12 +1,12 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { stores } from "@/db/schema";
 import { logger } from "@/lib/logger";
 import { enqueueStoreSync } from "@/jobs/queues";
 import {
-  alreadyProcessed,
-  markProcessed,
+  claimWebhook,
   recordDeadLetter,
+  releaseProcessed,
 } from "@/lib/webhooks";
 import { verifyWebhookHmac } from "@/providers/stores/shopify-auth";
 
@@ -27,7 +27,8 @@ export async function POST(request: Request) {
     return Response.json({ error: "invalid signature" }, { status: 401 });
   }
 
-  if (webhookId && (await alreadyProcessed("shopify", webhookId))) {
+  // Atomic claim (when Shopify sent a delivery id) — duplicates lose here.
+  if (webhookId && !(await claimWebhook("shopify", webhookId))) {
     return Response.json({ ok: true, duplicate: true });
   }
 
@@ -36,10 +37,14 @@ export async function POST(request: Request) {
       // We store no customer PII — acknowledge and keep an audit trail.
       logger.info({ topic, shopDomain }, "shopify GDPR webhook acknowledged");
     } else if (topic === "app/uninstalled") {
+      // Scope to Shopify stores for this shop — the uninstall revokes the
+      // token for exactly this platform+domain; never touch other platforms.
       await db
         .update(stores)
         .set({ status: "disconnected", credentialsEncrypted: null })
-        .where(eq(stores.domain, shopDomain));
+        .where(
+          and(eq(stores.platform, "shopify"), eq(stores.domain, shopDomain)),
+        );
       logger.info({ shopDomain }, "store disconnected via app/uninstalled");
     } else if (
       topic === "inventory_levels/update" ||
@@ -55,9 +60,9 @@ export async function POST(request: Request) {
       logger.info({ topic, shopDomain }, "unhandled shopify topic");
     }
 
-    if (webhookId) await markProcessed("shopify", webhookId);
     return Response.json({ ok: true });
   } catch (err) {
+    if (webhookId) await releaseProcessed("shopify", webhookId);
     await recordDeadLetter("shopify", String(err), {
       topic,
       shopDomain,

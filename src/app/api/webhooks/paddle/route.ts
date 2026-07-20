@@ -6,9 +6,9 @@ import { logger } from "@/lib/logger";
 import { verifyPaddleSignature } from "@/lib/paddle";
 import { planForPriceId } from "@/lib/plans";
 import {
-  alreadyProcessed,
-  markProcessed,
+  claimWebhook,
   recordDeadLetter,
+  releaseProcessed,
 } from "@/lib/webhooks";
 
 interface PaddleEvent {
@@ -66,7 +66,8 @@ export async function POST(request: Request) {
     return Response.json({ error: "invalid json" }, { status: 400 });
   }
 
-  if (await alreadyProcessed("paddle", event.event_id)) {
+  // Atomic claim — a concurrent duplicate delivery loses here and returns early.
+  if (!(await claimWebhook("paddle", event.event_id))) {
     return Response.json({ ok: true, duplicate: true });
   }
 
@@ -127,9 +128,10 @@ export async function POST(request: Request) {
         logger.info({ type: event.event_type }, "unhandled paddle event");
     }
 
-    await markProcessed("paddle", event.event_id);
     return Response.json({ ok: true });
   } catch (err) {
+    // Release the claim so Paddle's retry can re-process this event.
+    await releaseProcessed("paddle", event.event_id);
     await recordDeadLetter("paddle", String(err), {
       eventId: event.event_id,
       eventType: event.event_type,

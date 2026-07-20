@@ -1,33 +1,43 @@
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { deadLetters, processedWebhooks } from "@/db/schema";
 import { logger } from "./logger";
 
-/** True when this delivery id has already been fully processed. */
-export async function alreadyProcessed(
+/**
+ * Atomically claims a delivery for processing. Returns true if this caller
+ * won the claim, false if it was already claimed (a duplicate/retry).
+ *
+ * The `(source, external_id)` unique index makes the INSERT the lock, so two
+ * concurrent duplicate deliveries can never both proceed — closing the
+ * check-then-act race a separate SELECT would leave open. On processing
+ * failure the caller MUST call `releaseProcessed` so the sender's retry can
+ * re-claim.
+ */
+export async function claimWebhook(
   source: string,
   externalId: string,
 ): Promise<boolean> {
-  const row = await db.query.processedWebhooks.findFirst({
-    where: (t, { and, eq }) =>
-      and(eq(t.source, source), eq(t.externalId, externalId)),
-  });
-  return !!row;
+  const inserted = await db
+    .insert(processedWebhooks)
+    .values({ source, externalId })
+    .onConflictDoNothing()
+    .returning();
+  return inserted.length > 0;
 }
 
-/**
- * Idempotency gate: call AFTER successful processing so failed deliveries can
- * be retried by the sender. Returns false when a concurrent duplicate won.
- */
-export async function markProcessed(
+/** Releases a claim so a failed delivery can be retried by the sender. */
+export async function releaseProcessed(
   source: string,
   externalId: string,
-): Promise<boolean> {
-  try {
-    await db.insert(processedWebhooks).values({ source, externalId });
-    return true;
-  } catch {
-    return false;
-  }
+): Promise<void> {
+  await db
+    .delete(processedWebhooks)
+    .where(
+      and(
+        eq(processedWebhooks.source, source),
+        eq(processedWebhooks.externalId, externalId),
+      ),
+    );
 }
 
 /** Stores a failed webhook payload for admin retry (SPEC §7 dead-letter logging). */

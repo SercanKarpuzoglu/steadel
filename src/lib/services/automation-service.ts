@@ -42,8 +42,16 @@ export function evaluateLowStock(
   if (!change.tracked || change.oldQty === null) {
     return { alert: false, threshold };
   }
-  const alert = change.oldQty > threshold && change.newQty <= threshold;
-  return { alert, threshold };
+  // Two distinct downward transitions alert (each fires once, so a product
+  // sitting low across syncs is not re-alerted):
+  //  - crossing the low-stock threshold from above, and
+  //  - going out of stock from any positive level — the critical event the
+  //    ads guard also acts on, which must never be silently missed even when
+  //    the product was already below threshold (e.g. 3 → 0).
+  const crossedThreshold =
+    change.oldQty > threshold && change.newQty <= threshold;
+  const wentOutOfStock = change.oldQty > 0 && change.newQty <= 0;
+  return { alert: crossedThreshold || wentOutOfStock, threshold };
 }
 
 /** Applies enabled low-stock rules to a batch of sync changes. */
