@@ -91,3 +91,27 @@ Quarterly drill: restore into a scratch database
   verify the requester owns the account email, then use the same flows.
 - Account deletions purge automatically 30 days after the request via the
   worker's daily purge job.
+
+## 8. Switching Paddle sandbox → production
+
+When flipping `PADDLE_ENV=sandbox` to `production` (and swapping the
+`PADDLE_*` keys), **clear any sandbox billing state left on organizations**.
+Sandbox and live are separate universes: a `sub_…`/`ctm_…` created in
+sandbox does not exist in live, so any live API call referencing it fails —
+e.g. "Cancel subscription" returns *"Paddle rejected the cancellation"*
+because the live API 404s on the stored sandbox subscription id.
+
+Verify, then reset the affected orgs:
+
+```bash
+# Does the stored subscription actually exist in LIVE?
+curl -s -o /dev/null -w "%{http_code}\n" \
+  -H "Authorization: Bearer $PADDLE_API_KEY" \
+  https://api.paddle.com/subscriptions/<stored sub_id>     # 404 => sandbox leftover
+```
+
+Then set `plan='trial'`, `subscription_status=NULL`,
+`paddle_subscription_id=NULL`, `paddle_customer_id=NULL` and a fresh
+`trial_ends_at` for those orgs, so a real live checkout can create a clean
+subscription. Real customers are unaffected — this only applies to orgs that
+"subscribed" during sandbox testing.
