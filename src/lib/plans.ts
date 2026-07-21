@@ -51,6 +51,33 @@ export function canCreateResources(
   return org.subscriptionStatus !== "canceled";
 }
 
+/**
+ * Whether the org's automations may run. Terms §4: when a trial ends without
+ * payment or a subscription is canceled, the service is suspended and
+ * automations stop running — reads (dashboard, export) are never blocked.
+ * Same entitlement rule as resource creation, named separately so the two
+ * can diverge later.
+ */
+export function automationsAllowed(
+  org: Pick<Org, "plan" | "trialEndsAt" | "subscriptionStatus">,
+  now: Date = new Date(),
+): boolean {
+  return canCreateResources(org, now);
+}
+
+/** Entitlement for a store's org — the worker's gate before running anything. */
+export async function storeAutomationsAllowed(
+  storeId: string,
+): Promise<boolean> {
+  const [row] = await db
+    .select({ org: organizations })
+    .from(stores)
+    .innerJoin(organizations, eq(stores.orgId, organizations.id))
+    .where(eq(stores.id, storeId))
+    .limit(1);
+  return row ? automationsAllowed(row.org) : false;
+}
+
 export function storeLimitReached(plan: Plan, currentStores: number): boolean {
   return currentStores >= PLAN_LIMITS[plan].stores;
 }

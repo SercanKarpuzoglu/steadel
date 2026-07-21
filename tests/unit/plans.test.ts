@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   automationLimitReached,
+  automationsAllowed,
   canCreateResources,
   isTrialExpired,
   PLAN_LIMITS,
@@ -68,6 +69,51 @@ describe("trial & subscription state", () => {
     expect(
       canCreateResources(
         { plan: "growth", trialEndsAt: null, subscriptionStatus: "canceled" },
+        now,
+      ),
+    ).toBe(false);
+  });
+});
+
+describe("automationsAllowed (terms §4 — service suspended when unpaid)", () => {
+  const now = new Date("2026-07-21");
+
+  it("runs automations during a live trial and on an active subscription", () => {
+    expect(
+      automationsAllowed(
+        { plan: "trial", trialEndsAt: new Date("2026-08-04"), subscriptionStatus: null },
+        now,
+      ),
+    ).toBe(true);
+    expect(
+      automationsAllowed(
+        { plan: "starter", trialEndsAt: null, subscriptionStatus: "active" },
+        now,
+      ),
+    ).toBe(true);
+  });
+
+  it("suspends automations once the trial expires without payment", () => {
+    expect(
+      automationsAllowed(
+        { plan: "trial", trialEndsAt: new Date("2026-07-01"), subscriptionStatus: null },
+        now,
+      ),
+    ).toBe(false);
+  });
+
+  it("suspends automations after a subscription is canceled", () => {
+    // Scheduled cancellation keeps access until the period ends (still active)…
+    expect(
+      automationsAllowed(
+        { plan: "starter", trialEndsAt: null, subscriptionStatus: "active" },
+        now,
+      ),
+    ).toBe(true);
+    // …and stops once Paddle reports the subscription as canceled.
+    expect(
+      automationsAllowed(
+        { plan: "starter", trialEndsAt: null, subscriptionStatus: "canceled" },
         now,
       ),
     ).toBe(false);

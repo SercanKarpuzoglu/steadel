@@ -7,7 +7,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { products, stores } from "@/db/schema";
 import { requireOrg } from "@/lib/org";
-import { assertCanAddStore, PlanLimitError } from "@/lib/plans";
+import { assertCanAddStore, automationsAllowed, PlanLimitError } from "@/lib/plans";
 import {
   connectMockStore,
   connectWooStore,
@@ -93,7 +93,13 @@ export async function connectWooStoreAction(
 
 export async function syncNowAction(formData: FormData): Promise<void> {
   const storeId = z.string().uuid().parse(formData.get("storeId"));
-  const { store } = await requireStoreInOrg(storeId);
+  const { store, org } = await requireStoreInOrg(storeId);
+  // Suspended orgs (expired trial / canceled subscription) can read their
+  // data but not pull fresh data — same rule the worker applies (terms §4).
+  if (!automationsAllowed(org)) {
+    revalidatePath(`/stores/${store.id}`);
+    return;
+  }
   try {
     await syncStoreProducts(store.id);
   } catch {

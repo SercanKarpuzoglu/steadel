@@ -4,6 +4,7 @@ import { and, eq, lt } from "drizzle-orm";
 import { db } from "@/db";
 import { automationRules, organizations, stores, users } from "@/db/schema";
 import { logger } from "@/lib/logger";
+import { storeAutomationsAllowed } from "@/lib/plans";
 import { getRedis } from "@/lib/redis";
 import { processAdsGuardChanges } from "@/lib/services/ads-guard-service";
 import { processStockChanges, scheduledReportConfigSchema } from "@/lib/services/automation-service";
@@ -23,8 +24,17 @@ const REPORT_TICK_MS = 60 * 60 * 1000; // hourly report due-check
 const PURGE_TICK_MS = 24 * 60 * 60 * 1000; // daily deleted-account purge
 const PURGE_AFTER_DAYS = 30;
 
-/** Sync + downstream automations — the worker's main path for a store. */
+/**
+ * Sync + downstream automations — the worker's main path for a store, and the
+ * single choke point for entitlement: webhook-, poll- and manually triggered
+ * runs all land here. Suspended orgs (expired trial / canceled subscription)
+ * are skipped so no alerts, ad actions or syncs run for them (terms §4).
+ */
 export async function runStoreSync(storeId: string): Promise<number> {
+  if (!(await storeAutomationsAllowed(storeId))) {
+    logger.info({ storeId }, "automations suspended for org — sync skipped");
+    return 0;
+  }
   const changes = await syncStoreProducts(storeId);
   await processStockChanges(changes);
   await processAdsGuardChanges(changes); // no-op unless ADS_GUARD_ENABLED
@@ -69,6 +79,8 @@ async function handleReportTick() {
     const parsed = scheduledReportConfigSchema.safeParse(rule.config);
     if (!parsed.success) continue;
     if (!isReportDue(parsed.data, now)) continue;
+    // Suspended orgs get no scheduled reports either (terms §4).
+    if (!(await storeAutomationsAllowed(rule.storeId))) continue;
     const dateKey = now.toISOString().slice(0, 10);
     await getSyncQueue().add(
       "send-report",
