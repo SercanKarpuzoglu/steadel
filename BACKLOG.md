@@ -35,6 +35,7 @@ Priority-ordered. Updated 2026-07-13 (landing page live).
 | 14 | Storage Box offsite backup (script already supports BACKUP_SCP_TARGET) | Sercan decision | ⏸ deferred |
 | 13b | **TEARDOWN woo-test env** — WP stack `/opt/woo-test` (docker compose down -v), Caddy woo-test route, Steadel test store (woo-test.steadel.com on owner org), Cloudflare `woo-test` A record. Kept intentionally for now (Sercan wants to keep it a bit); REMIND to remove before launch. | Both | ⏸ pending removal |
 
+| R2 | **Entitlement gate** — automations (sync/alerts/ads-guard/reports) now suspend when trial expires or subscription is canceled (terms §4); reads/export never blocked. Was a revenue leak: lapsed orgs ran free. Live-verified. | Claude | ✅ 2026-07-22 |
 | R1 | **Pre-launch review fixes** — out-of-stock alert gap, atomic webhook idempotency, Shopify uninstall scope; Public API v1 e2e; Reports charts blank in prod (Recharts→inline SVG, CSP) | Claude | ✅ 2026-07-20 |
 
 ## P3 — Later
