@@ -92,7 +92,7 @@ export default async function OnboardingPage() {
               />
               <button
                 type="submit"
-                className="h-10 shrink-0 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+                className="h-10 shrink-0 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
               >
                 Connect
               </button>
@@ -130,7 +130,7 @@ export default async function OnboardingPage() {
                 <input type="hidden" name="storeId" value={firstStore.id} />
                 <button
                   type="submit"
-                  className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+                  className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
                 >
                   Track all products
                 </button>
@@ -163,7 +163,7 @@ export default async function OnboardingPage() {
               <input type="hidden" name="storeId" value={firstStore?.id} />
               <button
                 type="submit"
-                className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+                className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
               >
                 Enable low-stock alerts
               </button>
@@ -182,7 +182,7 @@ export default async function OnboardingPage() {
           </CardDescription>
           <Link
             href="/dashboard"
-            className="mt-4 inline-flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+            className="mt-4 inline-flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
           >
             Go to dashboard
           </Link>

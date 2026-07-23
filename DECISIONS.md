@@ -167,3 +167,14 @@ working option and document it.
     two simple charts (daily alert bars, lowest-stock horizontal bars) are
     dependency-free SVG: CSP-clean, theme-token-styled, no client JS, and one
     fewer heavy dependency. Found during the pre-launch UI review.
+
+45. **Rebrand to Emerald Ink + Champagne (two-tone).** Replaced the
+    ink-navy/amber palette with a two-anchor system: Emerald Ink #064E3B
+    and Champagne #F8E7C9. No third accent — CTAs are emerald-on-champagne
+    on light surfaces and champagne-on-emerald on dark (auth, landing).
+    Token names kept (`ink`/`paper`/`amber*`) to avoid churn; values remapped
+    in globals.css + marketing CSS, all hardcoded hexes updated (logo mark,
+    favicon, charts, emails, OG image). Palette validated for WCAG AA
+    (7.99:1 anchor). Design skills added this round: emilkowalski/skill,
+    taste-skill, redesign-skill (impeccable skipped — phones home + browser
+    runtime, overlaps existing skills).

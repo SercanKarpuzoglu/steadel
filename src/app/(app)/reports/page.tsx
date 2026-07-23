@@ -82,7 +82,7 @@ export default async function ReportsPage() {
             <form action={emailWeeklyAction}>
               <button
                 type="submit"
-                className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+                className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
               >
                 Email me this weekly
               </button>

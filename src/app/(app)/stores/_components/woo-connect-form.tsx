@@ -37,7 +37,7 @@ export function WooConnectForm() {
         <button
           type="submit"
           disabled={pending}
-          className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark disabled:opacity-60"
+          className="h-10 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark disabled:opacity-60"
         >
           {pending ? "Validating…" : "Connect WooCommerce"}
         </button>

@@ -40,7 +40,7 @@ function Field({
         required
         minLength={minLength}
         autoComplete={autoComplete}
-        className="h-10 w-full rounded-md border border-mist/30 bg-ink px-3 text-sm text-paper placeholder:text-mist/50 focus-visible:outline-2 focus-visible:outline-amber"
+        className="h-10 w-full rounded-md border border-mist/30 bg-ink px-3 text-sm text-paper placeholder:text-mist/50 focus-visible:outline-2 focus-visible:outline-paper"
       />
     </div>
   );
@@ -51,7 +51,7 @@ function SubmitButton({ label, pending }: { label: string; pending: boolean }) {
     <button
       type="submit"
       disabled={pending}
-      className="h-10 w-full cursor-pointer rounded-md bg-amber font-medium text-ink transition hover:bg-amber-dark disabled:opacity-60"
+      className="h-10 w-full cursor-pointer rounded-md bg-paper font-medium text-ink transition hover:bg-paper-soft disabled:opacity-60"
     >
       {pending ? "Please wait…" : label}
     </button>
@@ -88,7 +88,7 @@ export function SignupForm() {
       <SubmitButton label="Create account" pending={pending} />
       <p className="text-center text-sm text-mist">
         Already have an account?{" "}
-        <Link href="/login" className="text-amber hover:underline">
+        <Link href="/login" className="text-paper hover:underline">
           Sign in
         </Link>
       </p>
@@ -146,7 +146,7 @@ export function LoginForm() {
       </div>
       <p className="text-center text-sm text-mist">
         New to Steadel?{" "}
-        <Link href="/signup" className="text-amber hover:underline">
+        <Link href="/signup" className="text-paper hover:underline">
           Start your free trial
         </Link>
       </p>
@@ -165,7 +165,7 @@ export function ForgotPasswordForm() {
       <Feedback state={state} />
       <SubmitButton label="Send reset link" pending={pending} />
       <p className="text-center text-sm text-mist">
-        <Link href="/login" className="text-amber hover:underline">
+        <Link href="/login" className="text-paper hover:underline">
           Back to sign in
         </Link>
       </p>

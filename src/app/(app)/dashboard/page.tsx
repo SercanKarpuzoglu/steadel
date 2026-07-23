@@ -120,7 +120,7 @@ export default async function DashboardPage() {
           </CardDescription>
           <Link
             href="/onboarding"
-            className="mt-4 inline-flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+            className="mt-4 inline-flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
           >
             Start onboarding
           </Link>
@@ -150,8 +150,8 @@ export default async function DashboardPage() {
         {recentAlerts.length === 0 ? (
           <div className="mt-6 flex flex-col items-center gap-3 py-8 text-center">
             <svg viewBox="0 0 64 64" className="h-10 w-10 opacity-40" aria-hidden="true">
-              <rect width="64" height="64" rx="14" fill="#16263d" />
-              <path d="M46 18 H28 Q20 18 20 25 Q20 32 28 32 H36 Q44 32 44 39 Q44 46 36 46 H18" fill="none" stroke="#f0a830" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+              <rect width="64" height="64" rx="14" fill="#064e3b" />
+              <path d="M46 18 H28 Q20 18 20 25 Q20 32 28 32 H36 Q44 32 44 39 Q44 46 36 46 H18" fill="none" stroke="#f8e7c9" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <p className="text-sm text-ink-soft">
               All quiet — no alerts yet. They&apos;ll appear here the moment
@@ -159,7 +159,7 @@ export default async function DashboardPage() {
             </p>
             <Link
               href="/automations"
-              className="rounded-md bg-amber px-4 py-2 text-sm font-medium text-ink transition hover:bg-amber-dark"
+              className="rounded-md bg-amber px-4 py-2 text-sm font-medium text-paper transition hover:bg-amber-dark"
             >
               Set up an automation
             </Link>

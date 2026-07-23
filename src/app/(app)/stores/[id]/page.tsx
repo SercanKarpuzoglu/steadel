@@ -88,7 +88,7 @@ export default async function StoreDetailPage({
           {store.status !== "connected" && !isMockDomain(store.domain) && (
             <Link
               href={`/api/shopify/install?shop=${store.domain}`}
-              className="flex h-9 items-center rounded-md bg-amber px-3 text-sm font-medium text-ink hover:bg-amber-dark"
+              className="flex h-9 items-center rounded-md bg-amber px-3 text-sm font-medium text-paper hover:bg-amber-dark"
             >
               Reconnect
             </Link>

@@ -86,7 +86,7 @@ export interface ReportData {
 export async function reportHtml(data: ReportData, brandName?: string) {
   const cell: React.CSSProperties = {
     padding: "6px 12px",
-    borderBottom: "1px solid #ddd5c4",
+    borderBottom: "1px solid #e6d4ae",
     textAlign: "left",
   };
   return render(

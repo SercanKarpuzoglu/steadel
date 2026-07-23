@@ -62,7 +62,7 @@ export default async function AutomationsPage() {
           </Link>
           <Link
             href="/automations/new"
-            className="flex h-10 items-center gap-2 rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+            className="flex h-10 items-center gap-2 rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
             New automation

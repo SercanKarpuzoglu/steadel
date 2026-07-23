@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
-/* Steadel design tokens (SPEC §3) */
+/* Steadel design tokens — Emerald Ink + Champagne two-tone palette.
+   The palette is two anchors; every token is one of them or a validated
+   tint/shade (all text pairs pass WCAG AA). Token names are historical:
+   `ink` = Emerald Ink (dark surface + text on light), `paper` = Champagne
+   (light surface + text on dark), and `amber*` is the accent — which in a
+   two-tone system is emerald on light surfaces (paired with champagne text).
+   On dark (emerald) surfaces the accent inverts to champagne, applied
+   explicitly where those CTAs live (auth, landing). */
 @theme {
-  --color-ink: #0f1b2d;
-  --color-panel: #16263d;
-  --color-paper: #f5f1e8;
-  --color-mist: #b9c2cf;
-  --color-amber: #f0a830;
-  --color-amber-dark: #d18f1c;
-  /* text-safe accent on light surfaces (WCAG AA 5.3:1 on paper) */
-  --color-amber-text: #8a5a00;
+  --color-ink: #064e3b;        /* Emerald Ink */
+  --color-panel: #0a5a45;      /* elevated emerald */
+  --color-paper: #f8e7c9;      /* Champagne */
+  --color-mist: #c3d6cd;       /* muted on emerald (6.4:1) */
+  --color-amber: #064e3b;      /* accent = emerald (bg-amber → emerald + champagne text) */
+  --color-amber-dark: #053f30; /* accent hover (darker emerald) */
+  --color-amber-text: #064e3b; /* accent as text/link on light (7.99:1 on champagne) */
 
-  /* Light theme surfaces derived from tokens */
-  --color-paper-soft: #efe9dc;
-  --color-line: #ddd5c4;
-  --color-ink-soft: #47576e;
+  /* Light (champagne) surfaces */
+  --color-paper-soft: #f1dbb4; /* deeper champagne — sidebar/cards */
+  --color-line: #e6d4ae;       /* champagne border */
+  --color-ink-soft: #3f6053;   /* muted emerald text on light (5.74:1) */
 
   --font-heading: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
@@ -25,6 +31,11 @@
   outline: 2px solid var(--color-amber);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* On dark (emerald) surfaces the focus ring must be the light anchor. */
+.theme-dark :focus-visible {
+  outline-color: var(--color-paper);
 }
 
 body {

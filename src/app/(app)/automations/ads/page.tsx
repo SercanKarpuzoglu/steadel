@@ -107,7 +107,7 @@ export default async function AdsGuardPage({
             {metaConfigured && (
               <Link
                 href="/api/meta/install"
-                className="flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+                className="flex h-10 items-center rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
               >
                 Connect Meta Ads
               </Link>

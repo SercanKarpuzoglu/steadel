@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils";
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 64 64" aria-hidden="true" className={cn("h-7 w-7", className)}>
-      <rect width="64" height="64" rx="14" fill="#0f1b2d" />
+      <rect width="64" height="64" rx="14" fill="#064e3b" />
       <path
         d="M46 18 H28 Q20 18 20 25 Q20 32 28 32 H36 Q44 32 44 39 Q44 46 36 46 H18"
         fill="none"
-        stroke="#f0a830"
+        stroke="#f8e7c9"
         strokeWidth="6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -35,7 +35,7 @@ export function Logo({
         )}
         style={{ fontFamily: "var(--font-heading)" }}
       >
-        steadel<span className="text-amber">.</span>
+        steadel<span>.</span>
       </span>
     </span>
   );

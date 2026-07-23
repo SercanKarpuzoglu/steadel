@@ -3,24 +3,24 @@ import type { CSSProperties, ReactNode } from "react";
 
 const styles: Record<string, CSSProperties> = {
   body: {
-    backgroundColor: "#f5f1e8",
+    backgroundColor: "#f8e7c9",
     margin: 0,
     padding: "32px 16px",
     fontFamily: "Georgia, 'Times New Roman', serif",
-    color: "#0f1b2d",
+    color: "#064e3b",
   },
   card: {
     maxWidth: 520,
     margin: "0 auto",
     backgroundColor: "#ffffff",
-    border: "1px solid #ddd5c4",
+    border: "1px solid #e6d4ae",
     borderRadius: 8,
     overflow: "hidden",
   },
   header: {
-    backgroundColor: "#0f1b2d",
+    backgroundColor: "#064e3b",
     padding: "20px 32px",
-    color: "#f5f1e8",
+    color: "#f8e7c9",
     fontSize: 18,
     letterSpacing: 2,
   },
@@ -28,13 +28,13 @@ const styles: Record<string, CSSProperties> = {
   footer: {
     padding: "16px 32px",
     fontSize: 12,
-    color: "#47576e",
-    borderTop: "1px solid #ddd5c4",
+    color: "#3f6053",
+    borderTop: "1px solid #e6d4ae",
   },
   button: {
     display: "inline-block",
-    backgroundColor: "#f0a830",
-    color: "#0f1b2d",
+    backgroundColor: "#064e3b",
+    color: "#f8e7c9",
     padding: "12px 24px",
     borderRadius: 6,
     textDecoration: "none",

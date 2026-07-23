@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" role="img" aria-label="Steadel">
-  <rect width="64" height="64" rx="14" fill="#0f1b2d" stroke="#2a3b55" stroke-width="1"/>
+  <rect width="64" height="64" rx="14" fill="#064e3b" stroke="#1c6b55" stroke-width="1"/>
   <path d="M46 18 H28 Q20 18 20 25 Q20 32 28 32 H36 Q44 32 44 39 Q44 46 36 46 H18"
-        fill="none" stroke="#f0a830" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="80" y="44" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="34" fill="#f5f1e8">steadel<tspan fill="#f0a830">.</tspan></text>
+        fill="none" stroke="#f8e7c9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="80" y="44" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="34" fill="#f8e7c9">steadel<tspan fill="#f8e7c9">.</tspan></text>
 </svg>

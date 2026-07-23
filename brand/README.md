@@ -29,17 +29,25 @@ One easing everywhere: `cubic-bezier(.22,1,.36,1)` (slow-out). Reveals
 `prefers-reduced-motion`. Never exaggerate (animation principle 10 is
 off-brand); lean on 6 (slow in/out), 9 (timing), 12 (appeal).
 
-## Colors
+## Colors — Emerald Ink + Champagne (two-tone)
 
 | Token | Hex | Use |
 |---|---|---|
-| Ink navy | `#0f1b2d` | dark surfaces, text on light |
-| Panel | `#16263d` | dark cards/panels |
-| Warm paper | `#f5f1e8` | light surfaces, text on dark |
-| Mist | `#b9c2cf` | muted text on dark |
-| Ink soft | `#47576e` | muted text on light |
-| Amber | `#f0a830` | accent, primary actions |
-| Amber dark | `#d18f1c` | accent hover / accent on light |
+| Emerald Ink | `#064E3B` | dark surfaces, text on light, primary accent on light |
+| Emerald panel | `#0A5A45` | elevated emerald cards/panels |
+| Champagne | `#F8E7C9` | light surfaces, text on dark, accent on dark |
+| Champagne deep | `#F1DBB4` | sidebar / elevated light surface, chart tracks |
+| Champagne hover | `#EFDCB6` | champagne button hover (on dark) |
+| Sage mist | `#C3D6CD` | muted text on emerald |
+| Emerald soft | `#3F6053` | muted text on champagne |
+| Line (light) | `#E6D4AE` | borders on champagne |
+| Line (dark) | `#1C6B55` | borders on emerald |
+
+Two-tone rule: on **champagne** surfaces the accent/CTA is **Emerald Ink**
+(emerald button + champagne text); on **emerald** surfaces it inverts to
+**Champagne** (champagne button + emerald text). No third accent colour.
+All text pairs pass WCAG AA (anchor contrast 7.99:1).
+
 
 ## Typography
 
