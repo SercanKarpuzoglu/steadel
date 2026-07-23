@@ -3,11 +3,11 @@
 // blocks — the charts rendered blank in production. These hand-rolled SVGs
 // are CSP-clean, theme-token-styled, and need no client JS.
 
-const INK = "#064e3b";
-const INK_SOFT = "#3f6053";
-const AMBER = "#064e3b";
-const LINE = "#e6d4ae";
-const RED = "#b91c1c";
+const INK = "#f8e7c9";
+const INK_SOFT = "#c3d6cd";
+const AMBER = "#f8e7c9";
+const LINE = "#1c6b55";
+const RED = "#fca5a5";
 
 /** Daily alert counts over the last 30 days (vertical bars). */
 export function AlertsChart({
@@ -136,7 +136,7 @@ export function StockChart({
               width={barMaxX}
               height={14}
               rx="3"
-              fill="#f1dbb4"
+              fill="#053f30"
             />
             {/* value bar */}
             {!oos && (

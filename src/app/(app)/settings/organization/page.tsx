@@ -97,8 +97,8 @@ export default async function OrgSettingsPage() {
                         <span
                           className={`rounded px-2 py-0.5 font-mono text-xs ${
                             key.revokedAt
-                              ? "bg-gray-200 text-gray-700"
-                              : "bg-emerald-100 text-emerald-800"
+                              ? "bg-white/10 text-mist"
+                              : "bg-emerald-400/15 text-emerald-200"
                           }`}
                         >
                           {key.revokedAt ? "revoked" : "active"}
@@ -110,7 +110,7 @@ export default async function OrgSettingsPage() {
                             <input type="hidden" name="keyId" value={key.id} />
                             <button
                               type="submit"
-                              className="cursor-pointer text-xs text-red-700 hover:underline"
+                              className="cursor-pointer text-xs text-red-300 hover:underline"
                             >
                               Revoke
                             </button>

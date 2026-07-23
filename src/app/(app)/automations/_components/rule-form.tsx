@@ -51,7 +51,7 @@ export function RuleForm({
           value={type}
           disabled={editing}
           onChange={(e) => setType(e.target.value as RuleFormDefaults["type"])}
-          className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+          className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
         >
           <option value="low_stock_alert">Low-stock alert</option>
           <option value="scheduled_report">Scheduled report</option>
@@ -66,7 +66,7 @@ export function RuleForm({
             id="storeId"
             name="storeId"
             defaultValue={defaults.storeId ?? stores[0]?.id}
-            className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+            className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
           >
             {stores.map((s) => (
               <option key={s.id} value={s.id}>
@@ -104,7 +104,7 @@ export function RuleForm({
                 onChange={(e) =>
                   setFrequency(e.target.value as "daily" | "weekly")
                 }
-                className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+                className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
               >
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>
@@ -129,7 +129,7 @@ export function RuleForm({
                 id="weekday"
                 name="weekday"
                 defaultValue={String(defaults.weekday ?? 1)}
-                className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+                className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
               >
                 {WEEKDAYS.map((day, i) => (
                   <option key={day} value={i}>
@@ -154,7 +154,7 @@ export function RuleForm({
         <p className="text-xs text-ink-soft">Comma-separated email addresses.</p>
       </div>
 
-      {state?.error && <p className="text-sm text-red-700">{state.error}</p>}
+      {state?.error && <p className="text-sm text-red-300">{state.error}</p>}
       <Button type="submit" disabled={pending || stores.length === 0}>
         {pending ? "Saving…" : editing ? "Save changes" : "Create automation"}
       </Button>

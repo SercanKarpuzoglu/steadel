@@ -47,7 +47,7 @@ export default async function StoresPage({
       <h1 className="text-3xl font-semibold">Stores</h1>
 
       {params.error && ERRORS[params.error] && (
-        <p className="rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
           {ERRORS[params.error]}
         </p>
       )}
@@ -64,7 +64,7 @@ export default async function StoresPage({
               name="shop"
               placeholder="my-shop.myshopify.com"
               required
-              className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+              className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
             />
             <button
               type="submit"
@@ -152,9 +152,9 @@ export default async function StoresPage({
 
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
-    connected: "bg-emerald-100 text-emerald-800",
-    error: "bg-red-100 text-red-800",
-    disconnected: "bg-gray-200 text-gray-700",
+    connected: "bg-emerald-400/15 text-emerald-200",
+    error: "bg-red-500/15 text-red-300",
+    disconnected: "bg-white/10 text-mist",
   };
   return (
     <span

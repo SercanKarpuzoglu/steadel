@@ -38,6 +38,30 @@
   outline-color: var(--color-paper);
 }
 
+/* App shell dark theme. Overriding the surface/accent tokens flips every
+   token-based utility (bg-paper/text-ink/border-line/bg-amber/…) to emerald
+   without touching each file. Only Tailwind built-in colours (bg-white,
+   bg-red-*, …) are converted in the components themselves. The accent auto-
+   inverts: bg-amber → champagne, its text-paper → emerald. */
+.theme-app {
+  background-color: #064e3b;
+  color: #f8e7c9;
+  --color-paper: #064e3b;        /* page background */
+  --color-ink: #f8e7c9;          /* text */
+  --color-panel: #0d6450;        /* elevated card surface */
+  --color-paper-soft: #053f30;   /* recessed sidebar / chips */
+  --color-line: #1c6b55;         /* divider on emerald */
+  --color-ink-soft: #c3d6cd;     /* sage muted text */
+  --color-amber: #f8e7c9;        /* accent = champagne on dark */
+  --color-amber-dark: #efdcb6;   /* champagne hover */
+  --color-amber-text: #f8e7c9;   /* champagne links */
+}
+
+/* Rendered-markdown code blocks are authored dark-on-light; force a dark
+   panel inside the dark app so they don't invert to a bright block. */
+.theme-app .doc-content pre { background: #053f30; color: #f8e7c9; }
+.theme-app .doc-content a { color: #f8e7c9; }
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-paper);

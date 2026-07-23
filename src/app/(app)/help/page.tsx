@@ -37,7 +37,7 @@ export default async function HelpPage({
           name="q"
           defaultValue={q}
           placeholder="Search the guides…"
-          className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+          className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
         />
         <button
           type="submit"

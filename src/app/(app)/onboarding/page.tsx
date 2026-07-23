@@ -88,7 +88,7 @@ export default async function OnboardingPage() {
                 name="shop"
                 placeholder="my-shop.myshopify.com"
                 required
-                className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+                className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
               />
               <button
                 type="submit"

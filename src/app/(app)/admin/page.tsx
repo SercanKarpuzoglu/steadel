@@ -58,7 +58,7 @@ export default async function AdminPage() {
                 </p>
                 <p
                   className={`mt-1 text-2xl font-semibold ${
-                    state === "failed" && value > 0 ? "text-red-700" : ""
+                    state === "failed" && value > 0 ? "text-red-300" : ""
                   }`}
                 >
                   {value}

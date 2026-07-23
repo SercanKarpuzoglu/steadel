@@ -90,7 +90,7 @@ export default async function AdsGuardPage({
       </p>
 
       {params.error && ERRORS[params.error] && (
-        <p className="rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
           {ERRORS[params.error]}
         </p>
       )}
@@ -115,7 +115,7 @@ export default async function AdsGuardPage({
             <form action={connectMockMetaAction}>
               <button
                 type="submit"
-                className="h-10 cursor-pointer rounded-md border border-line bg-white/60 px-4 text-sm font-medium hover:bg-white"
+                className="h-10 cursor-pointer rounded-md border border-line bg-panel px-4 text-sm font-medium hover:bg-white/10"
               >
                 Connect demo ad account
               </button>
@@ -180,10 +180,10 @@ export default async function AdsGuardPage({
                           <span
                             className={`rounded px-2 py-0.5 font-mono text-xs ${
                               link.state === "paused_by_steadel"
-                                ? "bg-red-100 text-red-800"
+                                ? "bg-red-500/15 text-red-300"
                                 : link.state === "active"
-                                  ? "bg-emerald-100 text-emerald-800"
-                                  : "bg-gray-200 text-gray-700"
+                                  ? "bg-emerald-400/15 text-emerald-200"
+                                  : "bg-white/10 text-mist"
                             }`}
                           >
                             {link.state}
@@ -197,7 +197,7 @@ export default async function AdsGuardPage({
                             <input type="hidden" name="linkId" value={link.id} />
                             <button
                               type="submit"
-                              className="cursor-pointer text-xs text-red-700 hover:underline"
+                              className="cursor-pointer text-xs text-red-300 hover:underline"
                             >
                               Unlink
                             </button>

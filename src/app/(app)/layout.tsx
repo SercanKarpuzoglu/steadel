@@ -26,7 +26,7 @@ function TrialBanner({
       <div
         className={`mb-6 flex items-center justify-between gap-3 rounded-md border px-4 py-2.5 text-sm ${
           expired
-            ? "border-red-300 bg-red-50 text-red-800"
+            ? "border-red-500/30 bg-red-500/10 text-red-300"
             : "border-amber/50 bg-amber/10 text-ink"
         }`}
       >
@@ -46,7 +46,7 @@ function TrialBanner({
   }
   if (subscriptionStatus === "canceled") {
     return (
-      <div className="mb-6 flex items-center justify-between gap-3 rounded-md border border-red-300 bg-red-50 px-4 py-2.5 text-sm text-red-800">
+      <div className="mb-6 flex items-center justify-between gap-3 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
         <span>Your subscription is canceled — reactivate to keep automating.</span>
         <Link
           href="/settings/billing"
@@ -81,7 +81,7 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
+    <div className="theme-app flex min-h-screen flex-col md:flex-row">
       {/* Mobile top bar */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-line bg-paper-soft/95 px-4 py-3 backdrop-blur md:hidden">
         <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5">

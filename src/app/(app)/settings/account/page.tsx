@@ -40,13 +40,13 @@ export default async function AccountSettingsPage() {
         <a
           href="/api/account/export"
           download
-          className="mt-4 inline-flex h-10 items-center rounded-md border border-line bg-white/60 px-4 text-sm font-medium text-ink transition hover:bg-white"
+          className="mt-4 inline-flex h-10 items-center rounded-md border border-line bg-panel px-4 text-sm font-medium text-ink transition hover:bg-white/10"
         >
           Download JSON export
         </a>
       </Card>
 
-      <Card className="border-red-300">
+      <Card className="border-red-500/30">
         <CardTitle>Delete account</CardTitle>
         <CardDescription>
           Your account is deactivated immediately and all data is permanently

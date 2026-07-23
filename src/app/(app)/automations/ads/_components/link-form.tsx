@@ -42,7 +42,7 @@ export function LinkForm({
           <select
             id="productId"
             name="productId"
-            className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+            className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
           >
             {products.map((p) => (
               <option key={p.id} value={p.id}>
@@ -58,7 +58,7 @@ export function LinkForm({
             name="adset"
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
-            className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+            className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
           >
             {adsets.map((a) => (
               <option
@@ -82,7 +82,7 @@ export function LinkForm({
             onChange={(e) =>
               setMode(e.target.value as "pause_on_zero" | "pause_below_threshold")
             }
-            className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+            className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
           >
             <option value="pause_on_zero">Stock hits zero</option>
             <option value="pause_below_threshold">
@@ -104,7 +104,7 @@ export function LinkForm({
         )}
       </div>
 
-      {state?.error && <p className="text-sm text-red-700">{state.error}</p>}
+      {state?.error && <p className="text-sm text-red-300">{state.error}</p>}
       <Button type="submit" disabled={pending || products.length === 0 || adsets.length === 0}>
         {pending ? "Linking…" : "Link product to ad set"}
       </Button>

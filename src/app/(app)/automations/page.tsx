@@ -55,7 +55,7 @@ export default async function AutomationsPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/automations/ads"
-            className="flex h-10 items-center gap-2 rounded-md border border-line bg-white/60 px-4 text-sm font-medium hover:bg-white"
+            className="flex h-10 items-center gap-2 rounded-md border border-line bg-panel px-4 text-sm font-medium hover:bg-white/10"
           >
             <Megaphone className="h-4 w-4" aria-hidden="true" />
             Ads guard
@@ -121,8 +121,8 @@ export default async function AutomationsPage() {
                       <span
                         className={`rounded px-2 py-0.5 font-mono text-xs ${
                           rule.enabled
-                            ? "bg-emerald-100 text-emerald-800"
-                            : "bg-gray-200 text-gray-700"
+                            ? "bg-emerald-400/15 text-emerald-200"
+                            : "bg-white/10 text-mist"
                         }`}
                       >
                         {rule.enabled ? "enabled" : "paused"}
@@ -149,7 +149,7 @@ export default async function AutomationsPage() {
                           <input type="hidden" name="ruleId" value={rule.id} />
                           <button
                             type="submit"
-                            className="cursor-pointer text-xs text-red-700 hover:underline"
+                            className="cursor-pointer text-xs text-red-300 hover:underline"
                           >
                             Delete
                           </button>
