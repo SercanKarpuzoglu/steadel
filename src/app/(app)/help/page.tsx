@@ -37,11 +37,11 @@ export default async function HelpPage({
           name="q"
           defaultValue={q}
           placeholder="Search the guides…"
-          className="h-10 w-full rounded-md border border-line bg-panel px-3 text-sm"
+          className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
         />
         <button
           type="submit"
-          className="h-10 shrink-0 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
+          className="h-10 shrink-0 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
         >
           Search
         </button>

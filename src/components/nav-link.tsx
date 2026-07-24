@@ -27,8 +27,8 @@ export function NavLink({
       className={cn(
         "block rounded-md px-3 py-2 text-sm transition",
         active
-          ? "bg-panel font-medium text-ink shadow-sm"
-          : "text-ink-soft hover:bg-white/10 hover:text-ink",
+          ? "bg-white font-medium text-ink shadow-sm"
+          : "text-ink-soft hover:bg-white/70 hover:text-ink",
         className,
       )}
     >

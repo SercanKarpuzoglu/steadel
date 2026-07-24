@@ -11,7 +11,7 @@ import {
 function Feedback({ state }: { state: FormState }) {
   if (!state?.error && !state?.message) return null;
   return (
-    <p className={state.error ? "text-sm text-red-300" : "text-sm text-emerald-200"}>
+    <p className={state.error ? "text-sm text-red-700" : "text-sm text-emerald-700"}>
       {state.error ?? state.message}
     </p>
   );

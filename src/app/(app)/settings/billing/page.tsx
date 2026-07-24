@@ -150,7 +150,7 @@ export default async function BillingPage() {
                       <input type="hidden" name="plan" value={plan} />
                       <button
                         type="submit"
-                        className="h-10 w-full cursor-pointer rounded-md border border-line bg-panel text-sm font-medium hover:bg-white/10"
+                        className="h-10 w-full cursor-pointer rounded-md border border-line bg-white/60 text-sm font-medium hover:bg-white"
                       >
                         Switch (dev)
                       </button>

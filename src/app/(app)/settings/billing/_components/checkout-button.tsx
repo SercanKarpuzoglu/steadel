@@ -62,7 +62,7 @@ export function CheckoutButton({
           customer: { email },
         })
       }
-      className="h-10 w-full cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-paper transition hover:bg-amber-dark disabled:opacity-50"
+      className="h-10 w-full cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink transition hover:bg-amber-dark disabled:opacity-50"
     >
       {ready ? label : "Loading checkout…"}
     </button>

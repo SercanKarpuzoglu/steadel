@@ -18,7 +18,7 @@ function Feedback({ state }: { state: FormState }) {
   return (
     <p
       className={
-        state.error ? "text-sm text-red-300" : "text-sm text-emerald-200"
+        state.error ? "text-sm text-red-700" : "text-sm text-emerald-700"
       }
     >
       {state.error ?? state.message}
@@ -115,7 +115,7 @@ export function CreateApiKeyForm() {
           {state.message}
         </p>
       )}
-      {state?.error && <p className="text-sm text-red-300">{state.error}</p>}
+      {state?.error && <p className="text-sm text-red-700">{state.error}</p>}
     </form>
   );
 }

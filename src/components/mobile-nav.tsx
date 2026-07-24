@@ -38,7 +38,7 @@ export function MobileNav({
         onClick={() => setOpen(true)}
         aria-label="Open menu"
         aria-expanded={open}
-        className="rounded-md border border-line bg-panel p-2 text-ink"
+        className="rounded-md border border-line bg-white/60 p-2 text-ink"
       >
         <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
           <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -48,7 +48,7 @@ export function MobileNav({
       {open && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-ink/40"
             onClick={() => setOpen(false)}
             aria-hidden="true"
           />

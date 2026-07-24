@@ -26,7 +26,7 @@ export default async function VerifyPage({
             </p>
             <Link
               href="/login"
-              className="block rounded-md bg-paper py-2.5 text-center font-medium text-ink transition hover:bg-paper-soft"
+              className="block rounded-md bg-amber py-2.5 text-center font-medium text-ink transition hover:bg-amber-dark"
             >
               Sign in
             </Link>

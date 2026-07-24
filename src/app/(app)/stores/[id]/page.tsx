@@ -80,7 +80,7 @@ export default async function StoreDetailPage({
             <input type="hidden" name="storeId" value={store.id} />
             <button
               type="submit"
-              className="h-9 cursor-pointer rounded-md border border-line bg-panel px-3 text-sm hover:bg-white/10"
+              className="h-9 cursor-pointer rounded-md border border-line bg-white/60 px-3 text-sm hover:bg-white"
             >
               Sync now
             </button>
@@ -88,7 +88,7 @@ export default async function StoreDetailPage({
           {store.status !== "connected" && !isMockDomain(store.domain) && (
             <Link
               href={`/api/shopify/install?shop=${store.domain}`}
-              className="flex h-9 items-center rounded-md bg-amber px-3 text-sm font-medium text-paper hover:bg-amber-dark"
+              className="flex h-9 items-center rounded-md bg-amber px-3 text-sm font-medium text-ink hover:bg-amber-dark"
             >
               Reconnect
             </Link>
@@ -97,7 +97,7 @@ export default async function StoreDetailPage({
             <input type="hidden" name="storeId" value={store.id} />
             <button
               type="submit"
-              className="h-9 cursor-pointer rounded-md border border-red-500/30 px-3 text-sm text-red-300 hover:bg-red-500/10"
+              className="h-9 cursor-pointer rounded-md border border-red-300 px-3 text-sm text-red-700 hover:bg-red-50"
             >
               Disconnect
             </button>
@@ -144,11 +144,11 @@ export default async function StoreDetailPage({
             name="q"
             defaultValue={q}
             placeholder="Search title or SKU…"
-            className="h-9 w-64 rounded-md border border-line bg-panel px-3 text-sm"
+            className="h-9 w-64 rounded-md border border-line bg-white px-3 text-sm"
           />
           <button
             type="submit"
-            className="h-9 cursor-pointer rounded-md border border-line bg-panel px-3 text-sm hover:bg-white/10"
+            className="h-9 cursor-pointer rounded-md border border-line bg-white/60 px-3 text-sm hover:bg-white"
           >
             Search
           </button>
@@ -190,7 +190,7 @@ export default async function StoreDetailPage({
                     <span
                       className={
                         product.inventoryQty <= 0
-                          ? "font-semibold text-red-300"
+                          ? "font-semibold text-red-700"
                           : product.thresholdQty != null &&
                               product.inventoryQty <= product.thresholdQty
                             ? "font-semibold text-amber-text"
@@ -211,7 +211,7 @@ export default async function StoreDetailPage({
                         }`}
                       >
                         <span
-                          className={`block h-5 w-5 rounded-full bg-panel shadow transition ${
+                          className={`block h-5 w-5 rounded-full bg-white shadow transition ${
                             product.tracked ? "translate-x-5" : ""
                           }`}
                         />
@@ -227,7 +227,7 @@ export default async function StoreDetailPage({
                         min={0}
                         defaultValue={product.thresholdQty ?? ""}
                         placeholder="default"
-                        className="h-8 w-20 rounded-md border border-line bg-panel px-2 text-sm"
+                        className="h-8 w-20 rounded-md border border-line bg-white px-2 text-sm"
                       />
                       <button
                         type="submit"

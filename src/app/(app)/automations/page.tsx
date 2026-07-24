@@ -55,14 +55,14 @@ export default async function AutomationsPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/automations/ads"
-            className="flex h-10 items-center gap-2 rounded-md border border-line bg-panel px-4 text-sm font-medium hover:bg-white/10"
+            className="flex h-10 items-center gap-2 rounded-md border border-line bg-white/60 px-4 text-sm font-medium hover:bg-white"
           >
             <Megaphone className="h-4 w-4" aria-hidden="true" />
             Ads guard
           </Link>
           <Link
             href="/automations/new"
-            className="flex h-10 items-center gap-2 rounded-md bg-amber px-4 text-sm font-medium text-paper hover:bg-amber-dark"
+            className="flex h-10 items-center gap-2 rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
             New automation
@@ -121,8 +121,8 @@ export default async function AutomationsPage() {
                       <span
                         className={`rounded px-2 py-0.5 font-mono text-xs ${
                           rule.enabled
-                            ? "bg-emerald-400/15 text-emerald-200"
-                            : "bg-white/10 text-mist"
+                            ? "bg-emerald-100 text-emerald-800"
+                            : "bg-gray-200 text-gray-700"
                         }`}
                       >
                         {rule.enabled ? "enabled" : "paused"}
@@ -149,7 +149,7 @@ export default async function AutomationsPage() {
                           <input type="hidden" name="ruleId" value={rule.id} />
                           <button
                             type="submit"
-                            className="cursor-pointer text-xs text-red-300 hover:underline"
+                            className="cursor-pointer text-xs text-red-700 hover:underline"
                           >
                             Delete
                           </button>
