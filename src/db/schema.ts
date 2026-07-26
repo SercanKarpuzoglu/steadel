@@ -66,6 +66,8 @@ export const organizations = pgTable("organizations", {
   subscriptionStatus: text("subscription_status"),
   whiteLabelName: text("white_label_name"),
   slackWebhookUrl: text("slack_webhook_url"),
+  /** Operator-initiated suspension — halts automations regardless of billing. */
+  suspendedAt: timestamp("suspended_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

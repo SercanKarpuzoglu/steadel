@@ -44,9 +44,12 @@ export function isTrialExpired(
  * Paid plans lose write access when the subscription is canceled.
  */
 export function canCreateResources(
-  org: Pick<Org, "plan" | "trialEndsAt" | "subscriptionStatus">,
+  org: Pick<Org, "plan" | "trialEndsAt" | "subscriptionStatus"> & {
+    suspendedAt?: Date | null;
+  },
   now: Date = new Date(),
 ): boolean {
+  if (org.suspendedAt) return false; // operator suspension always halts writes
   if (org.plan === "trial") return !isTrialExpired(org, now);
   return org.subscriptionStatus !== "canceled";
 }
@@ -59,7 +62,9 @@ export function canCreateResources(
  * can diverge later.
  */
 export function automationsAllowed(
-  org: Pick<Org, "plan" | "trialEndsAt" | "subscriptionStatus">,
+  org: Pick<Org, "plan" | "trialEndsAt" | "subscriptionStatus"> & {
+    suspendedAt?: Date | null;
+  },
   now: Date = new Date(),
 ): boolean {
   return canCreateResources(org, now);

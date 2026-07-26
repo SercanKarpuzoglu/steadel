@@ -167,3 +167,28 @@ working option and document it.
     two simple charts (daily alert bars, lowest-stock horizontal bars) are
     dependency-free SVG: CSP-clean, theme-token-styled, no client JS, and one
     fewer heavy dependency. Found during the pre-launch UI review.
+
+45. **Operator Console is its own dark route group, distinct from the light
+    merchant app.** The old thin `/admin` (inside `(app)`, read-only) is
+    replaced by a full back-office at `/admin/*` under a new `(operator)`
+    route group with its own dark navy shell (`src/app/(operator)/`,
+    styles scoped under `.console` in `console.css` so they never leak into
+    `(app)`/`(auth)`). Screens: Overview, Customers, Customer detail
+    (change plan / comp, extend trial, resend verification, password reset,
+    GDPR export, suspend, GDPR erase — all `requireAdmin`-gated and
+    `recordAudit`-logged), Billing & Revenue, Live activity, Reports,
+    Operations (queue + dead-letters), Audit log, Access. All metrics are
+    DB-derived (MRR/plan-mix/funnel from plan + subscription state); charts
+    stay dependency-free inline SVG per #44; Paddle remains the billing
+    system of record. Access gate is unchanged (`ADMIN_EMAILS`).
+
+46. **`organizations.suspended_at` column + entitlement gate (migration
+    0001).** Operator "suspend account" needs to halt automations
+    independently of billing, but the Paddle webhook overwrites
+    `subscription_status` on every `subscription.updated` — so a status-based
+    suspend would be clobbered. A dedicated nullable `suspended_at` timestamp
+    is checked first in `canCreateResources`/`automationsAllowed` (suspension
+    always blocks writes/automations; reads/export never blocked, per Terms
+    §4). **Deploy note:** migration `0001_loving_magik.sql` must be applied
+    (the compose `migrate` service runs it automatically on
+    `docker compose up -d --build`).

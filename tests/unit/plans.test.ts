@@ -118,4 +118,31 @@ describe("automationsAllowed (terms §4 — service suspended when unpaid)", () 
       ),
     ).toBe(false);
   });
+
+  it("operator suspension halts automations regardless of billing state", () => {
+    // A fully-paid, active subscription still stops when the operator suspends it.
+    expect(
+      automationsAllowed(
+        {
+          plan: "growth",
+          trialEndsAt: null,
+          subscriptionStatus: "active",
+          suspendedAt: new Date("2026-07-20"),
+        },
+        now,
+      ),
+    ).toBe(false);
+    // Lifting the suspension restores access.
+    expect(
+      automationsAllowed(
+        {
+          plan: "growth",
+          trialEndsAt: null,
+          subscriptionStatus: "active",
+          suspendedAt: null,
+        },
+        now,
+      ),
+    ).toBe(true);
+  });
 });
