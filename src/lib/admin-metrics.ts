@@ -1,5 +1,5 @@
 import "server-only";
-import { and, count, desc, eq, gte, ilike, inArray, sql } from "drizzle-orm";
+import { and, count, desc, eq, gte, ilike, inArray, lt, sql } from "drizzle-orm";
 import { db } from "@/db";
 import {
   alertsLog,
@@ -176,12 +176,7 @@ export async function signupsBetween(start: Date, end: Date): Promise<number> {
   const [row] = await db
     .select({ v: count() })
     .from(organizations)
-    .where(
-      and(
-        gte(organizations.createdAt, start),
-        sql`${organizations.createdAt} < ${end}`,
-      ),
-    );
+    .where(and(gte(organizations.createdAt, start), lt(organizations.createdAt, end)));
   return Number(row?.v ?? 0);
 }
 
