@@ -296,6 +296,10 @@ export async function customerList(opts?: {
 // Activity feed (audit + alerts, humanised)
 // ---------------------------------------------------------------------------
 
+/** Audit `actor` is a free-text column: a user UUID, "system", "api", etc.
+ *  Only UUID actors can be resolved against the users table. */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export type FeedKind = "good" | "info" | "warn" | "accent" | "danger" | "mute";
 export type FeedEvent = {
   id: string;
@@ -367,7 +371,7 @@ export async function recentActivity(limit = 40): Promise<FeedEvent[]> {
     .limit(limit);
 
   // Resolve which actors are operators (admins) vs customers.
-  const actorIds = [...new Set(rows.map((r) => r.actor).filter((a) => a && a !== "system"))];
+  const actorIds = [...new Set(rows.map((r) => r.actor).filter((a) => UUID_RE.test(a)))];
   const actorUsers = actorIds.length
     ? await db
         .select({ id: users.id, email: users.email })
@@ -426,7 +430,7 @@ export async function auditFeed(opts?: {
     .orderBy(desc(eventsAudit.createdAt))
     .limit(opts?.limit ?? 100);
 
-  const actorIds = [...new Set(rows.map((r) => r.actor).filter((a) => a && a !== "system"))];
+  const actorIds = [...new Set(rows.map((r) => r.actor).filter((a) => UUID_RE.test(a)))];
   const actorUsers = actorIds.length
     ? await db
         .select({ id: users.id, email: users.email })
