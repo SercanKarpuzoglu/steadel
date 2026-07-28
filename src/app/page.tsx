@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Logo, LogoMark } from "@/components/logo";
+import { LogoMark } from "@/components/logo";
+import { MarketingHeader, MarketingFooter } from "@/components/marketing-chrome";
 
 export const metadata: Metadata = {
   title: {
@@ -32,24 +33,7 @@ function Check() {
 export default function Home() {
   return (
     <div className="theme-dark min-h-screen">
-      {/* Nav */}
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <Logo on="dark" />
-        <nav className="flex items-center gap-3 text-sm">
-          <Link href="#pricing" className="hidden text-mist transition hover:text-paper sm:inline">
-            Pricing
-          </Link>
-          <Link href="/login" className="text-mist transition hover:text-paper">
-            Sign in
-          </Link>
-          <Link
-            href="/signup"
-            className="rounded-md bg-amber px-4 py-2 font-medium text-ink transition hover:bg-amber-dark"
-          >
-            Start free trial
-          </Link>
-        </nav>
-      </header>
+      <MarketingHeader />
 
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-20 sm:pb-28">
@@ -305,19 +289,7 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-10 text-sm text-mist/70 sm:flex-row sm:items-center sm:justify-between">
-          <Logo on="dark" />
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link href="/privacy" className="transition hover:text-paper">Privacy</Link>
-            <Link href="/terms" className="transition hover:text-paper">Terms</Link>
-            <Link href="/refunds" className="transition hover:text-paper">Refunds</Link>
-            <Link href="/login" className="transition hover:text-paper">Sign in</Link>
-          </div>
-          <p className="font-mono text-xs">Steadel is a product of Parsius · EU-hosted in Germany 🇩🇪</p>
-        </div>
-      </footer>
+      <MarketingFooter />
     </div>
   );
 }
