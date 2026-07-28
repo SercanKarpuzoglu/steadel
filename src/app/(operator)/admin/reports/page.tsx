@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
 import {
   activationFunnel,
+  marketingTraffic,
   orgCount,
   revenueSnapshot,
   signupSeries,
 } from "@/lib/admin-metrics";
-import { Meter, SignupArea, eur } from "../../_components/ui";
+import { Meter, SignupArea, Sparkline, eur } from "../../_components/ui";
 
 export const metadata: Metadata = { title: "Reports" };
 export const dynamic = "force-dynamic";
 
 export default async function ReportsPage() {
-  const [series, funnel, snap, total] = await Promise.all([
+  const [series, funnel, snap, total, traffic] = await Promise.all([
     signupSeries(),
     activationFunnel(),
     revenueSnapshot(),
     orgCount(),
+    marketingTraffic(30),
   ]);
 
   const churnPct = total ? Math.round((snap.canceled / total) * 1000) / 10 : 0;
@@ -29,6 +31,40 @@ export default async function ReportsPage() {
         <div>
           <h1 className="page-title">Reports</h1>
           <p className="page-sub">Growth, conversion and engagement across the customer base</p>
+        </div>
+      </div>
+
+      {/* Marketing traffic (top of funnel) */}
+      <div className="card" style={{ marginBottom: 16 }}>
+        <div className="card-head">
+          <h3>Marketing traffic</h3>
+          <span className="hint">last 30 days · first-party, cookieless</span>
+        </div>
+        <div className="card-pad">
+          {traffic.views === 0 ? (
+            <div className="empty">
+              No visits recorded yet — this starts counting the moment the marketing site gets traffic.
+            </div>
+          ) : (
+            <>
+              <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+                <div>
+                  <div className="val tnum" style={{ fontFamily: "var(--font-heading)", fontSize: 27, fontWeight: 600 }}>
+                    {traffic.views.toLocaleString("en-GB")}
+                  </div>
+                  <div className="faint" style={{ fontSize: 12 }}>page views · marketing site only</div>
+                </div>
+                <div style={{ flex: 1, minWidth: 200, maxWidth: 420 }}>
+                  <Sparkline values={traffic.series.map((s) => s.count)} />
+                </div>
+              </div>
+              <div className="grid cols-3" style={{ marginTop: 18 }}>
+                <TrafficList title="Top pages" rows={traffic.topPaths.map((p) => [p.path, p.c])} />
+                <TrafficList title="Top referrers" rows={traffic.topReferrers.map((r) => [r.host, r.c])} empty="Direct / none yet" />
+                <TrafficList title="Top countries" rows={traffic.topCountries.map((c) => [c.country, c.c])} empty="—" />
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -82,6 +118,26 @@ export default async function ReportsPage() {
         </div>
       </div>
     </>
+  );
+}
+
+function TrafficList({ title, rows, empty }: { title: string; rows: [string, number][]; empty?: string }) {
+  return (
+    <div>
+      <div className="note" style={{ marginBottom: 8 }}>{title}</div>
+      {rows.length === 0 ? (
+        <div className="faint" style={{ fontSize: 13 }}>{empty ?? "—"}</div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {rows.map(([label, c]) => (
+            <div key={label} style={{ display: "flex", justifyContent: "space-between", gap: 10, fontSize: 13 }}>
+              <span className="muted" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{label}</span>
+              <span className="num">{c}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

@@ -1,10 +1,11 @@
 import "server-only";
-import { and, count, desc, eq, gte, ilike, inArray, lt, sql } from "drizzle-orm";
+import { and, count, desc, eq, gte, ilike, inArray, isNotNull, lt, sql } from "drizzle-orm";
 import { db } from "@/db";
 import {
   alertsLog,
   eventsAudit,
   organizations,
+  pageViews,
   stores,
   users,
 } from "@/db/schema";
@@ -527,6 +528,65 @@ export async function eventTypeBreakdown(
 export async function orgCount(): Promise<number> {
   const [row] = await db.select({ v: count() }).from(organizations);
   return Number(row?.v ?? 0);
+}
+
+// ---------------------------------------------------------------------------
+// Marketing traffic (first-party, cookieless — page_views)
+// ---------------------------------------------------------------------------
+
+export type TrafficSummary = {
+  views: number;
+  series: { day: string; count: number }[];
+  topPaths: { path: string; c: number }[];
+  topReferrers: { host: string; c: number }[];
+  topCountries: { country: string; c: number }[];
+};
+
+export async function marketingTraffic(days = 30): Promise<TrafficSummary> {
+  const since = new Date(Date.now() - days * 86_400_000);
+  const win = gte(pageViews.createdAt, since);
+
+  const [[total], series, topPaths, topReferrers, topCountries] = await Promise.all([
+    db.select({ v: count() }).from(pageViews).where(win),
+    db
+      .select({
+        day: sql<string>`to_char(date_trunc('day', ${pageViews.createdAt}), 'MM-DD')`,
+        count: count(),
+      })
+      .from(pageViews)
+      .where(win)
+      .groupBy(sql`1`)
+      .orderBy(sql`1`),
+    db
+      .select({ path: pageViews.path, c: count() })
+      .from(pageViews)
+      .where(win)
+      .groupBy(pageViews.path)
+      .orderBy(desc(count()))
+      .limit(6),
+    db
+      .select({ host: pageViews.referrerHost, c: count() })
+      .from(pageViews)
+      .where(and(win, isNotNull(pageViews.referrerHost)))
+      .groupBy(pageViews.referrerHost)
+      .orderBy(desc(count()))
+      .limit(6),
+    db
+      .select({ country: pageViews.country, c: count() })
+      .from(pageViews)
+      .where(and(win, isNotNull(pageViews.country)))
+      .groupBy(pageViews.country)
+      .orderBy(desc(count()))
+      .limit(6),
+  ]);
+
+  return {
+    views: Number(total?.v ?? 0),
+    series: series.map((r) => ({ day: r.day, count: Number(r.count) })),
+    topPaths: topPaths.map((r) => ({ path: r.path, c: Number(r.c) })),
+    topReferrers: topReferrers.map((r) => ({ host: r.host ?? "—", c: Number(r.c) })),
+    topCountries: topCountries.map((r) => ({ country: r.country ?? "—", c: Number(r.c) })),
+  };
 }
 
 /** Store counts per platform — for integration status. */

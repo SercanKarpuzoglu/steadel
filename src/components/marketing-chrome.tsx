@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
+import { MarketingAnalytics } from "@/components/marketing-analytics";
 
 /** Shared top nav for the marketing site (landing + guides). Dark surface. */
 export function MarketingHeader() {
   return (
     <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+      <MarketingAnalytics />
       <Link href="/" aria-label="Steadel home">
         <Logo on="dark" />
       </Link>
@@ -40,6 +42,14 @@ export function MarketingFooter() {
           <Link href="/privacy" className="transition hover:text-paper">Privacy</Link>
           <Link href="/terms" className="transition hover:text-paper">Terms</Link>
           <Link href="/refunds" className="transition hover:text-paper">Refunds</Link>
+          <a
+            href="https://www.youtube.com/@Steadel_App"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-paper"
+          >
+            YouTube
+          </a>
           <Link href="/login" className="transition hover:text-paper">Sign in</Link>
         </div>
         <p className="font-mono text-xs">Steadel is a product of Parsius · EU-hosted in Germany 🇩🇪</p>

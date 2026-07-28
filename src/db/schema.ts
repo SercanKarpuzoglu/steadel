@@ -272,6 +272,26 @@ export const processedWebhooks = pgTable(
   (t) => [uniqueIndex("processed_webhooks_source_ext_idx").on(t.source, t.externalId)],
 );
 
+/**
+ * First-party, cookieless marketing-site analytics (SPEC §2/§8: no third-party
+ * trackers; the app itself stays analytics-free — only /, /guides/* record here).
+ * No IP or user id is stored; country is the coarse Cloudflare header only.
+ */
+export const pageViews = pgTable(
+  "page_views",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    path: text("path").notNull(),
+    referrerHost: text("referrer_host"),
+    country: text("country"),
+    device: text("device"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("page_views_created_at_idx").on(t.createdAt)],
+);
+
 export const deadLetters = pgTable("dead_letters", {
   id: uuid("id").primaryKey().defaultRandom(),
   source: text("source").notNull(),
