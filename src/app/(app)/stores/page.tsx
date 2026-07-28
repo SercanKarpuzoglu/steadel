@@ -18,12 +18,13 @@ const ERRORS: Record<string, string> = {
   "oauth-failed": "Shopify connection failed or was cancelled. Please try again.",
   "plan-limit":
     "You've reached your plan's store limit — upgrade in Settings → Billing to connect more.",
+  "woo-url": "Enter your store's web address (https://your-store.com) to connect.",
 };
 
 export default async function StoresPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; connected?: string }>;
 }) {
   const { org } = await requireOrg();
   const params = await searchParams;
@@ -49,6 +50,12 @@ export default async function StoresPage({
       {params.error && ERRORS[params.error] && (
         <p className="rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
           {ERRORS[params.error]}
+        </p>
+      )}
+
+      {params.connected === "woo" && (
+        <p className="rounded-md border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          WooCommerce store connected — your products will appear below within a minute.
         </p>
       )}
 
@@ -78,9 +85,33 @@ export default async function StoresPage({
         <Card>
           <CardTitle>Connect a WooCommerce store</CardTitle>
           <CardDescription>
-            Enter your site URL and REST API keys (read access is enough).
+            Enter your store address — you&apos;ll approve read-only access in
+            one click, no API keys to copy.
           </CardDescription>
-          <WooConnectForm />
+          <form
+            action="/stores/connect/woocommerce"
+            method="GET"
+            className="mt-4 flex gap-2"
+          >
+            <input
+              name="site"
+              placeholder="https://your-store.com"
+              required
+              className="h-10 w-full rounded-md border border-line bg-white px-3 text-sm"
+            />
+            <button
+              type="submit"
+              className="h-10 shrink-0 cursor-pointer rounded-md bg-amber px-4 text-sm font-medium text-ink hover:bg-amber-dark"
+            >
+              Connect
+            </button>
+          </form>
+          <details className="mt-3">
+            <summary className="cursor-pointer text-xs text-ink-soft hover:text-ink">
+              Advanced: connect with API keys instead
+            </summary>
+            <WooConnectForm />
+          </details>
           {mockEnabled && (
             <form action={connectMockStoreAction} className="mt-3">
               <button
