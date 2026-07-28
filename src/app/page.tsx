@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Logo } from "@/components/logo";
+import { Logo, LogoMark } from "@/components/logo";
 
 export const metadata: Metadata = {
   title: {
@@ -52,39 +52,78 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-24 sm:pb-28">
-        <div className="max-w-3xl">
-          <p className="rise rise-1 font-mono text-xs tracking-[0.2em] text-amber uppercase">
-            For EU Shopify &amp; WooCommerce brands
-          </p>
-          <h1
-            className="rise rise-2 mt-5 text-4xl leading-[1.08] font-semibold text-paper sm:text-6xl"
-            style={{ fontFamily: "var(--font-heading)", textWrap: "balance" }}
-          >
-            Never get caught out of stock.
-          </h1>
-          <p className="rise rise-3 mt-6 max-w-xl text-lg leading-relaxed text-mist">
-            Steadel watches your inventory and warns you <em className="text-paper not-italic">before</em> a
-            product runs out — with low-stock alerts and scheduled reports. Hosted in Germany,
-            GDPR-first, zero tracking.
-          </p>
-          <div className="rise rise-4 mt-9 flex flex-wrap gap-4">
-            <Link
-              href="/signup"
-              className="rounded-md bg-amber px-6 py-3 font-medium text-ink transition hover:bg-amber-dark"
+      <section className="mx-auto max-w-6xl px-6 pt-16 pb-20 sm:pt-20 sm:pb-28">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
+          {/* Copy */}
+          <div>
+            <p className="rise rise-1 font-mono text-xs tracking-[0.2em] text-amber uppercase">
+              For EU Shopify &amp; WooCommerce brands
+            </p>
+            <h1
+              className="rise rise-2 mt-5 text-4xl leading-[1.08] font-semibold text-paper sm:text-5xl"
+              style={{ fontFamily: "var(--font-heading)", textWrap: "balance" }}
             >
-              Start free trial
-            </Link>
-            <Link
-              href="#how"
-              className="rounded-md border border-mist/25 px-6 py-3 font-medium text-paper transition hover:border-mist/60"
-            >
-              See how it works
-            </Link>
+              Never get caught out of stock.
+            </h1>
+            <p className="rise rise-3 mt-6 max-w-xl text-lg leading-relaxed text-mist">
+              Steadel watches your inventory and warns you <em className="text-paper not-italic">before</em> a
+              product runs out — with low-stock alerts and scheduled reports. Hosted in Germany,
+              GDPR-first, zero tracking.
+            </p>
+            <div className="rise rise-4 mt-9 flex flex-wrap gap-4">
+              <Link
+                href="/signup"
+                className="rounded-md bg-amber px-6 py-3 font-medium text-ink transition hover:bg-amber-dark"
+              >
+                Start free trial
+              </Link>
+              <Link
+                href="#how"
+                className="rounded-md border border-mist/25 px-6 py-3 font-medium text-paper transition hover:border-mist/60"
+              >
+                See how it works
+              </Link>
+            </div>
+            <p className="rise rise-4 mt-6 font-mono text-xs tracking-wide text-mist/70">
+              EU-hosted in Germany · GDPR-first · No tracking cookies · Flat pricing
+            </p>
           </div>
-          <p className="rise rise-4 mt-6 font-mono text-xs tracking-wide text-mist/70">
-            EU-hosted in Germany · GDPR-first · No tracking cookies · Flat pricing — not a % of ad spend
-          </p>
+
+          {/* Product visual: a sample low-stock alert */}
+          <div className="rise rise-4 relative mx-auto w-full max-w-md lg:mx-0">
+            <div aria-hidden className="pointer-events-none absolute -inset-8 rounded-full bg-amber/10 blur-3xl" />
+            <div className="relative rounded-2xl border border-white/10 bg-panel p-5 shadow-2xl">
+              <div className="flex items-center gap-2.5 border-b border-white/10 pb-3">
+                <LogoMark className="h-6 w-6" />
+                <span className="text-sm font-medium text-paper">Steadel alerts</span>
+                <span className="ml-auto font-mono text-[11px] text-mist/60">now</span>
+              </div>
+              <p className="mt-4 text-base font-semibold text-paper" style={{ fontFamily: "var(--font-heading)" }}>
+                2 products are running low
+              </p>
+              <div className="mt-4 space-y-3">
+                {[
+                  { emoji: "☕", name: "Ethiopia Yirgacheffe 250g", sku: "KAF-ETH-250", left: "4 left" },
+                  { emoji: "🫙", name: "Cold Brew Concentrate 1L", sku: "CLD-BRW-1L", left: "6 left" },
+                ].map((p) => (
+                  <div key={p.sku} className="flex items-center gap-3 rounded-lg bg-ink/60 p-2.5">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-base">{p.emoji}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm text-paper">{p.name}</p>
+                      <p className="font-mono text-[11px] text-mist/60">{p.sku}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-amber/15 px-2.5 py-1 text-xs font-medium text-amber">
+                      {p.left}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+                <span className="text-xs text-mist/60">Below your threshold of 10</span>
+                <span className="text-sm font-medium text-amber">View in dashboard →</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
