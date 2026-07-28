@@ -7,8 +7,10 @@ import {
   passwordResetHtml,
   verifyEmailHtml,
 } from "@/emails/auth-emails";
+import { logger } from "@/lib/logger";
 import { sendMail } from "@/lib/mail";
 import { hashPassword } from "@/lib/password";
+import { sendWelcome } from "@/lib/services/lifecycle-service";
 import { consumeAuthToken, createAuthToken } from "@/lib/tokens";
 
 export const TRIAL_DAYS = 14;
@@ -69,10 +71,24 @@ export async function signupUser(input: {
 export async function verifyEmailToken(rawToken: string): Promise<boolean> {
   const userId = await consumeAuthToken(rawToken, "email_verify");
   if (!userId) return false;
+  const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
+  const firstVerification = !!user && !user.emailVerifiedAt;
   await db
     .update(users)
     .set({ emailVerifiedAt: new Date() })
     .where(eq(users.id, userId));
+
+  // Send the onboarding welcome once, when the account first activates.
+  if (firstVerification && user) {
+    try {
+      const org = await db.query.organizations.findFirst({
+        where: eq(organizations.ownerUserId, userId),
+      });
+      if (org) await sendWelcome({ email: user.email, name: user.name }, org.id);
+    } catch (err) {
+      logger.error({ userId, err: String(err) }, "welcome email failed");
+    }
+  }
   return true;
 }
 

@@ -9,6 +9,7 @@ import { getRedis } from "@/lib/redis";
 import { processAdsGuardChanges } from "@/lib/services/ads-guard-service";
 import { processStockChanges, scheduledReportConfigSchema } from "@/lib/services/automation-service";
 import { isReportDue, sendScheduledReport } from "@/lib/services/report-service";
+import { runLifecycleTick } from "@/lib/services/lifecycle-service";
 import { syncStoreProducts } from "@/lib/services/store-service";
 import { enqueueStoreSync, getSyncQueue, SYNC_QUEUE } from "./queues";
 
@@ -22,6 +23,7 @@ const SYNC_INTERVAL_MS: Record<string, number> = {
 };
 const REPORT_TICK_MS = 60 * 60 * 1000; // hourly report due-check
 const PURGE_TICK_MS = 24 * 60 * 60 * 1000; // daily deleted-account purge
+const LIFECYCLE_TICK_MS = 24 * 60 * 60 * 1000; // daily onboarding/lifecycle emails
 const PURGE_AFTER_DAYS = 30;
 
 /**
@@ -134,6 +136,11 @@ export async function startWorker() {
     { every: PURGE_TICK_MS },
     { name: "purge-accounts" },
   );
+  await queue.upsertJobScheduler(
+    "lifecycle-tick",
+    { every: LIFECYCLE_TICK_MS },
+    { name: "lifecycle-tick" },
+  );
 
   const worker = new Worker(
     SYNC_QUEUE,
@@ -149,6 +156,8 @@ export async function startWorker() {
           return handleSendReport(job);
         case "purge-accounts":
           return { purged: await purgeDeletedAccounts() };
+        case "lifecycle-tick":
+          return { sent: await runLifecycleTick() };
         default:
           logger.warn({ name: job.name }, "unknown job");
       }
