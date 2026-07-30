@@ -56,7 +56,7 @@ turn on for everyone yet.
 | C3 | **Communities** | Be genuinely helpful (not spammy) in r/shopify, r/woocommerce, r/PPC, Indie Hackers, DACH e-commerce Slack/FB/Discord groups. Answer stock/ads questions; link when relevant. |
 | C4 | **Build-in-public** | Weekly X/LinkedIn posts: metrics, lessons, EU-SaaS angle. Cheap top-of-funnel + trust. |
 | C5 | **Agency partnerships** | The **Agency plan (white-label reports)** is a channel: recruit Shopify/Woo agencies as affiliates/resellers who deploy Steadel across client stores. Warm outbound to 20 EU agencies. |
-| C6 | **Directories & launches** | Free listings: G2, Capterra, SaaSHub, EU-SaaS directories. A **Product Hunt** launch once M3 + demo are ready. |
+| C6 | **Directories & launches** | Free listings: G2, Capterra, SaaSHub, EU-SaaS directories. A **Product Hunt** launch once M3 + demo are ready. Ready-to-paste copy for all of these (plus YouTube scripts and community rules) is in [LAUNCH-COPY.md](LAUNCH-COPY.md). |
 | C7 | **Light targeted outbound** | Hand-picked EU DTC brands visibly running Meta ads with real stock. Short, specific, written (fits the brand). No mass cold spam. |
 
 ## 4. First 90 days (sequenced)
