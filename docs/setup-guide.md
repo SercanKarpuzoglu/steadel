@@ -95,11 +95,22 @@ Verify restores quarterly (see runbook §5).
 ## 6. Updates
 
 ```bash
-cd ~/steadel
-git pull
-docker compose up -d --build   # migrate runs first, then app+worker restart
+cd /opt/steadel
+./deploy.sh          # pull → build → swap → health check
 docker image prune -f
 ```
+
+**Do not use `docker compose up -d --build` on the server.** That command stops
+and recreates the containers *first* and only then spends minutes building.
+Docker 29.6.1 ships a BuildKit bug that panics the daemon mid-build
+(`fatal error: concurrent map iteration and map write`, moby/buildkit
+`solver/jobs.go`); when it fires, the compose operation is abandoned with the
+containers already stopped — and a deliberately-stopped container is *not*
+resurrected by `restart: unless-stopped`. That took production down twice.
+
+`deploy.sh` builds first while the old containers keep serving, then swaps in
+seconds. If the daemon panics, the build fails and production is untouched —
+just run it again.
 
 ## 7. Monitoring
 

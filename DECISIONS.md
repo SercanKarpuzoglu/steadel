@@ -192,3 +192,30 @@ working option and document it.
     §4). **Deploy note:** migration `0001_loving_magik.sql` must be applied
     (the compose `migrate` service runs it automatically on
     `docker compose up -d --build`).
+
+47. **Deploy builds first, then swaps — never `up -d --build` on the server.**
+    Two production outages traced to the same cause: Docker 29.6.1's BuildKit
+    panics the whole daemon mid-build with
+    `fatal error: concurrent map iteration and map write`
+    (`moby/buildkit/solver/jobs.go`). `docker compose up -d --build` stops and
+    recreates containers *before* the long build, so when the daemon dies the
+    operation is abandoned with everything already stopped — and
+    `restart: unless-stopped` will not resurrect a container that was
+    deliberately stopped. `deploy.sh` (repo root, installed at
+    `/opt/steadel/deploy.sh`) pulls, runs `docker compose build` while the old
+    containers keep serving, then does a seconds-long
+    `docker compose up -d --no-build`, then health-checks. A daemon panic now
+    costs a failed build, not an outage. (An earlier note blaming `nohup` for
+    the first outage was wrong — same BuildKit panic.)
+
+48. **WooCommerce access is described as WooCommerce actually grants it.**
+    End-to-end testing against a real store showed the `wc-auth` approval screen
+    lists "View customers" and "View orders" — WooCommerce only offers
+    store-wide `read`/`write` scopes, with no product-only scope. Our copy had
+    claimed Steadel gets no customer or order access. Steadel does read only
+    products and inventory, but the *grant* is broader, and a merchant reading
+    both would rightly stop trusting us. Landing, the GDPR guide and the Stores
+    page now say: Read never Write, only products and inventory are read,
+    nothing about customers or orders is stored — and WooCommerce's screen is
+    coarser than what we use. Shopify wording is unchanged (its scopes really
+    are `read_products` + `read_inventory`).
