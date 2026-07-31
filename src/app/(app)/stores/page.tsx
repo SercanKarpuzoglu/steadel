@@ -106,6 +106,11 @@ export default async function StoresPage({
               Connect
             </button>
           </form>
+          <p className="mt-2 text-xs text-ink-soft">
+            WooCommerce only offers store-wide Read or Write access, so its approval
+            screen lists more than we use. Steadel asks for Read, never Write, and
+            reads only products and inventory.
+          </p>
           <details className="mt-3">
             <summary className="cursor-pointer text-xs text-ink-soft hover:text-ink">
               Advanced: connect with API keys instead

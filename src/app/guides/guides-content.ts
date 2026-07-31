@@ -37,7 +37,7 @@ export const GUIDES: Guide[] = [
         bullets: [
           "Hosted in Germany; data stays in the EU.",
           "No tracking cookies and no advertising pixels — the app itself is analytics-free by design.",
-          "Read-only access to your store: Steadel reads products and inventory, nothing else.",
+          "Read-only, never write. Steadel reads products and inventory, and stores nothing about your customers or orders.",
         ],
       },
       {
@@ -64,7 +64,7 @@ export const GUIDES: Guide[] = [
       },
       {
         q: "What access does Steadel need?",
-        a: "Read-only access to products and inventory. It does not need write access, and does not read customer or order data for low-stock alerts.",
+        a: "Read-only — Steadel never asks for write access. On Shopify it requests just the products and inventory scopes. WooCommerce's approval screen is coarser: it only offers store-wide Read or Write, so it lists more than Steadel uses. Steadel requests Read, reads only products and inventory, and stores nothing about your customers or orders.",
       },
       {
         q: "Does it work with both Shopify and WooCommerce?",

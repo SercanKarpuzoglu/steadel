@@ -198,7 +198,7 @@ export default function Home() {
         </h2>
         <div className="mt-10 grid gap-8 md:grid-cols-3">
           {[
-            ["01", "Connect your store", "Link Shopify or WooCommerce in a couple of clicks. Read-only access to products and inventory — nothing else."],
+            ["01", "Connect your store", "Link Shopify or WooCommerce in a couple of clicks — read-only, never write. Steadel reads products and inventory and stores nothing about your customers or orders."],
             ["02", "Set your thresholds", "Tell Steadel what 'low' means for each store. Pick email or Slack for alerts."],
             ["03", "Get alerted before you run out", "Steadel watches stock changes as they happen and warns you in time to reorder."],
           ].map(([num, title, body]) => (
