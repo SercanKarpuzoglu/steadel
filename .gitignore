@@ -33,3 +33,6 @@ test-results/
 # logs
 logs/
 *.log
+
+# Parsius durum raporu (yerel, panel tarafından okunur)
+.parsius/
