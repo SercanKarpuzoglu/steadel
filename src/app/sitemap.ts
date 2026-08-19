@@ -4,7 +4,7 @@ import { GUIDES } from "./guides/guides-content";
 const BASE = "https://app.steadel.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/guides", "/privacy", "/terms", "/refunds"].map((path) => ({
+  const staticRoutes = ["", "/guides", "/woocommerce-plugin", "/privacy", "/terms", "/refunds"].map((path) => ({
     url: `${BASE}${path}`,
     changeFrequency: "monthly" as const,
     priority: path === "" ? 1 : 0.6,

@@ -49,6 +49,20 @@ export default function GuidesIndex() {
             </Link>
           ))}
         </div>
+
+        <Link
+          href="/woocommerce-plugin"
+          className="mt-6 block rounded-2xl border border-amber/30 bg-panel p-6 transition hover:border-amber/60"
+        >
+          <p className="font-mono text-[11px] tracking-wide text-amber uppercase">Free plugin</p>
+          <h2 className="mt-2 text-lg font-semibold text-paper" style={{ fontFamily: "var(--font-heading)" }}>
+            Steadel for WooCommerce
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-mist">
+            See which products are running low right inside wp-admin — free, no account
+            needed. Download it and install in a minute →
+          </p>
+        </Link>
       </section>
 
       <MarketingFooter />

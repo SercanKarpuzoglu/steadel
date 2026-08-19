@@ -39,6 +39,7 @@ export function MarketingFooter() {
         <Logo on="dark" />
         <div className="flex flex-wrap gap-x-6 gap-y-2">
           <Link href="/guides" className="transition hover:text-paper">Guides</Link>
+          <Link href="/woocommerce-plugin" className="transition hover:text-paper">WooCommerce plugin</Link>
           <Link href="/privacy" className="transition hover:text-paper">Privacy</Link>
           <Link href="/terms" className="transition hover:text-paper">Terms</Link>
           <Link href="/refunds" className="transition hover:text-paper">Refunds</Link>
