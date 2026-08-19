@@ -72,9 +72,9 @@ export default function WooPluginPage() {
           </div>
           <p className="mt-4 text-xs leading-relaxed text-mist/70">
             We&rsquo;re submitting this to the WordPress.org plugin directory. Until it
-            lands there, WordPress won&rsquo;t auto-update a manually installed plugin —
-            so we&rsquo;ll email you here on the site when the directory version is live
-            and you can switch over in a click.
+            lands there, WordPress won&rsquo;t auto-update a plugin installed this way —
+            we&rsquo;ll put the directory link on this page as soon as it&rsquo;s approved,
+            and switching over takes a click.
           </p>
         </div>
 
