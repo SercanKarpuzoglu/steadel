@@ -19,8 +19,21 @@ click **Reconnect**.
 
 ## Connecting WooCommerce
 
-Steadel talks to WooCommerce through its REST API. You need to create API
-keys once:
+The quickest way is one click — there are no API keys to copy:
+
+1. In Steadel, open **Stores**, type your store address (https required) in
+   the WooCommerce card and click **Connect**.
+2. WooCommerce shows its own approval screen. Click **Approve** — WooCommerce
+   generates read-only API keys and hands them to Steadel.
+
+WooCommerce only offers store-wide **Read** or **Write** scopes, so that
+screen lists more than Steadel uses. Steadel asks for **Read**, never Write,
+and reads only products and inventory.
+
+### Connecting with API keys instead
+
+Use this if you would rather create the keys yourself, or if you want
+webhooks (see below). It is the **Advanced** option on the Stores page.
 
 1. In your WordPress admin, go to **WooCommerce → Settings → Advanced →
    REST API** and click **Add key**.
@@ -31,14 +44,22 @@ keys once:
    **Consumer secret** (`cs_…`). The secret is shown only once.
 
    ![Creating a WooCommerce API key for Steadel](/docs-images/woo-key-generated.png)
-4. In Steadel, open **Stores**, fill in your site URL (https required) and
-   both keys, then click **Connect WooCommerce**.
+4. In Steadel, open **Stores → Advanced: connect with API keys instead**,
+   fill in your site URL and both keys, then click **Connect WooCommerce**.
 
-WooCommerce stores are polled every 10 minutes. Optionally, add a webhook
-for instant updates: **WooCommerce → Settings → Advanced → Webhooks → Add
-webhook**, topic `Product updated`, delivery URL
-`https://app.steadel.com/api/webhooks/woocommerce`, and set the **secret**
-to your consumer secret.
+### How quickly WooCommerce changes are picked up
+
+Steadel checks WooCommerce stores **every 10 minutes**, so allow a few
+minutes for an alert. (Shopify pushes changes by webhook, so those land in
+seconds.)
+
+You can make WooCommerce instant with a webhook, but it needs your consumer
+secret — and only the API-key method above gives you that, because one-click
+connections generate the keys inside WooCommerce and never show you the
+secret. With the secret in hand: **WooCommerce → Settings → Advanced →
+Webhooks → Add webhook**, topic `Product updated`, delivery URL
+`https://app.steadel.com/api/webhooks/woocommerce`, and set the **secret** to
+your consumer secret.
 
 ## Tracked products & thresholds
 

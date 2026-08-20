@@ -136,7 +136,7 @@ export default function Home() {
           {[
             {
               title: "Low-stock alerts",
-              body: "Know before you sell out. Set a threshold per store and get an email or Slack ping the moment stock dips below it.",
+              body: "Know before you sell out. Set a threshold per store and get an email or Slack ping within minutes of stock dipping below it — seconds on Shopify.",
             },
             {
               title: "Scheduled reports",
@@ -200,7 +200,7 @@ export default function Home() {
           {[
             ["01", "Connect your store", "Link Shopify or WooCommerce in a couple of clicks — read-only, never write. Steadel reads products and inventory and stores nothing about your customers or orders."],
             ["02", "Set your thresholds", "Tell Steadel what 'low' means for each store. Pick email or Slack for alerts."],
-            ["03", "Get alerted before you run out", "Steadel watches stock changes as they happen and warns you in time to reorder."],
+            ["03", "Get alerted before you run out", "Steadel keeps checking your stock around the clock and warns you in time to reorder."],
           ].map(([num, title, body]) => (
             <div key={num}>
               <span className="font-mono text-sm text-amber">{num}</span>

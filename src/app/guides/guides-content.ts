@@ -43,7 +43,7 @@ export const GUIDES: Guide[] = [
       {
         h2: "How the alerts work",
         paras: [
-          "You connect a store, set a threshold (say, 10 units), and pick where to be notified. When a stock change pushes a tracked product below your threshold, Steadel sends an alert by email or Slack — usually within seconds of the change arriving from Shopify or WooCommerce.",
+          "You connect a store, set a threshold (say, 10 units), and pick where to be notified. When a stock change pushes a tracked product below your threshold, Steadel sends an alert by email or Slack. Shopify pushes changes to Steadel by webhook, so alerts land within seconds; WooCommerce stores are checked every 10 minutes, so allow a few minutes there.",
           "Scheduled reports add the slower, calmer view: a regular digest of what is low, what is moving, and what is about to run out, delivered to your inbox so nobody has to sit and watch a dashboard.",
         ],
       },

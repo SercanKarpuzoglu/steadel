@@ -90,7 +90,7 @@ export default function WooPluginPage() {
             ],
             [
               "Connects to Steadel in one click",
-              "For the part a snapshot can't do: an email or Slack alert the moment stock dips, plus scheduled inventory reports. Uses WooCommerce's own approval screen — no API keys to copy.",
+              "For the part a snapshot can't do: an email or Slack alert within minutes of stock dipping (Steadel checks your store every 10 minutes), plus scheduled inventory reports. Uses WooCommerce's own approval screen — no API keys to copy.",
             ],
           ].map(([title, body]) => (
             <div key={title} className="flex gap-3 rounded-xl border border-white/8 bg-panel/60 p-5">
