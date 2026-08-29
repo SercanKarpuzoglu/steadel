@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingHeader, MarketingFooter } from "@/components/marketing-chrome";
 
-const ZIP = "/downloads/steadel-connector-1.0.0.zip";
+const ZIP = "/downloads/steadel-low-stock-alerts-1.0.0.zip";
 const VERSION = "1.0.0";
 const SIZE = "6 KB";
 
@@ -56,7 +56,7 @@ export default function WooPluginPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="font-semibold text-paper" style={{ fontFamily: "var(--font-heading)" }}>
-                Steadel — Low-stock alerts &amp; reports
+                Steadel Low-Stock Alerts
               </p>
               <p className="mt-1 font-mono text-xs text-mist/70">
                 v{VERSION} · {SIZE} · GPLv2+ · free forever
@@ -126,7 +126,7 @@ export default function WooPluginPage() {
           <div className="rounded-xl border border-white/8 bg-panel/60 p-5">
             <h3 className="font-semibold text-paper">Requirements</h3>
             <p className="mt-2 text-sm leading-relaxed text-mist">
-              WordPress 6.0+, WooCommerce 6.0+, PHP 7.4+. Tested on WordPress 7.0 and
+              WordPress 6.0+, WooCommerce 6.0+, PHP 7.4+. Tested on WordPress 7.1 and
               WooCommerce 10.9.
             </p>
           </div>
