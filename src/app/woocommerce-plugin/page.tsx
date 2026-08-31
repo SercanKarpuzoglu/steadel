@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MarketingHeader, MarketingFooter } from "@/components/marketing-chrome";
 
 const ZIP = "/downloads/steadel-low-stock-alerts-1.0.0.zip";
+const DIRECTORY = "https://wordpress.org/plugins/steadel-low-stock-alerts/";
 const VERSION = "1.0.0";
 const SIZE = "6 KB";
 
@@ -63,18 +64,23 @@ export default function WooPluginPage() {
               </p>
             </div>
             <a
-              href={ZIP}
-              download
+              href={DIRECTORY}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-md bg-amber px-6 py-3 font-medium text-ink transition hover:bg-amber-dark"
             >
-              Download .zip
+              View on WordPress.org
             </a>
           </div>
           <p className="mt-4 text-xs leading-relaxed text-mist/70">
-            We&rsquo;re submitting this to the WordPress.org plugin directory. Until it
-            lands there, WordPress won&rsquo;t auto-update a plugin installed this way —
-            we&rsquo;ll put the directory link on this page as soon as it&rsquo;s approved,
-            and switching over takes a click.
+            The easiest way to install it is from inside WordPress — search for
+            &ldquo;Steadel&rdquo; under Plugins → Add New. Installed that way, WordPress keeps
+            it up to date for you. You can also{" "}
+            <a href={ZIP} download className="underline underline-offset-2 hover:text-paper">
+              download the .zip
+            </a>{" "}
+            and upload it by hand, though a manually installed plugin won&rsquo;t
+            auto-update.
           </p>
         </div>
 
@@ -109,10 +115,10 @@ export default function WooPluginPage() {
         </h2>
         <ol className="mt-4 space-y-3">
           {[
-            "Download the .zip above.",
-            "In WordPress, go to Plugins → Add New Plugin → Upload Plugin, choose the file, and click Install Now.",
-            "Click Activate. A Steadel item appears in your admin menu.",
-            "Open it to see your low-stock products — and, if you want automatic alerts, click Connect this store to Steadel.",
+            "In WordPress, go to Plugins → Add New Plugin and search for \u201cSteadel\u201d.",
+            "Click Install Now, then Activate. A Steadel item appears in your admin menu.",
+            "Open it to see your low-stock products — the list is built from your own store data.",
+            "If you want to be told automatically instead of looking, click Connect this store to Steadel.",
           ].map((step, i) => (
             <li key={step} className="flex gap-4">
               <span className="mt-0.5 font-mono text-sm text-amber">{String(i + 1).padStart(2, "0")}</span>

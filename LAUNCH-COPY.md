@@ -66,7 +66,7 @@ different copy, and rushing produces sloppy listings.
 
 | Directory | What it needs | Notes |
 |---|---|---|
-| **WordPress.org** | `readme.txt` + assets (both done) | The big one — see `~/dev/steadel-woo/README.md`. Highest-leverage listing we have. |
+| **WordPress.org** | ✅ **Live** since 31 Aug 2026 | https://wordpress.org/plugins/steadel-low-stock-alerts/ — the highest-leverage listing we have. Releases go out via SVN from `~/dev/steadel-woo-svn`. |
 | **AlternativeTo** | Short + feature bullets, icon | List as an alternative to US inventory-alert apps; the EU-hosting angle is the whole pitch here. |
 | **SaaSHub** | Short + medium, logo, pricing | Quick, indexes well. |
 | **G2 / Capterra** | Medium + long, logo, pricing, category | Slow to approve, asks for reviews. Worth claiming the listing early even if empty. |
