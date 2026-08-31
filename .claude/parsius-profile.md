@@ -92,3 +92,6 @@
 
 ## Test
 - ek kurallar: `.claude/test-rules.md`
+
+## Sunucular
+- app (Hetzner): `ssh steadel` (root) — 178.104.121.134 · Hetzner
